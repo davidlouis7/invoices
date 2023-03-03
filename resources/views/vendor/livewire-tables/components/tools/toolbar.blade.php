@@ -336,8 +336,8 @@ $component->isFilterLayoutSlideDown())
                 class="btn-group d-block d-md-inline"
                 >
                 <div>
-                    <button type="button" class="btn dropdown-toggle d-block w-100 d-md-inline" @if
-                        ($component->isFilterLayoutPopover())
+                    <button type="button" class="btn dropdown-toggle d-block w-100 d-md-inline"
+                        @if($component->isFilterLayoutPopover())
                         x-on:click="open = !open"
                         aria-haspopup="true"
                         x-bind:aria-expanded="open"
@@ -505,11 +505,13 @@ $component->isFilterLayoutSlideDown())
         <div class="mb-3 mb-sm-0">
             <form class="d-flex position-relative">
                 <div class="position-relative d-flex width-320">
-                    <span class="position-absolute d-flex align-items-center top-0 bottom-0 left-0 text-gray-600 ms-3">
+                    <span
+                        class="position-absolute d-flex align-items-center top-0 bottom-0 {{ app()->getLocale() == 'ar' ? 'right-0 me-3' : 'left-0 ms-3' }} text-gray-600">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                     <input wire:model{{ $component->getSearchOptions() }}="{{ $component->getTableName() }}.search"
-                    class="form-control ps-8" type="search" placeholder="@lang('Search')"
+                    class="form-control {{ app()->getLocale() == 'ar' ? 'pe-8' : 'ps-8' }}" type="search"
+                    placeholder="@lang('Search')"
                     aria-label="Search">
                 </div>
             </form>
