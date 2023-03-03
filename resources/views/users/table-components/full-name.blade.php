@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center">
     <a href="#">
-        <div class="image image-circle image-mini me-3">
+        <div class="image image-circle image-mini {{ app()->getLocale() == 'ar' ? 'ms-3' : 'me-3' }}">
             <img src="{{ $row->profile_image }}" alt="user" class="user-img">
         </div>
     </a>

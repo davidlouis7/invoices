@@ -1,7 +1,7 @@
 <div class="d-flex align-items-center">
-    <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+    <div class="symbol symbol-circle symbol-50px overflow-hidden {{ app()->getLocale() == 'ar' ? 'ms-3' : 'me-3' }">
         <a href="{{route('clients.show', $row->client->id)}}">
-            <div class="image image-circle image-mini me-3">
+            <div class="image image-circle image-mini {{ app()->getLocale() == 'ar' ? 'ms-3' : 'me-3' }">
                 <img src="{{$row->client->user->profile_image}}" alt="" class="user-img" width="50px" height="50px">
             </div>
         </a>
@@ -10,19 +10,17 @@
         <div class="row">
             <div class="col-lg-12">
                 <a href="{{route('clients.show', $row->client->id)}}"
-                   class="mb-1 text-primary text-decoration-none">{{$row->client->user->full_name}}</a>&nbsp;
+                    class="mb-1 text-primary text-decoration-none">{{$row->client->user->full_name}}</a>&nbsp;
                 <a href="{{route('invoices.show', $row->id)}}"
-                   class="badge bg-light-info text-decoration-none">{{$row->invoice_id}}</a>
+                    class="badge bg-light-info text-decoration-none">{{$row->invoice_id}}</a>
                 @if($row->recurring_status)
-                    <span class="text-primary recurring-cycle-icon" data-bs-toggle="tooltip" data-placement="right"
-                          title="Recurring Invoice is On">
-                        <i class="fas fa-recycle"></i>
-                    </span>
+                <span class="text-primary recurring-cycle-icon" data-bs-toggle="tooltip" data-placement="right"
+                    title="Recurring Invoice is On">
+                    <i class="fas fa-recycle"></i>
+                </span>
                 @endif
             </div>
         </div>
         <span>{{$row->client->user->email}}</span>
     </div>
 </div>
-
-
