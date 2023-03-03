@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900;1000&display=swap");
+
+body {
+    margin: 0;
+    background-color: hsl(0, 0%, 100%);
+    color: hsl(0, 0%, 10%);
+    line-height: 1.5;
+    font-family: "Cairo", sans-serif;
+}
+
+@media (min-width: 1200px) {
+    .aside-menu-container {
+        right: 0;
+    }
+}
+@media (min-width: 1200px) {
+    .wrapper-tes {
+        transition: padding-right 0.3s ease !important ;
+        padding-right: 16.563rem !important;
+    }
+}
+@media (min-width: 1200px) {
+    .collapsed-menu .wrapper-tes {
+        padding-left: 0 !important;
+        padding-right: 5rem !important;
+    }
+}
+.aside-menu-container__aside-menu .nav-item.active > .nav-link {
+    background: #e0e3ff;
+    border-right-color: #6571ff;
+    color: #212529;
+}
+.aside-menu-container__aside-menu .nav-item .nav-link {
+    border-left: 0 transparent;
+    border-right: 0.313rem solid transparent;
+    color: #6c757d;
+    padding-left: 1.25rem;
+    padding-right: 1.563rem;
+}
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.dropdown-item {
+    text-align: initial;
+}
+
+.dropdown-menu {
+    text-align: right;
+}
+.modal-header .btn-close {
+    margin: auto -0.9375rem -0.9375rem -0.9375rem;
+}
+
+.iti__country-list {
+    position: absolute;
+    z-index: 2;
+    list-style: none;
+    text-align: right;
+    padding: 0;
+    margin: 0 -20rem 0 0;
+    box-shadow: 1px 1px 4px rgb(0 0 0 / 20%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    /* max-height: 200px; */
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.input-group
+    > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(
+        .valid-feedback
+    ):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-right: -1px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.iti--allow-dropdown .iti__flag-container,
+.iti--separate-dial-code .iti__flag-container {
+    right: 0;
+    left: auto;
+}
+.iti--separate-dial-code .iti__selected-dial-code {
+    margin-left: auto;
+    margin-right: 6px;
+}
+.iti__selected-flag {
+    padding: 0 6px;
+}
+.iti__country-list {
+    margin: 0;
+}
+.iti__country-name,
+.iti__flag-box {
+    margin-right: 0;
+    margin-left: 6px;
+}
+#phoneNumber {
+    padding-left: 20px !important;
+}
