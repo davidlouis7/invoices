@@ -67,7 +67,7 @@ class UserController extends AppBaseController
         $input = $request->all();
         try {
             $this->userRepository->store($input);
-            Flash::success('Admin created successfully.');
+            Flash::success(__('Admin created successfully.'));
         } catch (Exception $exception) {
             Flash::error($exception->getMessage());
 
@@ -118,7 +118,7 @@ class UserController extends AppBaseController
     {
         try {
             $this->userRepository->update($request->all(), $user->id);
-            Flash::success('Admin updated successfully.');
+            Flash::success(__('Admin updated successfully.'));
         } catch (Exception $exception) {
             Flash::error($exception->getMessage());
 
@@ -178,7 +178,7 @@ class UserController extends AppBaseController
         try {
             /** @var User $user */
             $user = Auth::user();
-            if (! Hash::check($input['current_password'], $user->password)) {
+            if (!Hash::check($input['current_password'], $user->password)) {
                 return $this->sendError('Current password is invalid.');
             }
             $input['password'] = Hash::make($input['new_password']);
@@ -196,7 +196,7 @@ class UserController extends AppBaseController
      */
     public function changeUserStatus(User $user)
     {
-        $status = ! $user->status;
+        $status = !$user->status;
         $user->update(['status' => $status]);
 
         return $this->sendSuccess('Status updated successfully.');
@@ -224,7 +224,7 @@ class UserController extends AppBaseController
         $user = Auth::user();
         $darkEnabled = $user->dark_mode == true;
         $user->update([
-            'dark_mode' => ! $darkEnabled,
+            'dark_mode' => !$darkEnabled,
         ]);
 
         return redirect()->back();

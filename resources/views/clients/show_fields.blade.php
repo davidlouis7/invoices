@@ -6,7 +6,7 @@
                     <div class="image image-circle image-lg-small">
                         <img src="{{$client->user->profile_image}}" alt="user" class="object-contain">
                     </div>
-                    <div class="ms-0 ms-md-10 mt-5 mt-sm-0">
+                    <div class="{{app()->getLocale() == 'ar' ? 'me-0 me-md-10' : 'ms-0 ms-md-10'}} mt-5 mt-sm-0">
                         <h2>{{$client->user->full_name}}</h2>
                         <a href="mailto:michaelfrankin@gmail.com"
                            class="text-gray-600 text-decoration-none fs-4">

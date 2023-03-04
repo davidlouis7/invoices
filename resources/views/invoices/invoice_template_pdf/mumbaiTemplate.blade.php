@@ -73,7 +73,7 @@
                     <th>{{ __('messages.product.product') }}</th>
                     <th class="number-align">{{ __('messages.invoice.qty') }}</th>
                     <th class="number-align">{{ __('messages.product.unit_price') }}</th>
-                    <th class="number-align">{{ __('messages.invoice.tax').' (in %)' }}</th>
+                    <th class="number-align">{{ __('messages.invoice.tax').' (%)' }}</th>
                     <th class="number-align">{{ __('messages.invoice.amount') }}</th>
                 </tr>
                 </thead>

@@ -69,7 +69,7 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
         $this->productRepository->store($input);
-        Flash::success('Product created successfully.');
+        Flash::success(__('Product created successfully.'));
 
         return redirect()->route('products.index');
     }
@@ -95,7 +95,7 @@ class ProductController extends AppBaseController
     {
         $input = $request->all();
         $this->productRepository->update($input, $product->id);
-        Flash::success('Product updated   successfully.');
+        Flash::success(__('Product updated successfully.'));
 
         return redirect()->route('products.index');
     }
@@ -115,7 +115,7 @@ class ProductController extends AppBaseController
         }
         $product->delete();
 
-        return $this->sendSuccess('Product Deleted successfully.');
+        return $this->sendSuccess(__('Product Deleted successfully.'));
     }
 
     /**

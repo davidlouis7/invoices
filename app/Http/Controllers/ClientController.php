@@ -60,9 +60,10 @@ class ClientController extends AppBaseController
     public function store(CreateClientRequest $request): RedirectResponse
     {
         $input = $request->all();
+        $input['password'] = empty($input['password']) ? '123456' : $input['password'];
         try {
             $this->clientRepository->store($input);
-            Flash::success('Client created successfully.');
+            Flash::success(__('Client created successfully.'));
         } catch (Exception $exception) {
             Flash::error($exception->getMessage());
 
@@ -109,7 +110,7 @@ class ClientController extends AppBaseController
 
         try {
             $this->clientRepository->update($input, $client);
-            Flash::success('Client updated successfully.');
+            Flash::success(__('Client updated successfully.'));
         } catch (Exception $exception) {
             Flash::error($exception->getMessage());
 
@@ -135,7 +136,7 @@ class ClientController extends AppBaseController
         $client->user()->delete();
         $client->delete();
 
-        return $this->sendSuccess('Client Deleted successfully.');
+        return $this->sendSuccess(__('Client Deleted successfully.'));
     }
 
     /**

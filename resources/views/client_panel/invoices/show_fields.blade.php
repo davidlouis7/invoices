@@ -40,7 +40,7 @@
                                             <div class="image image-circle image-lg-small">
                                                 <img src="{{ getLogoUrl() }}" alt="logo" class="object-contain">
                                             </div>
-                                            <h3 class="ps-7">{{__('messages.invoice.invoice')}}
+                                            <h3 class="{{app()->getLocale() == 'ar' ? 'pe-7' : 'ps-7'}}">{{__('messages.invoice.invoice')}}
                                                 #{{ $invoice->invoice_id }}</h3>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
                                                 <th scope="col">{{ __('messages.product.product') }}</th>
                                                 <th scope="col">{{ __('messages.invoice.qty') }}</th>
                                                 <th scope="col" class="text-end">{{ __('messages.invoice.price') }}</th>
-                                                <th scope="col" class="text-center">{{ __('messages.invoice.tax').' (in %)' }}</th>
+                                                <th scope="col" class="text-center">{{ __('messages.invoice.tax').' (%)' }}</th>
                                                 <th scope="col" class="text-end">{{ __('messages.invoice.amount') }}</th>
                                             </tr>
                                             </thead>

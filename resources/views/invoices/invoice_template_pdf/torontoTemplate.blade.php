@@ -67,7 +67,7 @@
                     {{ $styleCss }}="color: {{ $invoice_template_color }}">{{ __('messages.product.unit_price') }}</th>
                     <th class="number-align"
                     {{ $styleCss }}="color: {{ $invoice_template_color }}"
-                    >{{ __('messages.invoice.tax').' (in %)' }}</th>
+                    >{{ __('messages.invoice.tax').' (%)' }}</th>
                     <th class="number-align"
                     {{ $styleCss }}="color: {{ $invoice_template_color }}">{{ __('messages.invoice.amount') }}</th>
                 </tr>

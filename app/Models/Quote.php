@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Tax;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Quote
@@ -111,16 +113,19 @@ class Quote extends Model
      */
     public static $rules = [
         'client_id' => 'required',
-        'quote_id' => 'required|unique:quotes,quote_id',
-        'quote_date' => 'required',
-        'due_date' => 'required',
+        'quote_id' => 'nullable|unique:quotes,quote_id',
+        'quote_date' => 'nullable',
+        'due_date' => 'nullable',
     ];
 
-    public static $messages = [
-        'client_id.required' => 'The Client field is required.',
-        'quote_date.required' => 'The Quote date field is required.',
-        'due_date' => 'The Quote Due date field is required.',
-    ];
+    public static function messages()
+    {
+        return [
+            'client_id.required' => __('The Client field is required.'),
+            'quote_date.required' => __('The Quote date field is required.'),
+            'due_date' => __('The Quote Due date field is required.'),
+        ];
+    }
 
     public $table = 'quotes';
 
@@ -159,7 +164,7 @@ class Quote extends Model
 
     public function getStatusLabelAttribute(): string
     {
-        return self::STATUS_ARR[$this->status];
+        return __(self::STATUS_ARR[$this->status]);
     }
 
     /**
@@ -217,5 +222,13 @@ class Quote extends Model
     public function setDueDateAttribute($value)
     {
         $this->attributes['due_date'] = Carbon::createFromFormat(currentDateFormat(), $value)->translatedFormat('Y-m-d');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function quoteTaxes(): BelongsToMany
+    {
+        return $this->belongsToMany(Tax::class, 'quote_taxes');
     }
 }

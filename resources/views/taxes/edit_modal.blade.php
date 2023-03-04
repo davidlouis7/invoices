@@ -20,23 +20,25 @@
                         {{ Form::label('value', __('messages.common.value').':', ['class' => 'form-label required mb-3']) }}
                         {{ Form::number('value', null, ['id'=>'editTaxValue','class' => 'form-control form-control-solid', 'min' => 0,'oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','required','placeholder' => __('messages.common.value')]) }}
                     </div>
-                    <div class="form-group col-sm-12 mb-5">
-                        {{ Form::label('is_default',__('messages.tax.is_default').':', ['class' => 'form-label mb-3']) }}
-                        <div class="form-check form-check-custom ">
-                            <div class="btn-group">
-                                <input class="form-check-input me-2" type="radio" name="is_default" value="1"
-                                       checked/>
-                                <label class="form-check-label">
-                                    {{ __('messages.tax.yes').':' }}
-                                </label>
-                                <input class="form-check-input mx-2" type="radio" name="is_default" value="0"
-                                />
-                                <label class="form-check-label">
-                                    {{ __('messages.tax.no').':' }}
-                                </label>
+                    @if (false)
+                        <div class="form-group col-sm-12 mb-5">
+                            {{ Form::label('is_default',__('messages.tax.is_default').':', ['class' => 'form-label mb-3']) }}
+                            <div class="form-check form-check-custom ">
+                                <div class="btn-group">
+                                    <input class="form-check-input me-2" type="radio" name="is_default" value="1"
+                                        checked/>
+                                    <label class="form-check-label">
+                                        {{ __('messages.tax.yes').':' }}
+                                    </label>
+                                    <input class="form-check-input mx-2" type="radio" name="is_default" value="0"
+                                    />
+                                    <label class="form-check-label">
+                                        {{ __('messages.tax.no').':' }}
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <div class="modal-footer pt-0">

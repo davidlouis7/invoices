@@ -78,7 +78,7 @@ class QuoteController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($quote, 'Quote saved successfully.');
+        return $this->sendResponse($quote, __('Quote saved successfully.'));
     }
 
     /**
@@ -106,6 +106,7 @@ class QuoteController extends AppBaseController
             return redirect()->route('quotes.index');
         }
         $data = $this->quoteRepository->prepareEditFormData($quote);
+        $data['selectedQuoteTaxes'] = $quote->quoteTaxes()->pluck('tax_id')->toArray();
 
         return view('quotes.edit', compact('quote'))->with($data);
     }
@@ -128,7 +129,7 @@ class QuoteController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($quote, 'Quote updated successfully.');
+        return $this->sendResponse($quote, __('Quote updated successfully.'));
     }
 
     /**
@@ -139,7 +140,7 @@ class QuoteController extends AppBaseController
     {
         $quote->delete();
 
-        return $this->sendSuccess('Quote Deleted successfully.');
+        return $this->sendSuccess(__('Quote Deleted successfully.'));
     }
 
     /**
@@ -181,11 +182,11 @@ class QuoteController extends AppBaseController
         $quoteData = $quoteDatas['quote'];
         $quoteItems = $quoteDatas['quote']['quoteItems'];
 
-        if (! empty(getInvoiceNoPrefix())) {
-            $quoteData['quote_id'] = getInvoiceNoPrefix().'-'.$quoteData['quote_id'];
+        if (!empty(getInvoiceNoPrefix())) {
+            $quoteData['quote_id'] = getInvoiceNoPrefix() . '-' . $quoteData['quote_id'];
         }
-        if (! empty(getInvoiceNoSuffix())) {
-            $quoteData['quote_id'] .= '-'.getInvoiceNoSuffix();
+        if (!empty(getInvoiceNoSuffix())) {
+            $quoteData['quote_id'] .= '-' . getInvoiceNoSuffix();
         }
 
         $invoice['invoice_id'] = $quoteData['quote_id'];
@@ -227,7 +228,7 @@ class QuoteController extends AppBaseController
     {
         return Excel::download(new AdminQuotesExport(), 'quote-excel.xlsx');
     }
-    
+
     public function getPublicQuotePdf($quoteId)
     {
         $quote = Quote::whereQuoteId($quoteId)->firstOrFail();
@@ -259,9 +260,9 @@ class QuoteController extends AppBaseController
      */
     public function exportQuotesPdf(): Response
     {
-        $data['quotes'] = Quote::with('client.user')->orderBy('created_at','desc')->get();
+        $data['quotes'] = Quote::with('client.user')->orderBy('created_at', 'desc')->get();
         $quotesPdf = PDF::loadView('quotes.export_quotes_pdf', $data);
-        
+
         return $quotesPdf->download('Quotes.pdf');
     }
 }

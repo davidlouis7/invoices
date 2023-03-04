@@ -26,11 +26,11 @@
                             <div class="col-xxl-9">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="d-flex mb-md-10 mb-5">
+                                        <div class="d-flex mb-md-10 mb-5 align-items-center">
                                             <div class="image image-circle image-lg-small">
                                                 <img src="{{ getLogoUrl() }}" alt="user" class="object-contain">
                                             </div>
-                                            <h3 class="ps-7">{{ __('messages.quote.quote') }}
+                                            <h3 class="{{app()->getLocale() == 'ar' ? 'pe-7' : 'ps-7'}}">{{ __('messages.quote.quote') }}
                                                 #{{ $quote->quote_id }}
                                             </h3>
                                         </div>
@@ -107,20 +107,22 @@
                                                     <td class="ps-0">{{ __('messages.quote.sub_total').(':') }}</td>
                                                     <td class="text-gray-900 text-end pe-0">{{ isset($quote->amount) ? getCurrencyAmount($quote->amount,true,$quote->tenant_id) : 'N/A' }}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="ps-0">{{ __('messages.quote.discount').(':') }}</td>
-                                                    <td class="text-gray-900 text-end pe-0">
-                                                        @if($quote->discount == 0 || !isset($quote))
-                                                            <span>N/A</span>
-                                                        @else
-                                                            @if( $quote->discount_type == \App\Models\Quote::FIXED)
-                                                                {{ getCurrencyAmount($quote->discount,true,$quote->tenant_id) }}
+                                                @if (false)
+                                                    <tr>
+                                                        <td class="ps-0">{{ __('messages.quote.discount').(':') }}</td>
+                                                        <td class="text-gray-900 text-end pe-0">
+                                                            @if($quote->discount == 0 || !isset($quote))
+                                                                <span>N/A</span>
                                                             @else
-                                                                {{ getCurrencyAmount($quote->amount * $quote->discount / 100,true,$quote->tenant_id)}}
+                                                                @if( $quote->discount_type == \App\Models\Quote::FIXED)
+                                                                    {{ getCurrencyAmount($quote->discount,true,$quote->tenant_id) }}
+                                                                @else
+                                                                    {{ getCurrencyAmount($quote->amount * $quote->discount / 100,true,$quote->tenant_id)}}
+                                                                @endif
                                                             @endif
-                                                        @endif
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <td class="ps-0">{{ __('messages.quote.total').(':') }}</td>
                                                     <td class="text-gray-900 text-end pe-0">

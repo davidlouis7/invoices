@@ -45,7 +45,7 @@ class ClientTable extends LivewireTableComponent
                 ->sortable()
                 ->searchable()
                 ->hideIf(1),
-            Column::make('Invoice', 'website')
+            Column::make(__('Invoices'), 'website')
                 ->sortable()
                 ->searchable()
                 ->view('clients.components.invoice-count'),

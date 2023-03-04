@@ -22,7 +22,7 @@
         <li class="nav-item position-relative me-7 mb-3" role="presentation">
             <button class="nav-link active p-0" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview"
                 type="button" role="tab" aria-controls="overview" aria-selected="true">
-                Overview
+                {{__('Overview')}}
             </button>
         </li>
     </ul>
@@ -38,7 +38,7 @@
                             <span class="fs-4 text-gray-800">{{$user->contact}}</span>
                         </div>
                         <div class="col-sm-6 d-flex flex-column mb-md-10 mb-5">
-                            <label for="name" class="pb-2 fs-4 text-gray-600">Registered Date:</label>
+                            <label for="name" class="pb-2 fs-4 text-gray-600">{{__('Registered Date')}}:</label>
                             <span
                                 class="fs-4 text-gray-800">{{\Carbon\Carbon::parse($user->created_at)->translatedFormat('jS
                                 \of F Y')}}</span>

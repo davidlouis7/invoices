@@ -1,5 +1,7 @@
 @php
     $auth =  Auth::check();
+    $itemTaxesAmount = $quote->amount + array_sum($totalTax);
+    $quoteTaxesAmount = ($itemTaxesAmount * $quote->quoteTaxes->sum('value') / 100);
 @endphp
 <div>
     @if($auth && $isPublicView)
@@ -30,29 +32,31 @@
                             <div class="col-xxl-9">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="d-flex mb-md-10 mb-5">
+                                        <div class="d-flex mb-md-10 mb-5 align-items-center">
                                             <div class="image image-circle image-lg-small">
                                                 <img src="{{ getLogoUrl() }}" alt="user" class="object-contain">
                                             </div>
-                                            <h3 class="ps-7">{{ __('messages.quote.quote') }}
+                                            <h3 class="{{app()->getLocale() == 'ar' ? 'pe-7' : 'ps-7'}}">{{ __('messages.quote.quote') }}
                                                 #{{ $quote->quote_id }}
                                             </h3>
                                         </div>  
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-6">
+                                    <div class="col-lg-6 col-md-6 col-6">
                                         <div class="d-flex flex-column mb-md-10 mb-5 mt-3 mt-md-0">
                                             <label for="name"
                                                    class="pb-2 fs-4 text-gray-600">{{ __('messages.quote.quote_date').':' }}</label>
                                             <span class="fs-4 text-gray-800">{{ \Carbon\Carbon::parse($quote->quote_date)->translatedFormat(currentDateFormat()) }}</span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-6">
-                                        <div class="d-flex flex-column mb-md-10 mb-5 mt-3 mt-md-0">
-                                            <label for="name"
-                                                   class="pb-2 fs-4 text-gray-600">{{ __('messages.quote.due_date').':' }}</label>
-                                            <span class="fs-4 text-gray-800">{{ \Carbon\Carbon::parse($quote->due_date)->translatedFormat(currentDateFormat()) }}</span>
+                                    @if(false)
+                                        <div class="col-lg-3 col-md-3 col-6">
+                                            <div class="d-flex flex-column mb-md-10 mb-5 mt-3 mt-md-0">
+                                                <label for="name"
+                                                    class="pb-2 fs-4 text-gray-600">{{ __('messages.quote.due_date').':' }}</label>
+                                                <span class="fs-4 text-gray-800">{{ \Carbon\Carbon::parse($quote->due_date)->translatedFormat(currentDateFormat()) }}</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="col-md-2 col-6">
                                         @if($isPublicView)
                                             <a target="_blank"
@@ -94,6 +98,7 @@
                                                 <th scope="col">{{ __('messages.product.product') }}</th>
                                                 <th scope="col">{{ __('messages.quote.qty') }}</th>
                                                 <th scope="col" class="text-end">{{ __('messages.quote.price') }}</th>
+                                                <th scope="col" class="text-center">{{ __('messages.quote.tax').' (%)' }}</th>
                                                 <th scope="col" class="text-end">{{ __('messages.quote.amount') }}</th>
                                             </tr>
                                             </thead>
@@ -103,12 +108,34 @@
                                                     <td class="py-4">{{ isset($quoteItem->product->name)?$quoteItem->product->name:$quoteItem->product_name??'N/A' }}</td>
                                                     <td class="py-4">{{ $quoteItem->quantity }}</td>
                                                     <td class="py-4 text-end">{{  isset($quoteItem->price) ? getCurrencyAmount($quoteItem->price,true) : 'N/A' }}</td>
+                                                    <td class="py-4 text-center">
+                                                        @foreach($quoteItem->quoteItemTax as $keys => $tax)
+                                                            {{ ($tax->tax != 0) ? $tax->tax : 'N/A' }}
+                                                            @if (!$loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
                                                     <td class="py-4 text-end">{{ isset($quoteItem->total) ? getCurrencyAmount($quoteItem->total,true) : 'N/A' }}</td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    @if(count($quote->quoteTaxes) > 0)
+                                        <div class="col-lg-7">
+                                            <div class="d-flex align-items-center mt-2">
+                                                <label for="invoice-taxes" class="fs-4 text-gray-600 me-2">{{ __('messages.tax_information').':'.' (%)' }}</label>
+                                            </div>
+                                            <div class="mt-2">
+                                                @foreach($quote->quoteTaxes as $tax)
+                                                    <div class="mb-1"><b>{{ $tax->value.'%' }}</b>{{ ' ('. $tax->name .')' }}</div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     <div class="col-lg-5 ms-lg-auto mt-4">
                                         <div class="border-top">
                                             <table class="table table-borderless box-shadow-none mb-0 mt-5">
@@ -117,18 +144,28 @@
                                                     <td class="ps-0">{{ __('messages.quote.sub_total').(':') }}</td>
                                                     <td class="text-gray-900 text-end pe-0">{{ isset($quote->amount) ? getCurrencyAmount($quote->amount,true) : 'N/A' }}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="ps-0">{{ __('messages.quote.discount').(':') }}</td>
-                                                    <td class="text-gray-900 text-end pe-0">
-                                                        @if($quote->discount == 0 || !isset($quote))
-                                                            <span>N/A</span>
-                                                        @else
-                                                            @if( $quote->discount_type == \App\Models\Quote::FIXED)
-                                                                {{ getCurrencyAmount($quote->discount,true) }}
+                                                @if (false)
+                                                    <tr>
+                                                        <td class="ps-0">{{ __('messages.quote.discount').(':') }}</td>
+                                                        <td class="text-gray-900 text-end pe-0">
+                                                            @if($quote->discount == 0 || !isset($quote))
+                                                                <span>N/A</span>
                                                             @else
-                                                                {{ getCurrencyAmount($quote->amount * $quote->discount / 100,true)}}
+                                                                @if( $quote->discount_type == \App\Models\Quote::FIXED)
+                                                                    {{ getCurrencyAmount($quote->discount,true) }}
+                                                                @else
+                                                                    {{ getCurrencyAmount($quote->amount * $quote->discount / 100,true)}}
+                                                                @endif
                                                             @endif
-                                                        @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                <tr>
+                                                    <td class="ps-0">{{ __('messages.invoice.tax').(':') }}</td>
+                                                    @php $totalTaxes = (array_sum($totalTax) + $quoteTaxesAmount)  @endphp
+                                                    <td class="text-gray-900 text-end pe-0">
+                                                        {!!   (numberFormat($totalTaxes) != 0 )
+                                                          ? getInvoiceCurrencyAmount($totalTaxes,$quote->currency_id,true) :'N/A' !!}
                                                     </td>
                                                 </tr>
                                                 <tr>

@@ -74,7 +74,7 @@
             @endforeach
         @else
             <tr>
-                <td class="text-center" colspan="{{ getLogInUser()->hasRole('admin') ? 8 : 5 }}">No records found.</td>
+                <td class="text-center" colspan="{{ getLogInUser()->hasRole('admin') ? 8 : 5 }}">{{__('No records found.')}}</td>
             </tr>
         @endif
     </tbody>

@@ -14,7 +14,7 @@
 
         {{ Form::label('code', __('messages.product.code').':', ['class' => 'form-label required mb-3']) }}
         <span data-bs-toggle="tooltip" data-placement="top"
-            data-bs-original-title="Click refresh icon to generate product code">
+            data-bs-original-title="{{__('Click refresh icon to generate product code')}}">
             <i class="fas fa-question-circle ml-1"></i>
         </span>
         <div class="input-group mb-5">
@@ -73,7 +73,7 @@
                     </span>
                 </div>
             </div>
-            <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            <div class="form-text">{{__('Allowed file types')}}: png, jpg, jpeg.</div>
         </div>
     </div>
 

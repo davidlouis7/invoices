@@ -23,13 +23,13 @@ class UpdateClientQuoteRequest extends FormRequest
     public function rules(): array
     {
         $rules = Quote::$rules;
-        $rules['quote_id'] = 'required|unique:quotes,quote_id,'.$this->route('quote')->id;
+        $rules['quote_id'] = 'required|unique:quotes,quote_id,' . $this->route('quote')->id;
 
         return $rules;
     }
 
     public function messages(): array
     {
-        return Quote::$messages;
+        return Quote::messages();
     }
 }

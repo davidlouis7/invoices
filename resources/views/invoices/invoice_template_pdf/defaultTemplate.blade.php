@@ -75,7 +75,7 @@
                 <th class="number-align"
                 {{ $styleCss }}="border: 1px solid; padding: 5px;">{{ __('messages.product.unit_price') }}</th>
                 <th class="number-align"
-                {{ $styleCss }}="border: 1px solid; padding: 5px;">{{ __('messages.invoice.tax').' (in %)' }}</th>
+                {{ $styleCss }}="border: 1px solid; padding: 5px;">{{ __('messages.invoice.tax').' (%)' }}</th>
                 <th class="number-align"
                 {{ $styleCss }}="border: 1px solid; padding: 5px;">{{ __('messages.invoice.amount') }}</th>
                 </tr>

@@ -34,6 +34,7 @@
     @include('quotes.templates.templates')
     {{ Form::hidden('clients',json_encode($clients, true),['id' => 'clients']) }}
     {{ Form::hidden('products',json_encode($associateProducts, true),['id' => 'products']) }}
+    {{ Form::hidden('taxes',json_encode($associateTaxes, true),['id' => 'taxes']) }}
     {{ Form::hidden('quote_note',isset($quote->note) ,['id' => 'quoteNote']) }}
     {{ Form::hidden('quote_term',isset($quote->term) ,['id' => 'quoteTerm']) }}
     {{ Form::hidden('quote_recurring',isset($quote->recurring) ,['id' => 'quoteRecurring']) }}

@@ -23,13 +23,13 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules()
     {
         $rules = Invoice::$rules;
-        $rules['invoice_id'] = 'required|unique:invoices,invoice_id,'.$this->route('invoice')->id;
+        $rules['invoice_id'] = 'required|unique:invoices,invoice_id,' . $this->route('invoice')->id;
 
         return $rules;
     }
 
     public function messages(): array
     {
-        return Invoice::$messages;
+        return Invoice::messages();
     }
 }

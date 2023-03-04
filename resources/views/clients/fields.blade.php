@@ -35,15 +35,15 @@
         <div class="fv-row">
             <div class="mb-1">
                 {{ Form::label('password',__('messages.client.password').':' ,['class' => 'form-label mb-3']) }}
-                <span class="text-danger">*</span>
                 <div class="position-relative mb-3">
                     <input class="form-control" type="password" placeholder="{{ __('messages.client.password')}}"
-                        name="password" autocomplete="off" aria-label="password" data-toggle="password" required>
+                        name="password" autocomplete="off" aria-label="password" data-toggle="password">
                     <span
                         class="position-absolute d-flex align-items-center top-0 bottom-0 {{ app()->getLocale() == 'ar' ? 'start-0 ms-4' : 'end-0 me-4' }} input-icon input-password-hide cursor-pointer text-gray-600">
                         <i class="bi bi-eye-slash-fill"></i>
                     </span>
                 </div>
+                <div class="form-text">{{__('Leave empty to create with default password.')}}</div>
             </div>
         </div>
     </div>
@@ -52,11 +52,10 @@
             <div class="mb-1">
                 {{ Form::label('confirmPassword',__('messages.client.confirm_password').':' ,['class' => 'form-label
                 mb-3']) }}
-                <span class="text-danger">*</span>
                 <div class="position-relative mb-3">
                     <input class="form-control" type="password"
                         placeholder="{{ __('messages.client.confirm_password')}}" name="password_confirmation"
-                        autocomplete="off" aria-label="Password" data-toggle="password" required>
+                        autocomplete="off" aria-label="Password" data-toggle="password">
                     <span
                         class="position-absolute d-flex align-items-center top-0 bottom-0 {{ app()->getLocale() == 'ar' ? 'start-0 ms-4' : 'end-0 me-4' }} input-icon input-password-hide cursor-pointer text-gray-600">
                         <i class="bi bi-eye-slash-fill"></i>
@@ -74,10 +73,9 @@
     </div>
     <div class="col-lg-6">
         <div class="mb-5">
-            {{ Form::label('postal_code', __('messages.client.postal_code').':', ['class' => 'form-label mb-3
-            required']) }}
+            {{ Form::label('postal_code', __('messages.client.postal_code').':', ['class' => 'form-label mb-3']) }}
             {{ Form::text('postal_code',null, ['class' => 'form-control', 'placeholder' =>
-            __('messages.client.postal_code'), 'required', 'maxlength' => 6]) }}
+            __('messages.client.postal_code'), 'maxlength' => 6]) }}
         </div>
     </div>
     <div class="col-lg-4">
@@ -134,7 +132,7 @@
                     </span>
                 </div>
             </div>
-            <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            <div class="form-text">{{__('Allowed file types')}}: png, jpg, jpeg.</div>
         </div>
     </div>
 </div>

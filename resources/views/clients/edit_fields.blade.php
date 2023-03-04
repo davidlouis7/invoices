@@ -101,7 +101,7 @@
                     </span>
                 </div>
             </div>
-            <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            <div class="form-text">{{__('Allowed file types')}}: png, jpg, jpeg.</div>
         </div>
     </div>
 </div>

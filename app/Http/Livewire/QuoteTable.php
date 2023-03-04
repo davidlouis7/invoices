@@ -58,7 +58,7 @@ class QuoteTable extends LivewireTableComponent
                         ->withValue([
                             'due-date' => $row->due_date,
                         ]);
-                }),
+                })->hideIf(1),
             Column::make(__('messages.quote.amount'), 'final_amount')
                 ->sortable()
                 ->searchable()
@@ -93,7 +93,7 @@ class QuoteTable extends LivewireTableComponent
         unset($status[Quote::STATUS_ALL]);
 
         return [
-            SelectFilter::make(__('messages.common.status').':')
+            SelectFilter::make(__('messages.common.status') . ':')
                 ->options($status)
                 ->filter(function (Builder $builder, string $value) {
                     $builder->where('quotes.status', '=', $value);

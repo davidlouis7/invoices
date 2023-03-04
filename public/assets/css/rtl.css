@@ -102,4 +102,6 @@ body {
 }
 #phoneNumber {
     padding-left: 20px !important;
+    text-align: left;
+    direction: ltr;
 }

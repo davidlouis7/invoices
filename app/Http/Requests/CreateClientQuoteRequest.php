@@ -29,6 +29,6 @@ class CreateClientQuoteRequest extends FormRequest
 
     public function messages(): array
     {
-        return Quote::$messages;
+        return Quote::messages();
     }
 }

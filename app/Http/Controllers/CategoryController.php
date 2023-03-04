@@ -69,7 +69,7 @@ class CategoryController extends AppBaseController
         $input = $request->all();
         $this->categoryRepository->update($input, $categoryId);
 
-        return $this->sendSuccess('Category updated successfully.');
+        return $this->sendSuccess(__('Category updated successfully.'));
     }
 
     /**
@@ -87,6 +87,6 @@ class CategoryController extends AppBaseController
         }
         $category->delete();
 
-        return $this->sendSuccess('Category deleted successfully.');
+        return $this->sendSuccess(__('Category deleted successfully.'));
     }
 }

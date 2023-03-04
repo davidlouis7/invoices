@@ -6,7 +6,7 @@
                     <div class="image image-circle image-lg-small">
                         <img src="{{$product->product_image}}" alt="user">
                     </div>
-                    <div class="ms-0 ms-md-10 mt-5 mt-sm-0">
+                    <div class="{{app()->getLocale() == 'ar' ? 'me-0 me-md-10' : 'ms-0 ms-md-10'}} mt-5 mt-sm-0">
                         <h2>{{ $product->name }}</h2>
                     </div>
                 </div>

@@ -54,7 +54,7 @@
             @endforeach
         @else
             <tr>
-                <td class="text-center" colspan="7">No records found.</td>
+                <td class="text-center" colspan="7">{{__('No records found.')}}</td>
             </tr>
         @endif
     </tbody>

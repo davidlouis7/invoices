@@ -41,7 +41,7 @@ class LivewireTableComponent extends DataTableComponent
 
     public function updatedPerPage($value): void
     {
-        if (! in_array($value, $this->getPerPageAccepted(), false)) {
+        if (!in_array($value, $this->getPerPageAccepted(), false)) {
             $value = $this->setPerPage($this->getPerPageAccepted()[0] ?? 10);
         }
 

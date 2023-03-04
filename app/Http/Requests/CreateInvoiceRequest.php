@@ -29,6 +29,6 @@ class CreateInvoiceRequest extends FormRequest
 
     public function messages(): array
     {
-        return Invoice::$messages;
+        return Invoice::messages();
     }
 }

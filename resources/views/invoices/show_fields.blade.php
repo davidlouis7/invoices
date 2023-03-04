@@ -57,11 +57,11 @@
                             <div class="col-xxl-9">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
-                                        <div class="d-flex mb-md-10 mb-5">
+                                        <div class="d-flex mb-md-10 mb-5 align-items-center">
                                             <div class="image image-circle image-lg-small">
                                                 <img src="{{ getLogoUrl() }}" alt="user" class="object-contain">
                                             </div>
-                                            <h3 class="ps-7">{{ __('messages.invoice.invoice') }}
+                                            <h3 class="{{app()->getLocale() == 'ar' ? 'pe-7' : 'ps-7'}}">{{ __('messages.invoice.invoice') }}
                                                 #{{ $invoice->invoice_id }}
                                             </h3>
                                         </div>
@@ -122,7 +122,7 @@
                                                 <th scope="col">{{ __('messages.invoice.qty') }}</th>
                                                 <th scope="col" class="text-end">{{ __('messages.invoice.price') }}</th>
                                                 <th scope="col"
-                                                    class="text-center">{{ __('messages.invoice.tax').' (in %)' }}</th>
+                                                    class="text-center">{{ __('messages.invoice.tax').' (%)' }}</th>
                                                 <th scope="col"
                                                     class="text-end">{{ __('messages.invoice.amount') }}</th>
                                             </tr>

@@ -59,10 +59,10 @@ class TaxTable extends LivewireTableComponent
                 ->sortable()
                 ->searchable()
                 ->format(function ($value, $row, Column $column) {
-                    return $row->value.'%';
+                    return $row->value . '%';
                 }),
             Column::make(__('messages.common.default'), 'is_default')
-                ->view('taxes.components.default'),
+                ->view('taxes.components.default')->isHidden(1),
             Column::make(__('messages.common.action'), 'id')
                 ->format(function ($value, $row, Column $column) {
                     return view('livewire.modal-action-button')

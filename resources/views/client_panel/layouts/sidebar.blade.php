@@ -1,7 +1,7 @@
 <div class="aside-menu-container" id="sidebar">
     <div class="aside-menu-container__aside-logo flex-column-auto">
         <a data-turbo="false" href="{{ url('/') }}" class="text-decoration-none sidebar-logo d-flex align-items-center" data-bs-toggle="tooltip" title="{{ (strlen(getAppName()) > 15 ) ? substr(getAppName(), 0,15).'...' : getAppName() }}">
-            <div class="image image-mini me-3">
+            <div class="image image-mini {{app()->getLocale() == 'ar' ? 'ms-3' : 'me-3'}}">
                 <img src="{{  getLogoUrl()  }}"
                      class="img-fluid object-contain" alt="profile image">
             </div>

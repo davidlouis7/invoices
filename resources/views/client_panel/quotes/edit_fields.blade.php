@@ -75,7 +75,7 @@
                     <tr class="tax-tr">
                         <td class="text-center item-number align-center">{{ $i++ }}</td>
                         <td class="table__item-desc w-25">
-                            {{ Form::select('product_id[]', $products, isset($quoteItem->product_id)?$quoteItem->product_id:$quoteItem->product_name??[], ['class' => 'form-select productId client-product-quote io-select2', 'required', 'placeholder'=>'Select Product or Enter free text', 'data-control' => 'select2']) }}
+                            {{ Form::select('product_id[]', $products, isset($quoteItem->product_id)?$quoteItem->product_id:$quoteItem->product_name??[], ['class' => 'form-select productId client-product-quote io-select2', 'required', 'placeholder'=>__('Select Product or Enter free text'), 'data-control' => 'select2']) }}
                             {{ Form::hidden('id[]', $quoteItem->id) }}
                         </td>
                         <td class="table__qty">

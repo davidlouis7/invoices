@@ -135,11 +135,15 @@ class Invoice extends Model
         'due_date' => 'required',
     ];
 
-    public static $messages = [
-        'client_id.required' => 'The Client field is required.',
-        'invoice_date.required' => 'The invoice date field is required.',
-        'due_date' => 'The invoice Due date field is required.',
-    ];
+    public static function messages()
+    {
+        return [
+            'client_id.required' => __('The Client field is required.'),
+            'invoice_date.required' => __('The invoice date field is required.'),
+            'due_date' => __('The invoice Due date field is required.'),
+        ];
+    }
+
 
     public $table = 'invoices';
 
@@ -188,7 +192,7 @@ class Invoice extends Model
 
     public function getStatusLabelAttribute(): string
     {
-        return self::STATUS_ARR[$this->status];
+        return __(self::STATUS_ARR[$this->status]);
     }
 
     /**
@@ -264,7 +268,7 @@ class Invoice extends Model
      */
     public function getCurrencyIdAttribute($value)
     {
-        if (! empty($value)) {
+        if (!empty($value)) {
             return Currency::where('id', $value)->pluck('id')->first();
         }
 
@@ -276,8 +280,10 @@ class Invoice extends Model
      */
     public function setInvoiceDateAttribute($value): void
     {
-        $this->attributes['invoice_date'] = Carbon::createFromFormat(currentDateFormat(),
-            $value)->translatedFormat('Y-m-d');
+        $this->attributes['invoice_date'] = Carbon::createFromFormat(
+            currentDateFormat(),
+            $value
+        )->translatedFormat('Y-m-d');
     }
 
     /**
@@ -285,8 +291,10 @@ class Invoice extends Model
      */
     public function setDueDateAttribute($value): void
     {
-        $this->attributes['due_date'] = Carbon::createFromFormat(currentDateFormat(),
-            $value)->translatedFormat('Y-m-d');
+        $this->attributes['due_date'] = Carbon::createFromFormat(
+            currentDateFormat(),
+            $value
+        )->translatedFormat('Y-m-d');
     }
 
     /**
@@ -294,6 +302,6 @@ class Invoice extends Model
      */
     public function invoiceTaxes(): BelongsToMany
     {
-        return $this->belongsToMany(Tax::class,'invoice_taxes');
+        return $this->belongsToMany(Tax::class, 'invoice_taxes');
     }
 }

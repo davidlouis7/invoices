@@ -51,14 +51,14 @@ class TaxController extends AppBaseController
     public function store(CreateTaxRequest $request)
     {
         $input = $request->all();
-        if ($input['is_default'] == '1') {
+        if (isset($input['is_default']) && $input['is_default'] == '1') {
             Tax::where('is_default', '=', 1)->update(['is_default' => 0]);
             $tax = $this->taxRepository->create($input);
         } else {
             $tax = $this->taxRepository->create($input);
         }
 
-        return $this->sendResponse($tax, 'Tax saved successfully.');
+        return $this->sendResponse($tax, __('Tax saved successfully.'));
     }
 
     /**
@@ -78,14 +78,14 @@ class TaxController extends AppBaseController
     public function update(UpdateTaxRequest $request, $taxId)
     {
         $input = $request->all();
-        if ($input['is_default'] == '1') {
+        if (isset($input['is_default']) && $input['is_default'] == '1') {
             Tax::where('is_default', '=', 1)->update(['is_default' => 0]);
             $this->taxRepository->update($input, $taxId);
         } else {
             $this->taxRepository->update($input, $taxId);
         }
 
-        return $this->sendSuccess('Tax updated successfully.');
+        return $this->sendSuccess(__('Tax updated successfully.'));
     }
 
     /**
@@ -103,7 +103,7 @@ class TaxController extends AppBaseController
         }
         $tax->delete();
 
-        return $this->sendSuccess('Tax deleted successfully.');
+        return $this->sendSuccess(__('Tax deleted successfully.'));
     }
 
     /**
@@ -112,12 +112,12 @@ class TaxController extends AppBaseController
      */
     public function defaultStatus(Tax $tax)
     {
-        $status = ! $tax->is_default;
+        $status = !$tax->is_default;
         if ($status == '1') {
             Tax::where('is_default', '=', 1)->update(['is_default' => 0]);
         }
         $tax->update(['is_default' => $status]);
 
-        return $this->sendSuccess('Status updated successfully.');
+        return $this->sendSuccess(__('Status updated successfully.'));
     }
 }

@@ -5,19 +5,19 @@
 
         <div class="input-group mb-5">
             {{ Form::text('name',null,['class' => 'form-control ', 'placeholder' => __('messages.product.name'),
-            'required','onkeypress'=>"return blockSpecialChar(event)"]) }}
+            'required']) }}
         </div>
 
     </div>
     <div class="col-lg-6">
         {{ Form::label('code', __('messages.product.code').':', ['class' => 'form-label required mb-3']) }}
         <span data-bs-toggle="tooltip" data-placement="top"
-            data-bs-original-title="Click refresh icon to generate product code">
+            data-bs-original-title="{{__('Click refresh icon to generate product code')}}">
             <i class="fas fa-question-circle ml-1"></i>
         </span>
         <div class="input-group mb-5">
             {{ Form::text('code', null, ['class' => 'form-control ', 'placeholder' => __('messages.product.code'),
-            'required', 'id' => 'code', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)",]) }}
+            'required', 'id' => 'code', 'maxlength' => 6,]) }}
             <a class="input-group-text border-0" id="autoCode" href="javascript:void(0)" data-bs-toggle="tooltip"
                 data-placement="right" title="Generate Code">
                 <i class="fas fa-sync-alt fs-4"></i>
@@ -38,6 +38,7 @@
             {{ Form::number('unit_price',null,['id'=>'unitPriceId','class' => 'form-control ', 'placeholder' =>
             __('messages.product.unit_price'),'min'=>'0', 'step'=>".01",
             'oninput'=>"validity.valid||(value=value.replace(/\D+/g, '.'))",'required']) }}
+            <div class="form-text">{{__('Price without tax')}}</div>
         </div>
     </div>
     <div class="col-lg-12">
@@ -66,7 +67,7 @@ $product->product_image : asset('images/default-product.jpg') }}')">
                     </span>
                 </div>
             </div>
-            <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            <div class="form-text">{{__('Allowed file types')}}: png, jpg, jpeg.</div>
         </div>
     </div>
 </div>
