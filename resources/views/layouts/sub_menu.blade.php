@@ -71,25 +71,27 @@
            href="{{ route('payments.index') }}">{{ __('messages.payments') }}</a>
     </li>
     @endrole
-    @role('admin')
-    {{--     Admin Subscription Sub Menu--}}
-    <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*','admin/invoice-settings')) ? 'd-none' : '' }}">
-        <a class="nav-link p-0 {{ isset($sectionName)?($sectionName == 'general' ? 'active' : ''):'' }}"
-           href="{{ route('settings.edit',['section' => 'general']) }}">{{ __('messages.general') }}</a>
-    </li>
+        @role('admin')
+        {{--     Admin Subscription Sub Menu--}}
+        <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*','admin/invoice-settings')) ? 'd-none' : '' }}">
+            <a class="nav-link p-0 {{ isset($sectionName)?($sectionName == 'general' ? 'active' : ''):'' }}"
+            href="{{ route('settings.edit',['section' => 'general']) }}">{{ __('messages.general') }}</a>
+        </li>
 
-    <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*','admin/invoice-settings')) ? 'd-none' : '' }}">
-        <a class="nav-link p-0 {{ Request::is('admin/currencies*') ? 'active' : '' }}"
-           href="{{ route('currencies.index') }}">{{__('messages.setting.currencies')}}</a>
-    </li>
-    
-    <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*','admin/invoice-settings')) ? 'd-none' : '' }}">
-        <a class="nav-link p-0 {{ Request::is('admin/payment-gateway*') ? 'active' : '' }}"
-           href="{{ route('payment-gateway.show',['section' => 'payment-gateway']) }}">{{__('messages.payment-gateway')}}</a>
-    </li>
-    
-    <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*' ,'admin/invoice-settings')) ? 'd-none' : '' }}">
-        <a class="nav-link p-0 {{ Request::is('admin/invoice-settings*') ? 'active' : '' }}"
-           href="{{ route('settings.invoice-settings') }}">{{__('messages.setting.invoice_settings')}}</a>
-    </li>
-    @endrole
+        <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*','admin/invoice-settings')) ? 'd-none' : '' }}">
+            <a class="nav-link p-0 {{ Request::is('admin/currencies*') ? 'active' : '' }}"
+            href="{{ route('currencies.index') }}">{{__('messages.setting.currencies')}}</a>
+        </li>
+        
+        @if (false)
+            <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*','admin/invoice-settings')) ? 'd-none' : '' }}">
+                <a class="nav-link p-0 {{ Request::is('admin/payment-gateway*') ? 'active' : '' }}"
+                href="{{ route('payment-gateway.show',['section' => 'payment-gateway']) }}">{{__('messages.payment-gateway')}}</a>
+            </li>
+        @endif
+        
+        <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ (!Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*' ,'admin/invoice-settings')) ? 'd-none' : '' }}">
+            <a class="nav-link p-0 {{ Request::is('admin/invoice-settings*') ? 'active' : '' }}"
+            href="{{ route('settings.invoice-settings') }}">{{__('messages.setting.invoice_settings')}}</a>
+        </li>
+        @endrole

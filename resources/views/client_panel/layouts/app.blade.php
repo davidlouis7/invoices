@@ -32,8 +32,8 @@
     @include('layouts.livewire.livewire-turbo')
     <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false" data-turbo-eval="false"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js" data-turbolinks-eval="false" data-turbo-eval="false">
+    {{-- <script src="https://js.stripe.com/v3/"></script> --}}
+    {{-- <script src="https://checkout.razorpay.com/v1/checkout.js" data-turbolinks-eval="false" data-turbo-eval="false"> --}}
     </script>
     <script src="{{ asset('assets/js/third-party.js') }}"></script>
     <script src="{{ asset('messages.js') }}"></script>
@@ -45,44 +45,44 @@
         let currentDateFormat = "{{ currentDateFormat() }}";
         let momentDateFormat = "{{ momentJsCurrentDateFormat() }}";
         let currency = "{{ getCurrencySymbol() }}";
-        @if(!empty($stripeKey))
-        let stripe = Stripe('{{  $stripeKey ?? config('services.stripe.key') }}');
-        @endif
-        let invoiceStripePaymentUrl = '{{ route('client.stripe-payment') }}';
+        // @if(!empty($stripeKey))
+        // let stripe = Stripe('{{  $stripeKey ?? config('services.stripe.key') }}');
+        // @endif
+        // let invoiceStripePaymentUrl = '{{ route('client.stripe-payment') }}';
         let getUserLanguages = "{{getCurrentLanguageName()}}";
         Lang.setLocale(getUserLanguages);
-        let options = {
-            'key': "{{ config('payments.razorpay.key') }}",
-            'amount': 0, //  100 refers to 1
-            'currency': 'INR',
-            'name': "{{getAppName()}}",
-            'order_id': '',
-            'description': '',
-            'image': '{{ asset(getLogoUrl()) }}', // logo here
-            'callback_url': "{{ route('razorpay.success') }}",
-            'prefill': {
-                'email': '', // client email here
-                'name': '', // client name here
-                'invoiceId': '', //invoice id
-            },
-            'readonly': {
-                'name': 'true',
-                'email': 'true',
-                'invoiceId': 'true',
-            },
-            'theme': {
-                'color': '#4FB281',
-            },
-            'modal': {
-                'ondismiss': function () {
-                    $('#paymentForm').modal('hide');
-                    displayErrorMessage('Payment not completed.');
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                },
-            },
-        };
+        // let options = {
+        //     'key': "{{ config('payments.razorpay.key') }}",
+        //     'amount': 0, //  100 refers to 1
+        //     'currency': 'INR',
+        //     'name': "{{getAppName()}}",
+        //     'order_id': '',
+        //     'description': '',
+        //     'image': '{{ asset(getLogoUrl()) }}', // logo here
+        //     'callback_url': "{{ route('razorpay.success') }}",
+        //     'prefill': {
+        //         'email': '', // client email here
+        //         'name': '', // client name here
+        //         'invoiceId': '', //invoice id
+        //     },
+        //     'readonly': {
+        //         'name': 'true',
+        //         'email': 'true',
+        //         'invoiceId': 'true',
+        //     },
+        //     'theme': {
+        //         'color': '#4FB281',
+        //     },
+        //     'modal': {
+        //         'ondismiss': function () {
+        //             $('#paymentForm').modal('hide');
+        //             displayErrorMessage('Payment not completed.');
+        //             setTimeout(function () {
+        //                 location.reload();
+        //             }, 1000);
+        //         },
+        //     },
+        // };
     </script>
     @routes
     <script src="{{ mix('assets/js/pages.js') }}"></script>

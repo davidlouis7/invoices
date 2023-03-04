@@ -162,7 +162,7 @@ function getClientDashboardURL()
  */
 function removeCommaFromNumbers($number)
 {
-    return (gettype($number) == 'string' && ! empty($number)) ? str_replace(',', '', $number) : $number;
+    return (gettype($number) == 'string' && !empty($number)) ? str_replace(',', '', $number) : $number;
 }
 
 /**
@@ -319,8 +319,10 @@ function getNotification()
     /** @var Setting $notification */
     static $notification;
     if (empty($notification)) {
-        $notification = Notification::whereUserId(Auth::id())->where('read_at',
-            null)->orderByDesc('created_at')->toBase()->get();
+        $notification = Notification::whereUserId(Auth::id())->where(
+            'read_at',
+            null
+        )->orderByDesc('created_at')->toBase()->get();
     }
 
     return $notification;
@@ -403,14 +405,14 @@ function numberFormat(float $num, int $decimals = 2)
     return number_format($num, $decimals, $decimal_separator, $thousands_separator);
 }
 
-if (! function_exists('getSettingValue')) {
+if (!function_exists('getSettingValue')) {
     /**
      * @param $keyName
      * @return mixed
      */
     function getSettingValue($keyName)
     {
-        $key = 'setting'.'-'.$keyName;
+        $key = 'setting' . '-' . $keyName;
         static $settingValues;
 
         if (isset($settingValues[$key])) {
@@ -526,11 +528,11 @@ function formatTotalAmount($totalAmount, $precision = 2)
     // Remove unnecessary zeroes after decimal. "1.0" -> "1"; "1.00" -> "1"
     // Intentionally does not affect partials, eg "1.50" -> "1.50"
     if ($precision > 0) {
-        $dotZero = '.'.str_repeat('0', $precision);
+        $dotZero = '.' . str_repeat('0', $precision);
         $numberFormat = str_replace($dotZero, '', $numberFormat);
     }
 
-    return $numberFormat.$suffix;
+    return $numberFormat . $suffix;
 }
 
 /**
@@ -548,10 +550,10 @@ function getCurrencyAmount($amount, $formatting = false)
     $currencySymbol = getCurrencySymbol();
     $formattedAmount = $formatting ? numberFormat($amount) : formatTotalAmount($amount);
     if ($currencyPosition) {
-        return $formattedAmount.' '.$currencySymbol;
+        return $formattedAmount . ' ' . $currencySymbol;
     }
 
-    return $currencySymbol.' '.$formattedAmount;
+    return $currencySymbol . ' ' . $formattedAmount;
 }
 
 /**
@@ -577,10 +579,10 @@ function getInvoiceCurrencyAmount($amount, $currencyId, $formatting = false): st
 
     $formattedAmount = $formatting ? numberFormat($amount) : formatTotalAmount($amount);
     if ($currencyPosition) {
-        return $formattedAmount.' '.$currencySymbol;
+        return $formattedAmount . ' ' . $currencySymbol;
     }
 
-    return $currencySymbols[$currencyId].' '.$formattedAmount;
+    return $currencySymbols[$currencyId] . ' ' . $formattedAmount;
 }
 
 function checkContactUniqueness($value, $regionCode, $exceptId = null): bool
