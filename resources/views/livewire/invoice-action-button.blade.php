@@ -33,7 +33,13 @@
                 </a>
             </li>
         @endif
-        @if($isDraft)
+        <li>
+            <a href="{{route('invoices.pdf',$row->id)}}" class="dropdown-item text-hover-primary me-1 edit-btn"
+                data-bs-toggle="tooltip" title="{{ __('messages.invoice.print_invoice') }}" data-turbo="false">
+                <?php echo __('messages.invoice.print_invoice') ?>
+            </a>
+        </li>
+        @if($isDraft && false)
             <li>
                 <a href="javascript:void(0)" data-url="{{route('invoice-show-url',$row->invoice_id)}}"
                    class="dropdown-item text-hover-primary me-1 edit-btn  invoice-url" data-bs-toggle="tooltip"
@@ -51,6 +57,7 @@
                 </a>
             </li>
             @endif
+            
     </ul>
 </div>
 

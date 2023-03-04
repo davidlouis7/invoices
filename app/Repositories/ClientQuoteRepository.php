@@ -348,7 +348,7 @@ class ClientQuoteRepository extends BaseRepository
         $data['quote'] = $quote;
         $data['client'] = $quote->client;
         $quoteItems = $quote->quoteItems;
-        $data['invoice_template_color'] = $quote->invoiceTemplate->template_color;
+        $data['invoice_template_color'] = $quote->invoiceTemplate?->template_color;
         $data['setting'] = Setting::pluck('value', 'key')->toArray();
 
         return $data;
@@ -360,7 +360,7 @@ class ClientQuoteRepository extends BaseRepository
      */
     public function getDefaultTemplate($quote)
     {
-        $data['invoice_template_name'] = $quote->invoiceTemplate->key;
+        $data['invoice_template_name'] = $quote->invoiceTemplate?->key;
 
         return $data['invoice_template_name'];
     }

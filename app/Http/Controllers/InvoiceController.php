@@ -2,31 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\AdminInvoicesExport;
-use App\Http\Requests\CreateInvoiceRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
-use App\Mail\InvoicePaymentReminderMail;
-use App\Models\Currency;
+use PDF;
+use Exception;
+use Carbon\Carbon;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Product;
+use Mpdf\QrCode\QrCode;
+use App\Models\Currency;
+use Laracasts\Flash\Flash;
+use Mpdf\QrCode\Output\Png;
+use Mpdf\QrCode\Output\Svg;
+use Illuminate\Http\Request;
+use Mpdf\QrCode\Output\Html;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\App;
+use App\Exports\AdminInvoicesExport;
+use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\Factory;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
-use PDF;
-use Carbon\Carbon;
-use Exception;
+use App\Mail\InvoicePaymentReminderMail;
+use App\Http\Requests\CreateInvoiceRequest;
+use App\Http\Requests\UpdateInvoiceRequest;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Laracasts\Flash\Flash;
-use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class InvoiceController extends AppBaseController
@@ -191,11 +195,20 @@ class InvoiceController extends AppBaseController
      */
     public function convertToPdf(Invoice $invoice): Response
     {
+
+        // Create qr code
+        $qrCode = new QrCode(route('invoices.pdf', $invoice->id));
+
+        $output = new Png();
+        $data = $output->output($qrCode, 300, [255, 255, 255], [0, 0, 0]);
+        file_put_contents(public_path("qr/invoice-{$invoice->id}.png"), $data);
+
         ini_set('max_execution_time', 36000000);
         $invoice->load(['client.user', 'invoiceTemplate', 'invoiceItems.product', 'invoiceItems.invoiceItemTax', 'invoiceTaxes']);
         $invoiceData = $this->invoiceRepository->getPdfData($invoice);
         $invoiceTemplate = $this->invoiceRepository->getDefaultTemplate($invoice);
-        $pdf = PDF::loadView("invoices.invoice_template_pdf.$invoiceTemplate", $invoiceData);
+
+        $pdf = PDF::loadView("invoices.invoice_template_pdf.my_template", $invoiceData);
 
         return $pdf->stream('invoice.pdf');
     }

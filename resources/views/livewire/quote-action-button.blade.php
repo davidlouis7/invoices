@@ -29,10 +29,10 @@
             </a>
         </li>
         <li>
-            <a href="javascript:void(0)" data-url="{{route('quote-show-url',$row->quote_id)}}"
+            <a href="{{route('quotes.pdf',$row->id)}}" 
                class="dropdown-item text-hover-primary me-1 edit-btn  quote-url" data-bs-toggle="tooltip"
-               title="Copy Quote URL" onclick="copyToClipboard($(this).data('url'))">
-                {{__('messages.quote.quote_url')}}
+               title="Print quote">
+                {{__('messages.quote.print_quote')}}
             </a>
         </li>
     </ul>

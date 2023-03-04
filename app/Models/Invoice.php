@@ -304,4 +304,17 @@ class Invoice extends Model
     {
         return $this->belongsToMany(Tax::class, 'invoice_taxes');
     }
+
+    /**
+     * @return string
+     */
+    public static function getNewInvoiceId(): string
+    {
+        $lastInvoice = self::whereNotNull('invoice_id')->orderBy('invoice_id', 'DESC')->first();
+        if (!$lastInvoice || !$lastInvoice->invoice_id) {
+            return '0001';
+        } else {
+            return str_pad(intval($lastInvoice->invoice_id) + 1, 4, '0', STR_PAD_LEFT);
+        }
+    }
 }

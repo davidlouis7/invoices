@@ -610,13 +610,25 @@ function getPayPalSupportedCurrencies(): array
 }
 
 
-function priceWithTaxes($quoteItem)
+function priceWithTaxes($quoteItem, $count = 1)
 {
     $price = $quoteItem->price;
 
     $taxes = 0;
     foreach ($quoteItem->quoteItemTax as $quoteItemTax) {
-        $taxes += (($quoteItemTax->tax / 100) * $price);
+        $taxes += ($count * (($quoteItemTax->tax / 100) * $price));
+    }
+
+    return $price + $taxes;
+}
+
+function invoicePriceWithTaxes($invoiceItem, $count = 1)
+{
+    $price = $invoiceItem->price;
+
+    $taxes = 0;
+    foreach ($invoiceItem->invoiceItemTax as $invoiceItemTax) {
+        $taxes += ($count * (($invoiceItemTax->tax / 100) * $price));
     }
 
     return $price + $taxes;

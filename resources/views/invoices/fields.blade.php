@@ -1,6 +1,6 @@
 <div class="row">
         <div class="col-lg-6 col-sm-12 mb-5">
-            {{ Form::label('client_id', __('messages.invoice.client').(':'),['class' => 'form-label required mb-3']) }}
+            {{ Form::label('client_id', __('messages.invoice.client').(':'),['class' => 'form-label required mb-3', 'required']) }}
             {{ Form::select('client_id', $clients, $client_id ?? null, ['class' => 'form-select io-select2', 'id' => 'client_id', 'placeholder' =>  __('messages.invoice.client'),'data-control' => "select2"]) }}
         </div>
         <div class="col-lg-6 col-sm-12 mb-lg-0 mb-5">
@@ -18,7 +18,7 @@
                                     {{ getInvoiceNoPrefix() }}
                                 </a>
                             @endif
-                            {{ Form::text('invoice_id', \App\Models\Invoice::generateUniqueInvoiceId(), ['class' => 'form-control', 'required', 'id' => 'invoiceId', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)",]) }}
+                            {{ Form::text('invoice_id', \App\Models\Invoice::getNewInvoiceId(), ['class' => 'form-control', 'required', 'id' => 'invoiceId', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)",]) }}
                             @if(!empty(getInvoiceNoSuffix()))
                                 <a class="input-group-text bg-secondary border-0 text-decoration-none text-black"
                                    data-toggle="tooltip"
@@ -32,7 +32,7 @@
             @else
                 <div class="" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="invoice number">
                     <span class="form-label">{{__('messages.invoice.invoice')}} #</span>
-                    {{ Form::text('invoice_id', \App\Models\Invoice::generateUniqueInvoiceId(), ['class' => 'form-control mt-3', 'required', 'id' => 'invoiceId', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)",]) }}
+                    {{ Form::text('invoice_id', \App\Models\Invoice::getNewInvoiceId(), ['class' => 'form-control mt-3', 'required', 'id' => 'invoiceId', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)",]) }}
                 </div>
             @endif
         </div>
@@ -64,7 +64,7 @@
                     {{ Form::select('status', $statusArr,null, ['class' => 'form-select io-select2', 'id' => 'status','required','data-control' => "select2"]) }}
                 </div>
             </div>
-            <div class="mb-5 col-lg-6 col-sm-12">
+            {{-- <div class="mb-5 col-lg-6 col-sm-12">
                 {{ Form::label('templateId', __('messages.setting.invoice_template').(':'),['class' => 'form-label mb-3']) }}
                 {{ Form::select('template_id', $template,\App\Models\Setting::DEFAULT_TEMPLATE ?? null, ['class' => 'form-select io-select2', 'id' => 'templateId','required','data-control' => "select2"]) }}
             </div>
@@ -91,13 +91,12 @@
             <div class="mb-5 col-lg-6 col-sm-12 recurring-cycle-content">
                 {{ Form::label('recurringCycle', __('messages.invoice.recurring_cycle').':', ['class' => 'form-label mb-3']) }}
                 {{ Form::number('recurring_cycle', null, ['class' => 'form-control', 'id' => 'recurringCycle', 'autocomplete' => 'off', 'placeholder'=>'Number of Days for Recurring Cycle', 'oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))"]) }}
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="mb-0">
-        <div class="col-12 text-end mb-lg-10 mb-6">
-            <button type="button" class="btn btn-primary text-start"
-                    id="addItem"> {{ __('messages.invoice.add') }}</button>
+        <div class="col-12 text-end mb-1 mt-7">
+            <button type="button" class="btn btn-primary text-start" id="addItem"> {{ __('messages.invoice.add') }}</button>
         </div>
         <div class="table-responsive">
             <table class="table table-striped box-shadow-none mt-4" id="billTbl">
@@ -122,7 +121,7 @@
                         {{ Form::number('quantity[]', null, ['class' => 'form-control qty ','required', 'type' => 'number', "min" => '0','step'=>'.01','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))"]) }}
                     </td>
                     <td>
-                        {{ Form::number('price[]', null, ['class' => 'form-control price-input price ','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$",'required','onKeyPress'=>'if(this.value.length==8) return false;']) }}
+                        {{ Form::number('price[]', null, ['class' => 'form-control price-input price ', 'required', 'oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$",'required','onKeyPress'=>'if(this.value.length==8) return false;']) }}
                     </td>
                     <td>
                         <select name="tax[]" class='form-select io-select2 fw-bold tax'
@@ -150,7 +149,7 @@
             </table>
         </div>
         <div class="row">
-            <div class="col-lg-7 col-sm-12 mt-2 mt-lg-0 {{app()->getLocale() == 'ar' ? 'align-left-for-full-screen' : 'align-right-for-full-screen'}}">
+            {{-- <div class="col-lg-7 col-sm-12 mt-2 mt-lg-0 {{app()->getLocale() == 'ar' ? 'align-left-for-full-screen' : 'align-right-for-full-screen'}}">
                 <div class="mb-2 col-xl-5 col-lg-8 col-sm-12 float-right">
                     {{ Form::label('discount', __('messages.invoice.discount').(':'), ['class' => 'form-label mb-1']) }}
                     <div class="input-group">
@@ -169,7 +168,7 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
+            </div> --}}
             <div class="col-xxl-3 col-lg-5 col-md-6 ms-md-auto mt-4 mb-lg-10 mb-6">
                 <div class="border-top">
                     <table class="table table-borderless box-shadow-none mb-0 mt-5">

@@ -446,7 +446,7 @@ class InvoiceRepository extends BaseRepository
 
     public function getDefaultTemplate($invoice)
     {
-        $data['invoice_template_name'] = $invoice->invoiceTemplate->key;
+        $data['invoice_template_name'] = $invoice->invoiceTemplate?->key;
 
         return $data['invoice_template_name'];
     }
@@ -461,7 +461,7 @@ class InvoiceRepository extends BaseRepository
         $data['invoice'] = $invoice;
         $data['client'] = $invoice->client;
         $invoiceItems = $invoice->invoiceItems;
-        $data['invoice_template_color'] = $invoice->invoiceTemplate->template_color;
+        $data['invoice_template_color'] = $invoice->invoiceTemplate?->template_color;
         $data['totalTax'] = [];
 
         foreach ($invoiceItems as $keys => $item) {

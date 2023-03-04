@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>عرض سعر</title>
+    <title>فاتورة</title>
     <style>
         body {
             font-family: 'almarai';
@@ -155,39 +155,41 @@
             text-align: center
         }
 
-        .notes {
+        .qrcode {
             font-size: 14px;
             position: absolute;
-            width: 100mm;
+            width: 50mm;
+            height: 50mm;
             text-align: right;
-            top: 235mm;
-            right: 13.5mm;
-            line-height: 5.6mm;
+            top: 230mm;
+            right: 34mm;
+            background: url("{{ asset('/qr/invoice-3.png') }}") top center no-repeat;
+            background-size: 100% 100%;
         }
     </style>
 </head>
 
 <body>
     <div style="position: absolute; left:0; right: 0; top: 0; bottom: 0;">
-        <img src="{{ asset('/templates/quote.jpg') }}" style="width: 210mm; height: 297mm; margin: 0;">
+        <img src="{{ asset('/templates/invoice.jpg') }}" style="width: 210mm; height: 297mm; margin: 0;">
     </div>
 
     <!-- Invoice Number -->
-    <div class="invoice-number">{{ $quote->quote_id }}</div>
+    <div class="invoice-number">{{ $invoice->invoice_id }}</div>
 
     <!-- Invoice Date -->
     <div class="invoice-date">
-        <p>{{ \Alkoumi\LaravelHijriDate\Hijri::Date('Y-m-d', $quote->quote_date) }} <span>هـ</span></p>
-        <p>{{ \Carbon\Carbon::parse($quote->quote_date)->translatedFormat(currentDateFormat()) }} <span>م</span></p>
+        <p>{{ \Alkoumi\LaravelHijriDate\Hijri::Date('Y-m-d', $invoice->invoice_date) }} <span>هـ</span></p>
+        <p>{{ \Carbon\Carbon::parse($invoice->invoice_date)->translatedFormat(currentDateFormat()) }} <span>م</span></p>
     </div>
 
     <!-- Client name -->
-    <div class="client-name">{{ $quote->client->user->full_name }}</div>
+    <div class="client-name">{{ $invoice->client->user->full_name }}</div>
 
 
     <!-- Items Table -->
     <div class="table-top"></div>
-    @foreach ($quote->quoteItems as $i => $quoteItem)
+    @foreach ($invoice->invoiceItems as $i => $invoiceItem)
         <!-- Quote item -->
         @if (($i+1) % 2)
             <div class="row-odd" style="top: {{ strval(123.5 + (($i+1) * 7.5)) }}mm;"></div>
@@ -196,21 +198,20 @@
         @endif
         <div class="index" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{ ($i+1) }}
         </div>
-        <div class="desc" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->product->name)?$quoteItem->product->name:$quoteItem->product_name??'N/A'}}</div>
-        <div class="price" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->price) ? priceWithTaxes($quoteItem) : 'N/A'}}</div>
-        <div class="count" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{$quoteItem->quantity}}</div>
-        <div class="total" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->total) ? priceWithTaxes($quoteItem, $quoteItem->quantity) : 'N/A'}}</div>
-        @if (($i+1) == count($quote->quoteItems))
+        <div class="desc" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($invoiceItem->product->name)?$invoiceItem->product->name:$invoiceItem->product_name??'N/A'}}</div>
+        <div class="price" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($invoiceItem->price) ? invoicePriceWithTaxes($invoiceItem) : 'N/A'}}</div>
+        <div class="count" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{$invoiceItem->quantity}}</div>
+        <div class="total" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($invoiceItem->total) ? invoicePriceWithTaxes($invoiceItem, $invoiceItem->quantity) : 'N/A'}}</div>
+        @if (($i+1) == count($invoice->invoiceItems))
             <div class="table-bottom" style="top: {{ strval(131 + (($i+1) * 7.5)) }}mm;"></div>
             <div class="table-total" style="top: {{ strval(138 + (($i+1) * 7.5)) }}mm;"></div>
-            <div class="total-num-written" style="top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">{{\Alkoumi\LaravelArabicNumbers\Numbers::TafqeetMoney($quote->final_amount)}}</div>
-            <div class="total-num" style="top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">{{$quote->final_amount}}</div>
+            <div class="total-num-written" style="top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">{{\Alkoumi\LaravelArabicNumbers\Numbers::TafqeetMoney($invoice->final_amount)}}</div>
+            <div class="total-num" style="top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">{{$invoice->final_amount}}</div>
 
-            @endif
-            @endforeach
-    <div class="notes">
-        {!! nl2br($quote->note) !!}
-    </div>
+        @endif
+    @endforeach
+
+    <div class="qrcode"></div>
 
     <!-- The rest will margin top a calculated space and be a relative positioning -->
 
