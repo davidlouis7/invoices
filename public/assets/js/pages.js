@@ -14006,6 +14006,10 @@ window.isNumberKey = function (evt, element) {
 };
 
 listenClick("#addItem", function () {
+  if ($(".invoice-item-container tr").length >= 10) {
+    return;
+  }
+
   var data = {
     products: JSON.parse($("#products").val()),
     taxes: JSON.parse($("#taxes").val())
@@ -14048,6 +14052,10 @@ var resetInvoiceItemIndex = function resetInvoiceItemIndex() {
 };
 
 listenClick(".delete-invoice-item", function () {
+  if ($(".invoice-item-container tr").length <= 1) {
+    return;
+  }
+
   $(this).parents("tr").remove();
   resetInvoiceItemIndex();
   calculateFinalAmount();
@@ -14648,6 +14656,10 @@ window.isNumberKey = function (evt, element) {
 };
 
 listenClick("#addQuoteItem", function () {
+  if ($(".quote-item-container tr").length >= 10) {
+    return;
+  }
+
   var data = {
     products: JSON.parse($("#products").val()),
     taxes: JSON.parse($("#taxes").val())
@@ -14686,6 +14698,10 @@ var resetQuoteItemIndex = function resetQuoteItemIndex() {
 };
 
 listenClick(".delete-quote-item", function () {
+  if ($(".quote-item-container tr").length <= 1) {
+    return;
+  }
+
   $(this).parents("tr").remove();
   resetQuoteItemIndex();
   calculateAndSetQuoteAmount();
@@ -16460,14 +16476,23 @@ window.isNumberKey = function (evt, element) {
 };
 
 listenClick("#addClientQuoteItem", function () {
+  if ($(".quote-item-container tr").length >= 10) {
+    return;
+  }
+
   var data = {
-    products: JSON.parse($("#products").val())
+    products: JSON.parse($("#products").val()),
+    taxes: JSON.parse($("#taxes").val())
   };
   var quoteItemHtml = prepareTemplateRender("#quotesItemTemplate", data);
   $(".quote-item-container").append(quoteItemHtml);
   $(".productId").select2({
     placeholder: "حدد المنتج أو أدخل نصًا حرًا",
     tags: true
+  });
+  $(".taxId").select2({
+    placeholder: "Select TAX",
+    multiple: true
   });
   resetQuoteItemIndex();
 });
@@ -16481,7 +16506,8 @@ var resetQuoteItemIndex = function resetQuoteItemIndex() {
 
   if (index - 1 == 0) {
     var data = {
-      products: JSON.parse($("#products").val())
+      products: JSON.parse($("#products").val()),
+      taxes: JSON.parse($("#taxes").val())
     };
     var quoteItemHtml = prepareTemplateRender("#quotesItemTemplate", data);
     $(".quote-item-container").append(quoteItemHtml);
@@ -16490,6 +16516,10 @@ var resetQuoteItemIndex = function resetQuoteItemIndex() {
 };
 
 listenClick(".delete-quote-item", function () {
+  if ($(".quote-item-container tr").length <= 1) {
+    return;
+  }
+
   $(this).parents("tr").remove();
   resetQuoteItemIndex();
   calculateAndSetQuoteAmount();

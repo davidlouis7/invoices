@@ -13,7 +13,7 @@
     <span>
         {{ __('messages.client.notes') }}
     </span>
-    <a class="show-payment-notes cursor-pointer ms-2" data-id="{{$row->id}}">
+    <a class="show-payment-notes cursor-pointer {{app()->getLocale() == 'ar' ? 'me-2' : 'ms-2'}}" data-id="{{$row->id}}">
         <i class="fa fa-eye"></i>
     </a>
 </div>

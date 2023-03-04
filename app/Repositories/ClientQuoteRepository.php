@@ -13,6 +13,7 @@ use App\Models\Setting;
 use App\Models\QuoteItem;
 use Illuminate\Support\Arr;
 use App\Models\Notification;
+use App\Models\QuoteItemTax;
 use App\Models\InvoiceSetting;
 use Illuminate\Support\Facades\DB;
 use App\Mail\QuoteCreateClientMail;
@@ -203,7 +204,7 @@ class ClientQuoteRepository extends BaseRepository
             $input['client_id'] = Client::whereUserId($input['client_id'])->first()->id;
             $input = Arr::only($input, [
                 'client_id', 'quote_id', 'quote_date', 'due_date', 'discount_type', 'discount', 'final_amount',
-                'note', 'term', 'template_id', 'status',
+                'note', 'term', 'template_id', 'status', 'tax', 'tax_id'
             ]);
             $quote = Quote::create($input);
             $totalAmount = 0;
@@ -229,6 +230,16 @@ class ClientQuoteRepository extends BaseRepository
                 $quoteItem = new QuoteItem($data);
 
                 $quoteItem = $quote->quoteItems()->save($quoteItem);
+
+                $quoteItemTaxIds = ($input['tax_id'][$key] != 0) ? $input['tax_id'][$key] : $input['tax_id'][$key] = [0 => 0];
+                $quoteItemTaxes = ($input['tax'][$key] != 0) ? $input['tax'][$key] : $input['tax'][$key] = [0 => null];
+                foreach ($quoteItemTaxes as $index => $tax) {
+                    QuoteItemTax::create([
+                        'quote_item_id' => $quoteItem->id,
+                        'tax_id' => $quoteItemTaxIds[$index],
+                        'tax' => $tax,
+                    ]);
+                }
             }
 
             $quote->amount = $totalAmount;
@@ -256,11 +267,15 @@ class ClientQuoteRepository extends BaseRepository
     {
         try {
             DB::beginTransaction();
-            if ($input['discount_type'] == 0) {
+            $input['tax_id'] = json_decode($input['tax_id']);
+            $input['tax'] = json_decode($input['tax']);
+
+            if (isset($input['discount_type']) && $input['discount_type'] == 0) {
                 $input['discount'] = 0;
             }
             $input['final_amount'] = $input['amount'];
-            $quoteItemInputArr = Arr::only($input, ['product_id', 'quantity', 'price', 'id']);
+            $inputQuoteTaxes = isset($input['taxes']) ? $input['taxes'] : [];
+            $quoteItemInputArr = Arr::only($input, ['product_id', 'quantity', 'price', 'tax', 'tax_id', 'id']);
             $quoteItemInput = $this->prepareInputForQuoteItem($quoteItemInputArr);
             $total = [];
             foreach ($quoteItemInput as $key => $value) {
@@ -286,6 +301,11 @@ class ClientQuoteRepository extends BaseRepository
                     'status',
                 ]
             ), $quoteId);
+            $quote->quoteTaxes()->detach();
+            if (count($inputQuoteTaxes) > 0) {
+                $quote->quoteTaxes()->attach($inputQuoteTaxes);
+            }
+
             $totalAmount = 0;
 
             foreach ($quoteItemInput as $key => $data) {
@@ -422,10 +442,21 @@ class ClientQuoteRepository extends BaseRepository
                 ]);
             },
             'quoteItems',
+            'quoteItems' => function ($query) {
+                $query->with(['product', 'quoteItemTax']);
+            },
+            'quoteTaxes'
         ])->whereId($quote->id)->firstOrFail();
 
         $data['quote'] = $quote;
         $quoteItems = $quote->quoteItems;
+
+        $data['totalTax'] = [];
+
+        foreach ($quoteItems as $item) {
+            $totalTax = $item->quoteItemTax->sum('tax');
+            $data['totalTax'][] = $item['quantity'] * $item['price'] * $totalTax / 100;
+        }
 
         return $data;
     }
@@ -438,7 +469,9 @@ class ClientQuoteRepository extends BaseRepository
     {
         /** @var Quote $quote */
         $quote = Quote::with([
-            'quoteItems',
+            'quoteItems' => function ($query) {
+                $query->with(['quoteItemTax']);
+            },
             'client',
         ])->whereId($quote->id)->firstOrFail();
 
@@ -447,6 +480,14 @@ class ClientQuoteRepository extends BaseRepository
         $data['$quote'] = $quote;
 
         $quoteItems = $quote->quoteItems;
+
+        $data['selectedTaxes'] = [];
+        foreach ($quoteItems as $quoteItem) {
+            $quoteItemTaxes = $quoteItem->quoteItemTax;
+            foreach ($quoteItemTaxes as $quoteItemTax) {
+                $data['selectedTaxes'][$quoteItem->id][] = $quoteItemTax->tax_id;
+            }
+        }
 
         return $data;
     }

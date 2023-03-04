@@ -221,6 +221,9 @@ window.isNumberKey = (evt, element) => {
 };
 
 listenClick("#addItem", function () {
+    if ($(".invoice-item-container tr").length >= 10) {
+        return;
+    }
     let data = {
         products: JSON.parse($("#products").val()),
         taxes: JSON.parse($("#taxes").val()),
@@ -267,6 +270,9 @@ const resetInvoiceItemIndex = () => {
 };
 
 listenClick(".delete-invoice-item", function () {
+    if ($(".invoice-item-container tr").length <= 1) {
+        return;
+    }
     $(this).parents("tr").remove();
     resetInvoiceItemIndex();
     calculateFinalAmount();

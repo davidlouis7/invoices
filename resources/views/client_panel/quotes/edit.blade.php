@@ -32,6 +32,7 @@
     {{ Form::hidden('quote_id',$quote->id,['id' => 'clientQuoteId']) }}
     {{ Form::hidden('clients',json_encode($clients, true),['id' => 'clients']) }}
     {{ Form::hidden('products',json_encode($associateProducts, true),['id' => 'products']) }}
+    {{ Form::hidden('taxes',json_encode($associateTaxes, true),['id' => 'taxes']) }}
     {{ Form::hidden('unique_id',$quote->quoteItems->count() + 1 ,['id' => 'uniqueId']) }}
     {{ Form::hidden('quote_note',isset($quote->note) ? true : false ,['id' => 'quoteNoteData']) }}
     {{ Form::hidden('quote_term',isset($quote->term) ? true : false ,['id' => 'quoteTermData']) }}

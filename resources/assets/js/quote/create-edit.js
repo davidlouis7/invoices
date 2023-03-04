@@ -218,6 +218,9 @@ window.isNumberKey = (evt, element) => {
 };
 
 listenClick("#addQuoteItem", function () {
+    if ($(".quote-item-container tr").length >= 10) {
+        return;
+    }
     let data = {
         products: JSON.parse($("#products").val()),
         taxes: JSON.parse($("#taxes").val()),
@@ -256,6 +259,9 @@ const resetQuoteItemIndex = () => {
 };
 
 listenClick(".delete-quote-item", function () {
+    if ($(".quote-item-container tr").length <= 1) {
+        return;
+    }
     $(this).parents("tr").remove();
     resetQuoteItemIndex();
     calculateAndSetQuoteAmount();
