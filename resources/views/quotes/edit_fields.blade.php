@@ -148,18 +148,33 @@
                             </span>
                             </td>
                         </tr>
+                        @if (false)
+                            <tr>
+                                <td class="ps-0">{{ __('messages.invoice.discount').(':') }}</td>
+                                <td class="text-gray-900 text-end pe-0">
+                                    <span>{{ getCurrencySymbol()  }}</span> <span id="quoteDiscountAmount">
+                                    @if(isset($quote) && $quote->discount_type == \App\Models\Invoice::FIXED)
+                                            {{ $quote->discount ?? 0 }}
+                                        @else
+                                            {{ isset($quote) ? number_format($quote->amount * $quote->discount / 100,2) : 0 }}
+                                        @endif
+                                </span>
+                                </td>
+                            </tr>
+                        @endif 
                         <tr>
-                            <td class="ps-0">{{ __('messages.invoice.discount').(':') }}</td>
+                            <td class="ps-0">{{ __('messages.invoice.total_tax').(':') }}</td>
                             <td class="text-gray-900 text-end pe-0">
-                                <span>{{ getCurrencySymbol()  }}</span> <span id="quoteDiscountAmount">
-                                @if(isset($quote) && $quote->discount_type == \App\Models\Invoice::FIXED)
-                                        {{ $quote->discount ?? 0 }}
-                                    @else
-                                        {{ isset($quote) ? number_format($quote->amount * $quote->discount / 100,2) : 0 }}
-                                    @endif
+                                @if(!getSettingValue('currency_after_amount'))<span
+                                        class="invoice-selected-currency">{{ getCurrencySymbol()  }}</span>@endif <span
+                                        id="totalTax">
+                                    0
                             </span>
+                                @if(getSettingValue('currency_after_amount'))<span
+                                        class="invoice-selected-currency">{{ getCurrencySymbol()  }}</span>@endif
                             </td>
                         </tr>
+
                         <tr>
                             <td class="ps-0">{{ __('messages.invoice.total').(':') }}</td>
                             <td class="text-gray-900 text-end pe-0">

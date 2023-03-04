@@ -7,7 +7,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Repositories\InvoiceRepository;
-use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -66,7 +66,7 @@ class InvoiceController extends AppBaseController
 
             return redirect()->route('client.invoices.index');
         }
-        
+
         $invoiceData = $this->invoiceRepository->getInvoiceData($invoice);
 
         return view('client_panel.invoices.show')->with($invoiceData);
@@ -109,7 +109,7 @@ class InvoiceController extends AppBaseController
             Payment::STRIPE => 'stripe_enabled',
         ];
         foreach ($availableMode as $key => $mode) {
-            if (! getSettingValue($mode)) {
+            if (!getSettingValue($mode)) {
                 unset($paymentMode[$key]);
             }
         }
@@ -126,10 +126,10 @@ class InvoiceController extends AppBaseController
     {
         $data['invoices'] = Invoice::whereClientId(Auth::user()->client->id)
             ->where('status', '!=', Invoice::DRAFT)
-            ->with('payments')->orderBy('created_at','desc')->get();
-        
+            ->with('payments')->orderBy('created_at', 'desc')->get();
+
         $clientInvoicesPdf = PDF::loadView('invoices.export_invoices_pdf', $data);
-        
+
         return $clientInvoicesPdf->download('Client-Invoices.pdf');
     }
 }

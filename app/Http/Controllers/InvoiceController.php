@@ -12,7 +12,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\PaymentRepository;
-use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;

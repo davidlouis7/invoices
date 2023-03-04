@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\QuoteCreateClientMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
+use SebastianBergmann\Template\Template;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
@@ -174,6 +175,7 @@ class QuoteRepository extends BaseRepository
             $input['final_amount'] = $input['amount'];
             $input['tax_id'] = json_decode($input['tax_id']);
             $input['tax'] = json_decode($input['tax']);
+            $input['template_id'] = Template::first()?->id;
             if ($input['final_amount'] == 'NaN') {
                 $input['final_amount'] = 0;
             }

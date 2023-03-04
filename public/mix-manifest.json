@@ -1,6 +1,6 @@
 {
     "/assets/js/auth/auth.js": "/assets/js/auth/auth.js?id=64c9dcc078fe3f9061a3",
-    "/assets/js/pages.js": "/assets/js/pages.js?id=3b48e4fcaccb7c5e5d9c",
+    "/assets/js/pages.js": "/assets/js/pages.js?id=96340d1a782582a6ca0c",
     "/assets/css/page.css": "/assets/css/page.css?id=4af16a9e04c4b8122ce4",
     "/assets/css/full-screen.css": "/assets/css/full-screen.css?id=c1f4a772d9a39f8a4749",
     "/assets/css/invoice-pdf.css": "/assets/css/invoice-pdf.css?id=28b0ae045555d63b7be9",
@@ -45,5 +45,7 @@
     "/assets/webfonts/fa-v4compatibility.woff2": "/assets/webfonts/fa-v4compatibility.woff2?id=5bb25ae8c661619d1b32",
     "/assets/css/fonts/bootstrap-icons.woff": "/assets/css/fonts/bootstrap-icons.woff?id=fb7e2286a1debf86fdff",
     "/assets/css/fonts/bootstrap-icons.woff2": "/assets/css/fonts/bootstrap-icons.woff2?id=58c005af6c0de9f0ac5a",
-    "/assets/css/bootstrap.min.css": "/assets/css/bootstrap.min.css?id=a4b3f509e79c54a512b8"
+    "/assets/css/bootstrap.min.css": "/assets/css/bootstrap.min.css?id=a4b3f509e79c54a512b8",
+    "/fonts/Almarai-Regular.ttf": "/fonts/Almarai-Regular.ttf?id=f08ed17b8eff382d2057",
+    "/fonts/GE_SS_TWO_MEDIUM.ttf": "/fonts/GE_SS_TWO_MEDIUM.ttf?id=8fc6f91209dbbede4a44"
 }

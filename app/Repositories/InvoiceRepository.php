@@ -2,26 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Mail\InvoiceCreateClientMail;
+use Exception;
+use App\Models\Tax;
+use App\Models\User;
 use App\Models\Client;
 use App\Models\Invoice;
-use App\Models\InvoiceItem;
-use App\Models\InvoiceItemTax;
-use App\Models\InvoiceSetting;
-use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Setting;
-use App\Models\Tax;
-use App\Models\User;
-use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\InvoiceItem;
 use Illuminate\Support\Arr;
+use App\Models\Notification;
+use App\Models\InvoiceItemTax;
+use App\Models\InvoiceSetting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceCreateClientMail;
+use Illuminate\Database\Eloquent\Model;
+use SebastianBergmann\Template\Template;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
@@ -172,6 +173,7 @@ class InvoiceRepository extends BaseRepository
             $input['tax_id'] = json_decode($input['tax_id']);
             $input['tax'] = json_decode($input['tax']);
             $input['recurring_status'] = isset($input['recurring_status']);
+            $input['template_id'] = Template::first()?->id;
             if (!empty(getInvoiceNoPrefix())) {
                 $input['invoice_id'] = getInvoiceNoPrefix() . '-' . $input['invoice_id'];
             }

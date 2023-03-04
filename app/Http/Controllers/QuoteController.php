@@ -14,7 +14,7 @@ use Illuminate\Http\Response;
 use App\Models\InvoiceItemTax;
 use Illuminate\Http\JsonResponse;
 use App\Exports\AdminQuotesExport;
-use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Facades\Excel;
@@ -165,7 +165,8 @@ class QuoteController extends AppBaseController
         $quote->load('client.user', 'invoiceTemplate', 'quoteItems.product', 'quoteItems');
         $quoteData = $this->quoteRepository->getPdfData($quote);
         $invoiceTemplate = $this->quoteRepository->getDefaultTemplate($quote);
-        $pdf = PDF::loadView("quotes.quote_template_pdf.$invoiceTemplate", $quoteData);
+
+        $pdf = PDF::loadView("quotes.quote_template_pdf.my_template", $quoteData);
 
         return $pdf->stream('quote.pdf');
     }

@@ -14798,11 +14798,13 @@ var calculateFinalAmount = function calculateFinalAmount() {
   $("#quoteTotal").text(number_format(totalAmount)); // total amount with products taxes
 
   var finalTotalAmt = parseFloat(totalAmount) + parseFloat(itemWiseTaxes);
-  $("#totalTax").empty();
-  $("#totalTax").text(number_format(itemWiseTaxes)); // final amount calculation
+  setTimeout(function () {
+    $("#totalTax").empty();
+    $("#totalTax").text(number_format(itemWiseTaxes)); // final amount calculation
 
-  $("#quoteFinalAmount").text(number_format(finalTotalAmt));
-  $("#quoteTotalAmount").val(finalTotalAmt.toFixed(2));
+    $("#quoteFinalAmount").text(number_format(finalTotalAmt));
+    $("#quoteTotalAmount").val(finalTotalAmt.toFixed(2));
+  }, 0);
 };
 
 var calculateDiscount = function calculateDiscount() {

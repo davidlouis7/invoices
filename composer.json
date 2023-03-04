@@ -11,7 +11,9 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "barryvdh/laravel-dompdf": "^1.0",
+        "alkoumi/laravel-arabic-numbers": "^1.1",
+        "alkoumi/laravel-hijri-date": "^1.0",
+        "carlos-meneses/laravel-mpdf": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/flash": "^3.2",
         "laravel/framework": "^9.43",
@@ -23,6 +25,7 @@
         "mews/purifier": "^3.3",
         "opcodesio/log-viewer": "^1.7",
         "paypal/paypal-checkout-sdk": "^1.0",
+        "psr/log": "^2.0",
         "rappasoft/laravel-livewire-tables": "^2.7",
         "razorpay/razorpay": "^2.8",
         "spatie/laravel-medialibrary": "^10.0",

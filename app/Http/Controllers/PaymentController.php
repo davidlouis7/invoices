@@ -15,7 +15,7 @@ use Illuminate\Http\Response;
 use Laracasts\Flash\Flash;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 
 class PaymentController extends AppBaseController
 {
@@ -124,7 +124,7 @@ class PaymentController extends AppBaseController
     {
         $data['payments'] = Payment::with(['invoice.client.user'])->orderBy('created_at', 'desc')->get();
         $transactionsPdf = PDF::loadView('transactions.export_transactions_pdf', $data);
-        
+
         return $transactionsPdf->download('Transactions.pdf');
     }
 }

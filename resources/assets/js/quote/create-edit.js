@@ -383,12 +383,14 @@ const calculateFinalAmount = () => {
     // total amount with products taxes
     let finalTotalAmt = parseFloat(totalAmount) + parseFloat(itemWiseTaxes);
 
-    $("#totalTax").empty();
-    $("#totalTax").text(number_format(itemWiseTaxes));
+    setTimeout(() => {
+        $("#totalTax").empty();
+        $("#totalTax").text(number_format(itemWiseTaxes));
 
-    // final amount calculation
-    $("#quoteFinalAmount").text(number_format(finalTotalAmt));
-    $("#quoteTotalAmount").val(finalTotalAmt.toFixed(2));
+        // final amount calculation
+        $("#quoteFinalAmount").text(number_format(finalTotalAmt));
+        $("#quoteTotalAmount").val(finalTotalAmt.toFixed(2));
+    }, 0);
 };
 
 const calculateDiscount = () => {

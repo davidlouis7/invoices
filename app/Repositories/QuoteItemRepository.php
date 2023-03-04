@@ -68,7 +68,7 @@ class QuoteItemRepository extends BaseRepository
 
                 $tax = ($data['tax'] != 0) ? $data['tax'] : $data['tax'] = [0 => null];
                 $taxIds = ($data['tax_id'] != 0) ? $data['tax_id'] : $data['tax_id'] = [0 => 0];
-                $this->addInvoiceItemTax($quoteItem->id, $tax, $taxIds);
+                $this->addQuoteItemTax($quoteItem->id, $tax, $taxIds);
 
                 $quoteItemIds[] = $quoteItem->id;
             }

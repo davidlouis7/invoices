@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Laracasts\Flash\Flash;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 
 class PaymentController extends AppBaseController
 {
@@ -77,11 +77,11 @@ class PaymentController extends AppBaseController
         }
         $data = [];
         $data['redirectUrl'] = route('client.invoices.index');
-        
-        if (! Auth::check()) {
+
+        if (!Auth::check()) {
             $data['redirectUrl'] = route('invoice-show-url', ['invoiceId' => $invoice->invoice_id]);
         }
-        
+
         Flash::success('Payment successfully done.');
 
         return $this->sendResponse($data, 'Payment successfully done.');
@@ -111,8 +111,10 @@ class PaymentController extends AppBaseController
             return $this->sendResponse($totalPayable, 'Invoice retrieved successfully.');
         }
 
-        return view('client_panel.invoices.payment',
-            compact('paymentType', 'paymentMode', 'totalPayable', 'stripeKey', 'invoice'));
+        return view(
+            'client_panel.invoices.payment',
+            compact('paymentType', 'paymentMode', 'totalPayable', 'stripeKey', 'invoice')
+        );
     }
 
     /**
@@ -130,9 +132,9 @@ class PaymentController extends AppBaseController
     {
         $data['payments'] = Payment::with('invoice.client.user')->whereHas('invoice.client', function (Builder $q) {
             $q->where('user_id', getLogInUser()->client->user_id);
-        })->orderBy('created_at','desc')->get();
+        })->orderBy('created_at', 'desc')->get();
         $clientTransactionsPdf = PDF::loadView('transactions.export_transactions_pdf', $data);
-        
+
         return $clientTransactionsPdf->download('Client-Transactions.pdf');
     }
 }

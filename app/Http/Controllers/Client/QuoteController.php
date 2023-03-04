@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateClientQuoteRequest;
 use App\Models\Product;
 use App\Models\Quote;
 use App\Repositories\ClientQuoteRepository;
-use Barryvdh\DomPDF\Facade as PDF;
+use PDF;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -181,9 +181,9 @@ class QuoteController extends AppBaseController
     public function exportQuotesPdf(): Response
     {
         $data['quotes'] = Quote::with('client.user')->where('client_id', Auth::user()
-                            ->client->id)->orderBy('created_at','desc')->get();
+            ->client->id)->orderBy('created_at', 'desc')->get();
         $clientQuotesPdf = PDF::loadView('quotes.export_quotes_pdf', $data);
-        
+
         return $clientQuotesPdf->download('Client-Quotes.pdf');
     }
 }

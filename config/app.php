@@ -190,7 +190,6 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
@@ -222,7 +221,6 @@ return [
         'Datatables' => \Yajra\DataTables\Facades\DataTables::class,
         'Debugger' => Barryvdh\Debugbar\Facades\Debugbar::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
     ])->toArray(),
 

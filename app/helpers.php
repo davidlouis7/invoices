@@ -608,3 +608,16 @@ function getPayPalSupportedCurrencies(): array
         'PHP', 'PLN', 'GBP', 'RUB', 'SGD', 'SEK', 'CHF', 'THB', 'USD',
     ];
 }
+
+
+function priceWithTaxes($quoteItem)
+{
+    $price = $quoteItem->price;
+
+    $taxes = 0;
+    foreach ($quoteItem->quoteItemTax as $quoteItemTax) {
+        $taxes += (($quoteItemTax->tax / 100) * $price);
+    }
+
+    return $price + $taxes;
+}

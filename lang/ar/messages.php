@@ -114,7 +114,7 @@ return [
         'yes_delete' => 'نعم ، احذف!',
         'ok' => 'موافق',
         'error' => 'خطأ',
-        'attachment' => 'حاجز',
+        'attachment' => 'مرفق',
         'invoice'    => 'فاتورة',
         'email'      => 'بريد إلكتروني',
         'mo'         => 'مو',
