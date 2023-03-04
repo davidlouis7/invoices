@@ -186,6 +186,19 @@ class Quote extends Model
     /**
      * @return string
      */
+    public static function getNewQuoteId(): string
+    {
+        $lastQuote = self::whereNotNull('quote_id')->orderBy('quote_id', 'DESC')->first();
+        if (!$lastQuote || !$lastQuote->quote_id) {
+            return '0001';
+        } else {
+            return str_pad(intval($lastQuote->quote_id) + 1, 4, '0', STR_PAD_LEFT);
+        }
+    }
+
+    /**
+     * @return string
+     */
     public static function generateUniqueQuoteId(): string
     {
         $quoteId = mb_strtoupper(Str::random(6));

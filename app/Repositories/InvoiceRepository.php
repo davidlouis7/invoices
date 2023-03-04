@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceCreateClientMail;
 use Illuminate\Database\Eloquent\Model;
-use SebastianBergmann\Template\Template;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
@@ -173,7 +172,7 @@ class InvoiceRepository extends BaseRepository
             $input['tax_id'] = json_decode($input['tax_id']);
             $input['tax'] = json_decode($input['tax']);
             $input['recurring_status'] = isset($input['recurring_status']);
-            $input['template_id'] = Template::first()?->id;
+            $input['template_id'] = InvoiceSetting::first()?->id;
             if (!empty(getInvoiceNoPrefix())) {
                 $input['invoice_id'] = getInvoiceNoPrefix() . '-' . $input['invoice_id'];
             }

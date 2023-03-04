@@ -7,55 +7,59 @@
                 {{ Form::hidden('client_id', getLogInUserId(), ['class' => 'form-control', 'id' => 'client_id']) }}
             </div>
         </div>
-        <div class="d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4 align-self-end align-items-center"
-             data-bs-toggle="tooltip"
-             data-bs-trigger="hover" title="" data-bs-original-title="Quote number">
-            <span class="form-label">{{__('messages.quote.quote')}} #</span>
-            {{ Form::text('quote_id', \App\Models\Quote::generateUniqueQuoteId(), ['class' => 'form-control', 'required', 'id' => 'quoteId', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)"]) }}
-        </div>
-        <div class="d-flex align-items-center justify-content-end flex-equal order-3 fw-row">
-            <div class="w-100">
-                {{ Form::label('quote_date', __('messages.quote.quote_date').(':'),['class' => 'form-label required mb-3']) }}
-                {{ Form::text('quote_date', null, ['class' => 'form-select', 'id' => 'client_quote_date', 'autocomplete' => 'off','required']) }}
+        @if (false)
+            <div class="d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4 align-self-end align-items-center"
+                data-bs-toggle="tooltip"
+                data-bs-trigger="hover" title="" data-bs-original-title="Quote number">
+                <span class="form-label">{{__('messages.quote.quote')}} #</span>
+                {{ Form::text('quote_id', \App\Models\Quote::getNewQuoteId(), ['class' => 'form-control', 'required', 'id' => 'quoteId', 'maxlength' => 6,'onkeypress'=>"return blockSpecialChar(event)"]) }}
             </div>
-        </div>
+            <div class="d-flex align-items-center justify-content-end flex-equal order-3 fw-row">
+                <div class="w-100">
+                    {{ Form::label('quote_date', __('messages.quote.quote_date').(':'),['class' => 'form-label required mb-3']) }}
+                    {{ Form::text('quote_date', null, ['class' => 'form-select', 'id' => 'client_quote_date', 'autocomplete' => 'off','required']) }}
+                </div>
+            </div>
+        @endif
     </div>
 
-    <div class="separator separator-dashed my-10"></div>
-    <div class="mb-0">
-        <div class="row gx-10 mb-5">
-            <div class="col-lg-3 col-sm-12">
-                <div class="mb-5">
-                    {{ Form::label('discountType', __('messages.quote.discount_type').(':'), ['class' => 'form-label mb-3']) }}
-                    {{ Form::select('discount_type', $discount_type,0, ['class' =>'form-select io-select2', 'id' => 'discountType','data-control' => "select2"]) }}
+    @if (false)
+        <div class="separator separator-dashed my-10"></div>
+        <div class="mb-0">
+            <div class="row gx-10 mb-5">
+                <div class="col-lg-3 col-sm-12">
+                    <div class="mb-5">
+                        {{ Form::label('discountType', __('messages.quote.discount_type').(':'), ['class' => 'form-label mb-3']) }}
+                        {{ Form::select('discount_type', $discount_type,0, ['class' =>'form-select io-select2', 'id' => 'discountType','data-control' => "select2"]) }}
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-sm-12">
-                <div class="mb-5">
-                    {{ Form::label('discount', __('messages.quote.discount').(':'), ['class' => 'form-label mb-3']) }}
-                    {{ Form::number('discount',0, ['id'=>'discount','class' => 'form-control ','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$"]) }}
+                <div class="col-lg-3 col-sm-12">
+                    <div class="mb-5">
+                        {{ Form::label('discount', __('messages.quote.discount').(':'), ['class' => 'form-label mb-3']) }}
+                        {{ Form::number('discount',0, ['id'=>'discount','class' => 'form-control ','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$"]) }}
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-sm-12">
-                <div class="mb-5">
-                    {{ Form::label('status', __('messages.common.status').(':'), ['class' => 'form-label required mb-3']) }}
-                    {{ Form::select('status', $statusArr,null, ['class' => 'form-select io-select2', 'id' => 'status','required','data-control' => "select2"]) }}
+                <div class="col-lg-3 col-sm-12">
+                    <div class="mb-5">
+                        {{ Form::label('status', __('messages.common.status').(':'), ['class' => 'form-label required mb-3']) }}
+                        {{ Form::select('status', $statusArr,null, ['class' => 'form-select io-select2', 'id' => 'status','required','data-control' => "select2"]) }}
+                    </div>
                 </div>
-            </div>
-            <div class="mb-5 col-lg-3 col-sm-12">
-                {{ Form::label('due_date', __('messages.quote.due_date').(':'),['class' => 'form-label required mb-3']) }}
-                {{ Form::text('due_date', null, ['class' => 'form-select', 'id' => 'clientQuoteDueDate', 'autocomplete' => 'off','required']) }}
-            </div>
-            <div class="mb-5 col-lg-6 col-sm-12">
-                {{ Form::label('templateId', __('messages.setting.invoice_template').(':'),['class' => 'form-label mb-3']) }}
-                {{ Form::select('template_id', $template,\App\Models\Setting::DEFAULT_TEMPLATE ?? null, ['class' => 'form-select io-select2', 'id' => 'templateId','required','data-control' => "select2"]) }}
+                <div class="mb-5 col-lg-3 col-sm-12">
+                    {{ Form::label('due_date', __('messages.quote.due_date').(':'),['class' => 'form-label required mb-3']) }}
+                    {{ Form::text('due_date', null, ['class' => 'form-select', 'id' => 'clientQuoteDueDate', 'autocomplete' => 'off','required']) }}
+                </div>
+                <div class="mb-5 col-lg-6 col-sm-12">
+                    {{ Form::label('templateId', __('messages.setting.invoice_template').(':'),['class' => 'form-label mb-3']) }}
+                    {{ Form::select('template_id', $template,\App\Models\Setting::DEFAULT_TEMPLATE ?? null, ['class' => 'form-select io-select2', 'id' => 'templateId','required','data-control' => "select2"]) }}
+                </div>
             </div>
         </div>
-    </div>
+    @endif
+
     <div class="mb-0">
-        <div class="col-12 text-end mb-lg-10 mb-6">
-            <button type="button" class="btn btn-primary text-start"
-                    id="addClientQuoteItem"> {{ __('messages.quote.add') }}</button>
+        <div class="col-12 text-end mb-1 mt-6">
+            <button type="button" class="btn btn-primary text-start" id="addClientQuoteItem"> {{ __('messages.quote.add') }}</button>
         </div>
         <div class="table-responsive">
             <table class="table table-striped box-shadow-none mt-4" id="billTbl">
@@ -65,6 +69,7 @@
                     <th scope="col" class="required">{{ __('messages.product.product') }}</th>
                     <th scope="col" class="required">{{ __('messages.quote.qty') }}</th>
                     <th scope="col" class="required">{{ __('messages.product.unit_price') }}</th>
+                    <th scope="col">{{ __('messages.invoice.tax') }}</th>
                     <th scope="col" class="required">{{ __('messages.quote.amount') }}</th>
                     <th scope="col" class="text-end">{{ __('messages.common.action') }}</th>
                 </tr>
@@ -80,6 +85,15 @@
                     </td>
                     <td>
                         {{ Form::number('price[]', null, ['class' => 'form-control price-input price-quote','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$",'required','onKeyPress'=>'if(this.value.length==8) return false;']) }}
+                    </td>
+                    <td>
+                        <select name="tax[]" class='form-select io-select2 fw-bold tax'
+                                data-control='select2' multiple="multiple">
+                            @foreach($taxes as $tax)
+                                <option value="{{ $tax->value }}"
+                                        data-id="{{ $tax->id }}" {{ $defaultTax == $tax->id ? 'selected' : '' }}>{{ $tax->name }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td class="quote-item-total pt-8 text-nowrap">
                         <span>{{ getCurrencySymbol() }}</span> 0.00
@@ -108,14 +122,29 @@
                             </span>
                             </td>
                         </tr>
+                        @if (false)
+                            <tr>
+                                <td class="ps-0">{{ __('messages.quote.discount').(':') }}</td>
+                                <td class="text-gray-900 text-end pe-0">
+                                    <span>{{ getCurrencySymbol()  }}</span> <span id="quoteDiscountAmount">
+                                        0
+                                </span>
+                                </td>
+                            </tr>
+                        @endif 
                         <tr>
-                            <td class="ps-0">{{ __('messages.quote.discount').(':') }}</td>
+                            <td class="ps-0">{{ __('messages.invoice.total_tax').(':') }}</td>
                             <td class="text-gray-900 text-end pe-0">
-                                <span>{{ getCurrencySymbol()  }}</span> <span id="quoteDiscountAmount">
+                                @if(!getSettingValue('currency_after_amount'))<span
+                                        class="invoice-selected-currency">{{ getCurrencySymbol()  }}</span>@endif <span
+                                        id="totalTax">
                                     0
                             </span>
+                                @if(getSettingValue('currency_after_amount'))<span
+                                        class="invoice-selected-currency">{{ getCurrencySymbol()  }}</span>@endif
                             </td>
                         </tr>
+
                         <tr>
                             <td class="ps-0">{{ __('messages.quote.total').(':') }}</td>
                             <td class="text-gray-900 text-end pe-0">

@@ -16620,10 +16620,37 @@ listen("keyup", "#discount", function () {
 });
 listenClick("#saveAsDraftClientQuote", function (event) {
   event.preventDefault();
+  var tax_id = [];
+  var i = 0;
+  var tax = [];
+  var j = 0;
+  $(".tax-tr").each(function () {
+    var data = $(this).find(".tax option:selected").map(function () {
+      return $(this).data("id");
+    }).get();
+
+    if (data != "") {
+      tax_id[i++] = data;
+    } else {
+      tax_id[i++] = 0;
+    }
+
+    var val = $(this).find(".tax option:selected").map(function () {
+      return $(this).val();
+    }).get();
+
+    if (val != "") {
+      tax[j++] = val;
+    } else {
+      tax[j++] = 0;
+    }
+  });
   var quoteStates = $(this).data("status");
   var myForm = document.getElementById("clientQuoteForm");
   var formData = new FormData(myForm);
   formData.append("status", quoteStates);
+  formData.append("tax_id", JSON.stringify(tax_id));
+  formData.append("tax", JSON.stringify(tax));
   screenLock();
   $.ajax({
     url: route("client.quotes.store"),
@@ -16651,7 +16678,32 @@ listenClick("#saveAsDraftClientQuote", function (event) {
 listenClick("#editSaveClientQuote", function (event) {
   event.preventDefault();
   var quoteStatus = $(this).data("status");
-  var formData = $("#clientQuoteEditForm").serialize() + "&quoteStatus=" + quoteStatus;
+  var tax_id = [];
+  var i = 0;
+  var tax = [];
+  var j = 0;
+  $(".tax-tr").each(function () {
+    var data = $(this).find(".tax option:selected").map(function () {
+      return $(this).data("id");
+    }).get();
+
+    if (data != "") {
+      tax_id[i++] = data;
+    } else {
+      tax_id[i++] = 0;
+    }
+
+    var val = $(this).find(".tax option:selected").map(function () {
+      return $(this).val();
+    }).get();
+
+    if (val != "") {
+      tax[j++] = val;
+    } else {
+      tax[j++] = 0;
+    }
+  });
+  var formData = $("#clientQuoteEditForm").serialize() + "&quoteStatus=" + quoteStatus + "&tax_id=" + JSON.stringify(tax_id) + "&tax=" + JSON.stringify(tax);
   screenLock();
   $.ajax({
     url: $("#clientQuoteUpdateUrl").val(),

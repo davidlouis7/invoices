@@ -390,10 +390,44 @@ listen("keyup", "#discount", function () {
 
 listenClick("#saveAsDraftClientQuote", function (event) {
     event.preventDefault();
+    let tax_id = [];
+    let i = 0;
+    let tax = [];
+    let j = 0;
+    $(".tax-tr").each(function () {
+        let data = $(this)
+            .find(".tax option:selected")
+            .map(function () {
+                return $(this).data("id");
+            })
+            .get();
+        if (data != "") {
+            tax_id[i++] = data;
+        } else {
+            tax_id[i++] = 0;
+        }
+
+        let val = $(this)
+            .find(".tax option:selected")
+            .map(function () {
+                return $(this).val();
+            })
+            .get();
+
+        if (val != "") {
+            tax[j++] = val;
+        } else {
+            tax[j++] = 0;
+        }
+    });
+
     let quoteStates = $(this).data("status");
     let myForm = document.getElementById("clientQuoteForm");
     let formData = new FormData(myForm);
     formData.append("status", quoteStates);
+    formData.append("tax_id", JSON.stringify(tax_id));
+    formData.append("tax", JSON.stringify(tax));
+
     screenLock();
     $.ajax({
         url: route("client.quotes.store"),
@@ -422,8 +456,45 @@ listenClick("#saveAsDraftClientQuote", function (event) {
 listenClick("#editSaveClientQuote", function (event) {
     event.preventDefault();
     let quoteStatus = $(this).data("status");
+    let tax_id = [];
+    let i = 0;
+    let tax = [];
+    let j = 0;
+    $(".tax-tr").each(function () {
+        let data = $(this)
+            .find(".tax option:selected")
+            .map(function () {
+                return $(this).data("id");
+            })
+            .get();
+        if (data != "") {
+            tax_id[i++] = data;
+        } else {
+            tax_id[i++] = 0;
+        }
+
+        let val = $(this)
+            .find(".tax option:selected")
+            .map(function () {
+                return $(this).val();
+            })
+            .get();
+
+        if (val != "") {
+            tax[j++] = val;
+        } else {
+            tax[j++] = 0;
+        }
+    });
+
     let formData =
-        $("#clientQuoteEditForm").serialize() + "&quoteStatus=" + quoteStatus;
+        $("#clientQuoteEditForm").serialize() +
+        "&quoteStatus=" +
+        quoteStatus +
+        "&tax_id=" +
+        JSON.stringify(tax_id) +
+        "&tax=" +
+        JSON.stringify(tax);
     screenLock();
     $.ajax({
         url: $("#clientQuoteUpdateUrl").val(),

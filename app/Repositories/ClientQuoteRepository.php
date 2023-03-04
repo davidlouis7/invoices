@@ -2,24 +2,26 @@
 
 namespace App\Repositories;
 
-use App\Mail\QuoteCreateClientMail;
-use App\Models\Client;
-use App\Models\InvoiceSetting;
-use App\Models\Notification;
-use App\Models\Product;
-use App\Models\Quote;
-use App\Models\QuoteItem;
-use App\Models\Setting;
-use App\Models\User;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use App\Models\Tax;
+use App\Models\User;
+use App\Models\Quote;
+use App\Models\Client;
+use App\Models\Product;
+use App\Models\Setting;
+use App\Models\QuoteItem;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
+use App\Models\InvoiceSetting;
 use Illuminate\Support\Facades\DB;
+use App\Mail\QuoteCreateClientMail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
@@ -30,9 +32,7 @@ class ClientQuoteRepository extends BaseRepository
     /**
      * @var string[]
      */
-    public $fieldSearchable = [
-
-    ];
+    public $fieldSearchable = [];
 
     /**
      * @return array|string[]
@@ -58,7 +58,7 @@ class ClientQuoteRepository extends BaseRepository
         /** @var Product $product */
         static $product;
 
-        if (! isset($product) && empty($product)) {
+        if (!isset($product) && empty($product)) {
             $product = Product::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         }
 
@@ -74,9 +74,9 @@ class ClientQuoteRepository extends BaseRepository
         /** @var QuoteItem $quoteItems */
         static $quoteItems;
 
-        if (! isset($quoteItems) && empty($quoteItems)) {
+        if (!isset($quoteItems) && empty($quoteItems)) {
             $quoteItems = QuoteItem::whereQuoteId($quote[0]->id)
-            ->whereNotNull('product_name')->pluck('product_name', 'product_name')->toArray();
+                ->whereNotNull('product_name')->pluck('product_name', 'product_name')->toArray();
         }
 
         return $quoteItems;
@@ -88,7 +88,7 @@ class ClientQuoteRepository extends BaseRepository
     public function getSyncList($quote = [])
     {
         $data['products'] = $this->getProductNameList();
-        if (! empty($quote)) {
+        if (!empty($quote)) {
             $data['productItem'] = $this->getQuoteItemList($quote);
             $data['products'] += $data['productItem'];
         }
@@ -100,14 +100,51 @@ class ClientQuoteRepository extends BaseRepository
         $data['statusArr'] = $quoteStatusArr;
         $data['recurringArr'] = $quoteRecurringArr;
         $data['template'] = InvoiceSetting::pluck('template_name', 'id');
+        $data['taxes'] = $this->getTaxNameList();
+        $data['defaultTax'] = getDefaultTax();
+        $data['associateTaxes'] = $this->getAssociateTaxList();
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAssociateTaxList(): array
+    {
+        $result = $this->getTaxNameList();
+        $taxes = [];
+        foreach ($result as $item) {
+            $taxes[] = [
+                'id' => $item->id,
+                'name' => $item->name,
+                'value' => $item->value,
+                'is_default' => $item->is_default,
+            ];
+        }
+
+        return $taxes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTaxNameList()
+    {
+        /** @var Tax $tax */
+        static $tax;
+
+        if (!isset($tax) && empty($tax)) {
+            $tax = Tax::all();
+        }
+
+        return $tax;
     }
 
     public function getAssociateProductList($quote = []): array
     {
         $result = $this->getProductNameList();
-        if (! empty($quote)) {
+        if (!empty($quote)) {
             $quoteItem = $this->getQuoteItemList();
             $result = $result + $quoteItem;
         }
@@ -131,28 +168,36 @@ class ClientQuoteRepository extends BaseRepository
         try {
             DB::beginTransaction();
             $input['final_amount'] = $input['amount'];
+            $input['tax_id'] = json_decode($input['tax_id']);
+            $input['tax'] = json_decode($input['tax']);
+            $input['template_id'] = InvoiceSetting::first()?->id;
             if ($input['final_amount'] == 'NaN') {
                 $input['final_amount'] = 0;
             }
             $quoteItemInputArray = Arr::only($input, ['product_id', 'quantity', 'price']);
-            $quoteExist = Quote::where('quote_id', $input['quote_id'])->exists();
             $quoteItemInput = $this->prepareInputForQuoteItem($quoteItemInputArray);
             $total = [];
             foreach ($quoteItemInput as $key => $value) {
                 $total[] = $value['price'] * $value['quantity'];
             }
-            if (! empty($input['discount'])) {
+            if (!empty($input['discount'])) {
                 if (array_sum($total) <= $input['discount']) {
                     throw new UnprocessableEntityHttpException('Discount amount should not be greater than sub total.');
                 }
-            }
-            if ($quoteExist) {
-                throw new UnprocessableEntityHttpException('Quote id already exist');
             }
 
             if ($input['client_id'] != Auth::id()) {
                 throw new UnprocessableEntityHttpException('Quote can\'t be created.');
             }
+
+            $lastQuote = Quote::whereNotNull('quote_id')->orderBy('quote_id', 'DESC')->first();
+            if (!$lastQuote || !$lastQuote->quote_id) {
+                $input['quote_id'] = '0001';
+            } else {
+                $input['quote_id'] = str_pad(intval($lastQuote->quote_id) + 1, 4, '0', STR_PAD_LEFT);
+            }
+            $input['quote_date'] = Carbon::today()->toDateString();
+            $input['due_date'] = Carbon::today()->toDateString();
 
             /** @var Quote $quote */
             $input['client_id'] = Client::whereUserId($input['client_id'])->first()->id;
@@ -221,7 +266,7 @@ class ClientQuoteRepository extends BaseRepository
             foreach ($quoteItemInput as $key => $value) {
                 $total[] = $value['price'] * $value['quantity'];
             }
-            if (! empty($input['discount'])) {
+            if (!empty($input['discount'])) {
                 if (array_sum($total) <= $input['discount']) {
                     throw new UnprocessableEntityHttpException('Discount amount should not be greater than sub total.');
                 }
@@ -233,12 +278,14 @@ class ClientQuoteRepository extends BaseRepository
 
             /** @var Quote $quote */
             $input['client_id'] = Client::whereUserId($input['client_id'])->first()->id;
-            $quote = $this->update(Arr::only($input,
+            $quote = $this->update(Arr::only(
+                $input,
                 [
                     'client_id', 'quote_date', 'due_date', 'discount_type', 'discount', 'final_amount', 'note',
                     'term', 'template_id', 'price',
                     'status',
-                ]), $quoteId);
+                ]
+            ), $quoteId);
             $totalAmount = 0;
 
             foreach ($quoteItemInput as $key => $data) {
@@ -308,7 +355,7 @@ class ClientQuoteRepository extends BaseRepository
         foreach ($input as $key => $data) {
             foreach ($data as $index => $value) {
                 $items[$index][$key] = $value;
-                if (! (isset($items[$index]['price']) && $key == 'price')) {
+                if (!(isset($items[$index]['price']) && $key == 'price')) {
                     continue;
                 }
                 $items[$index]['price'] = removeCommaFromNumbers($items[$index]['price']);
@@ -325,7 +372,7 @@ class ClientQuoteRepository extends BaseRepository
     {
         $userId = $input['client_id'];
         $input['quote_id'] = $quote->quote_id;
-        $title = 'New Quote created #'.$input['quote_id'].'.';
+        $title = 'New Quote created #' . $input['quote_id'] . '.';
         if ($input['status'] != Quote::DRAFT) {
             addNotification([
                 Notification::NOTIFICATION_TYPE['Quote Created'],
@@ -344,10 +391,10 @@ class ClientQuoteRepository extends BaseRepository
     {
         $quote->load('client.user');
         $userId = $quote->client->user_id;
-        $title = 'Your Quote #'.$quote->quote_id.' was updated.';
+        $title = 'Your Quote #' . $quote->quote_id . ' was updated.';
         if ($input['status'] != Quote::DRAFT) {
             if (isset($changes['status'])) {
-                $title = 'Status of your Quote #'.$quote->quote_id.' was updated.';
+                $title = 'Status of your Quote #' . $quote->quote_id . ' was updated.';
             }
             addNotification([
                 Notification::NOTIFICATION_TYPE['Quote Updated'],
