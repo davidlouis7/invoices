@@ -1,19 +1,20 @@
-listenClick('.addCurrency', function () {
-    $('#addCurrencyModal').appendTo('body').modal('show');
+listenClick(".addCurrency", function () {
+    $("#addCurrencyModal").appendTo("body").modal("show");
 });
 
-listenSubmit('#addCurrencyForm', function (e) {
+listenSubmit("#addCurrencyForm", function (e) {
     e.preventDefault();
     $.ajax({
-        url: route('currencies.store'),
-        type: 'POST',
+        url: route("currencies.store"),
+        type: "POST",
         data: $(this).serialize(),
         success: function (result) {
             if (result.success) {
-                $('#addCurrencyModal').modal('hide');
+                $("#addCurrencyModal").modal("hide");
                 displaySuccessMessage(result.message);
-                livewire.emit('refreshDatatable');
-                livewire.emit('resetPageTable');
+                return location.reload();
+                livewire.emit("refreshDatatable");
+                livewire.emit("resetPageTable");
             }
         },
         error: function (result) {
@@ -22,26 +23,26 @@ listenSubmit('#addCurrencyForm', function (e) {
     });
 });
 
-listenHiddenBsModal('#addCurrencyModal', function () {
-    resetModalForm('#addCurrencyForm', '#validationErrorsBox');
+listenHiddenBsModal("#addCurrencyModal", function () {
+    resetModalForm("#addCurrencyForm", "#validationErrorsBox");
 });
 
-listenClick('.currency-edit-btn', function (event) {
-    let currencyId = $(event.currentTarget).attr('data-id');
+listenClick(".currency-edit-btn", function (event) {
+    let currencyId = $(event.currentTarget).attr("data-id");
     currencyRenderData(currencyId);
 });
 
 function currencyRenderData(currencyId) {
     $.ajax({
-        url: route('currencies.edit', currencyId),
-        type: 'GET',
+        url: route("currencies.edit", currencyId),
+        type: "GET",
         success: function (result) {
             if (result.success) {
-                $('#editCurrencyName').val(result.data.name);
-                $('#editCurrencyIcon').val(result.data.icon);
-                $('#editCurrencyCode').val(result.data.code);
-                $('#currencyId').val(result.data.id);
-                $('#editCurrencyModal').appendTo('body').modal('show');
+                $("#editCurrencyName").val(result.data.name);
+                $("#editCurrencyIcon").val(result.data.icon);
+                $("#editCurrencyCode").val(result.data.code);
+                $("#currencyId").val(result.data.id);
+                $("#editCurrencyModal").appendTo("body").modal("show");
             }
         },
         error: function (result) {
@@ -50,19 +51,19 @@ function currencyRenderData(currencyId) {
     });
 }
 
-listenSubmit('#editCurrencyForm', function (event) {
+listenSubmit("#editCurrencyForm", function (event) {
     event.preventDefault();
-    const id = $('#currencyId').val();
+    const id = $("#currencyId").val();
     $.ajax({
-        url: route('currencies.update', {currency: id}),
-        type: 'put',
+        url: route("currencies.update", { currency: id }),
+        type: "put",
         data: $(this).serialize(),
         success: function (result) {
             if (result.success) {
                 displaySuccessMessage(result.message);
-                livewire.emit('refreshDatatable');
-                livewire.emit('resetPageTable');
-                $('#editCurrencyModal').modal('hide');
+                livewire.emit("refreshDatatable");
+                livewire.emit("resetPageTable");
+                $("#editCurrencyModal").modal("hide");
             }
         },
         error: function (result) {
@@ -71,8 +72,11 @@ listenSubmit('#editCurrencyForm', function (event) {
     });
 });
 
-listenClick('.currency-delete-btn', function (event) {
-    let currencyId = $(event.currentTarget).attr('data-id');
-    deleteItem(route('currencies.destroy', currencyId), '#currencyTbl',
-        Lang.get('messages.currency.currency'));
+listenClick(".currency-delete-btn", function (event) {
+    let currencyId = $(event.currentTarget).attr("data-id");
+    deleteItem(
+        route("currencies.destroy", currencyId),
+        "#currencyTbl",
+        Lang.get("messages.currency.currency")
+    );
 });

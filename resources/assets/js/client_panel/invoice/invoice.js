@@ -1,10 +1,10 @@
-document.addEventListener('turbo:load', loadCPInvoice);
+document.addEventListener("turbo:load", loadCPInvoice);
 
 function loadCPInvoice() {
-    initializeSelect2CPInvoice()
-    initializeSelect2Payment()
+    initializeSelect2CPInvoice();
+    initializeSelect2Payment();
 
-    $('.amount').hide();
+    $(".amount").hide();
     let paymentMode = 1;
     let uri = window.location.toString();
     if (uri.indexOf("?") > 0) {
@@ -13,132 +13,135 @@ function loadCPInvoice() {
     }
 }
 
-listenChange('#client_payment_mode', function () {
+listenChange("#client_payment_mode", function () {
     if ($(this).val() == 1) {
-        $('.payment-attachment').removeClass('d-none');
+        $(".payment-attachment").removeClass("d-none");
     } else {
-        $('.payment-attachment').addClass('d-none');
+        $(".payment-attachment").addClass("d-none");
     }
 });
 
-function initializeSelect2CPInvoice(){
-    if(!select2NotExists('#status_filter')){
+function initializeSelect2CPInvoice() {
+    if (!select2NotExists("#status_filter")) {
         return false;
     }
-    removeSelect2Container(
-        ['#status_filter', '#client_payment_type', '#client_payment_mode'])
+    removeSelect2Container([
+        "#status_filter",
+        "#client_payment_type",
+        "#client_payment_mode",
+    ]);
 
-    $('#status_filter').select2({
-        placeholder:'All',
+    $("#status_filter").select2({
+        placeholder: "All",
     });
-    if($('#status').val() ==''){
-        $('#status_filter').val(5).trigger('change');
+    if ($("#status").val() == "") {
+        $("#status_filter").val(5).trigger("change");
     }
 }
-function initializeSelect2Payment(){
+function initializeSelect2Payment() {
     //Invoice Payments
-    $('#client_payment_type').select2({
-        placeholder: 'Select Payment Type',
+    $("#client_payment_type").select2({
+        placeholder: "Select Payment Type",
         // dropdownParent: $('#clientPaymentModal'),
-    })
-    $('#client_payment_mode').select2({
-        placeholder: 'Select Payment Mode',
+    });
+    $("#client_payment_mode").select2({
+        placeholder: "Select Payment Mode",
         // dropdownParent: $('#clientPaymentModal'),
-    })
+    });
 }
 
-listenClick('#resetFilter', function () {
-    $('#status_filter').val(5).trigger('change');
-    $('#status_filter').select2({
-        placeholder: 'All',
+listenClick("#resetFilter", function () {
+    $("#status_filter").val(5).trigger("change");
+    $("#status_filter").select2({
+        placeholder: "All",
     });
 });
 
-listenChange('#client_payment_mode', function () {
-    let value = $(this).val()
+listenChange("#client_payment_mode", function () {
+    let value = $(this).val();
     if (value == 1) {
-        $('#transaction').show()
+        $("#transaction").show();
     } else {
-        $('#transaction').hide()
-    }
-})
-
-listenChange('#client_payment_type', function () {
-    let value = $(this).val()
-    let full_payment = $('#payable_amount').val()
-
-    if (value == '2') {
-        $('.amount').hide()
-        $('#amount').val(full_payment)
-        $('#amount').prop('readonly', true)
-    } else if (value == '3') {
-        $('.amount').show()
-        $('#amount').val('')
-        $('#amount').prop('readonly', false);
-    } else {
-        $('.amount').hide();
-        $('#amount').prop('readonly', false);
+        $("#transaction").hide();
     }
 });
 
-listenKeyup('#amount', function () {
-    let payable_amount = parseFloat($('#payable_amount').val());
-    let amount = parseFloat($('#amount').val())
-    let paymentType = parseInt($('#client_payment_type').val())
+listenChange("#client_payment_type", function () {
+    let value = $(this).val();
+    let full_payment = $("#payable_amount").val();
+
+    if (value == "2") {
+        $(".amount").hide();
+        $("#amount").val(full_payment);
+        $("#amount").prop("readonly", true);
+    } else if (value == "3") {
+        $(".amount").show();
+        $("#amount").val("");
+        $("#amount").prop("readonly", false);
+    } else {
+        $(".amount").hide();
+        $("#amount").prop("readonly", false);
+    }
+});
+
+listenKeyup("#amount", function () {
+    let payable_amount = parseFloat($("#payable_amount").val());
+    let amount = parseFloat($("#amount").val());
+    let paymentType = parseInt($("#client_payment_type").val());
     if (paymentType === 3 && payable_amount < amount) {
-        $('#error-msg').
-        text('Amount should be less than payable amount');
-        $('#btnPay').addClass('disabled');
+        $("#error-msg").text("Amount should be less than payable amount");
+        $("#btnPay").addClass("disabled");
     } else if (paymentType === 2 && payable_amount < amount) {
-        $('#error-msg').text('Amount should be less than payable amount');
-        $('#btnPay').addClass('disabled');
+        $("#error-msg").text("Amount should be less than payable amount");
+        $("#btnPay").addClass("disabled");
     } else {
-        $('#error-msg').text('');
-        $('#btnPay').removeClass('disabled');
+        $("#error-msg").text("");
+        $("#btnPay").removeClass("disabled");
     }
 });
 
-listenChange('#client_payment_mode', function () {
-    paymentMode = $(this).val()
-    parseInt(paymentMode)
-})
+listenChange("#client_payment_mode", function () {
+    paymentMode = $(this).val();
+    parseInt(paymentMode);
+});
 
-listenSubmit('#clientPaymentForm', function (e) {
-    e.preventDefault()
+listenSubmit("#clientPaymentForm", function (e) {
+    e.preventDefault();
     // if ($('#error-msg').text() !== '') {
     //     return false
     // }
-    if ($('#amount').val() == 0) {
-        displayErrorMessage('Amount should not be equal to zero')
-        return false
+    if ($("#amount").val() == 0) {
+        displayErrorMessage("Amount should not be equal to zero");
+        return false;
     }
 
-    if ($('#payment_note').val().trim().length == 0) {
-        displayErrorMessage('Note field is Required')
-        return false
+    if ($("#payment_note").val().trim().length == 0) {
+        displayErrorMessage("Note field is Required");
+        return false;
     }
-    
-    let btnSubmitEle = $(this).find('#btnPay')
-    setAdminBtnLoader(btnSubmitEle)
+
+    let btnSubmitEle = $(this).find("#btnPay");
+    setAdminBtnLoader(btnSubmitEle);
     let payloadData = {
-        amount: parseFloat($('#amount').val()),
-        invoiceId: parseInt($('#client_invoice_id').val()),
-        transactionNotes: $('#payment_note').val(),
-    }
+        amount: parseFloat($("#amount").val()),
+        invoiceId: parseInt($("#client_invoice_id").val()),
+        transactionNotes: $("#payment_note").val(),
+    };
 
     if (paymentMode == 1) {
         $.ajax({
-            url: route('clients.payments.store'),
-            type: 'POST',
+            url: route("clients.payments.store"),
+            type: "POST",
             data: new FormData(this),
             processData: false,
             contentType: false,
             success: function (result) {
                 if (result.success) {
-                    // displaySuccessMessage(result.message);
-                    livewire.emit('refreshDatatable');
-                    livewire.emit('resetPageTable');
                     window.location.href = result.data.redirectUrl;
+                    return;
+                    // displaySuccessMessage(result.message);
+                    livewire.emit("refreshDatatable");
+                    livewire.emit("resetPageTable");
                 }
             },
             error: function (result) {
@@ -149,40 +152,43 @@ listenSubmit('#clientPaymentForm', function (e) {
             },
         });
     } else if (paymentMode == 2) {
-        $.post(invoiceStripePaymentUrl, payloadData).done((result) => {
-            let sessionId = result.data.sessionId;
-            stripe.redirectToCheckout({
-                sessionId: sessionId,
-            }).then(function (result) {
-                $(this).html('Make Payment').removeClass('disabled');
-                manageAjaxErrors(result);
+        $.post(invoiceStripePaymentUrl, payloadData)
+            .done((result) => {
+                let sessionId = result.data.sessionId;
+                stripe
+                    .redirectToCheckout({
+                        sessionId: sessionId,
+                    })
+                    .then(function (result) {
+                        $(this).html("Make Payment").removeClass("disabled");
+                        manageAjaxErrors(result);
+                    });
+            })
+            .catch((error) => {
+                $(this).html("Make Payment").removeClass("disabled");
+                manageAjaxErrors(error);
             });
-        }).catch(error => {
-            $(this).html('Make Payment').removeClass('disabled');
-            manageAjaxErrors(error);
-        });
     } else if (paymentMode == 3) {
         $.ajax({
-            type: 'GET',
-            url: route('paypal.init'),
+            type: "GET",
+            url: route("paypal.init"),
             data: {
-                'amount': payloadData.amount,
-                'invoiceId': payloadData.invoiceId,
-                'transactionNotes': payloadData.transactionNotes,
+                amount: payloadData.amount,
+                invoiceId: payloadData.invoiceId,
+                transactionNotes: payloadData.transactionNotes,
             },
             success: function (result) {
-                if (result.status == 'CREATED') {
-                    let redirectTo = '';
+                if (result.status == "CREATED") {
+                    let redirectTo = "";
 
-                    $.each(result.links,
-                        function (key, val) {
-                            if (val.rel == 'approve') {
-                                redirectTo = val.href;
-                            }
-                        });
+                    $.each(result.links, function (key, val) {
+                        if (val.rel == "approve") {
+                            redirectTo = val.href;
+                        }
+                    });
                     location.href = redirectTo;
-                }else {
-                    location.href = result.url
+                } else {
+                    location.href = result.url;
                 }
             },
             error: function (result) {
@@ -194,12 +200,12 @@ listenSubmit('#clientPaymentForm', function (e) {
         });
     } else if (paymentMode == 5) {
         $.ajax({
-            type: 'GET',
-            url: route('razorpay.init'),
+            type: "GET",
+            url: route("razorpay.init"),
             data: $(this).serialize(),
             success: function (result) {
                 if (result.success) {
-                    $('#clientPaymentModal').modal('hide');
+                    $("#clientPaymentModal").modal("hide");
                     let {
                         id,
                         amount,
@@ -217,7 +223,7 @@ listenSubmit('#clientPaymentForm', function (e) {
                     options.prefill.invoiceId = invoiceId;
                     let razorPay = new Razorpay(options);
                     razorPay.open();
-                    razorPay.on('payment.failed');
+                    razorPay.on("payment.failed");
                 }
             },
             error: function (result) {

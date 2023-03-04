@@ -1,47 +1,49 @@
-let paymentTableName = ''
+let paymentTableName = "";
 
-document.addEventListener('turbo:load', loadPayment);
+document.addEventListener("turbo:load", loadPayment);
 
 function loadPayment() {
-    initializeSelect2Payment()
-    paymentTableName = '#tblPayments';
+    initializeSelect2Payment();
+    paymentTableName = "#tblPayments";
 }
 
 function initializeSelect2Payment() {
-    if(!select2NotExists('#invoice_id')){
+    if (!select2NotExists("#invoice_id")) {
         return false;
     }
     if ($("#invoice_id").hasClass("select2-hidden-accessible")) {
-        $('#invoice_id .select2-container').remove();
+        $("#invoice_id .select2-container").remove();
     }
     // removeSelect2Container(["#invoice_id"])
 
-    $('#invoice_id').select2({
-        dropdownParent: $('#paymentModal')
+    $("#invoice_id").select2({
+        dropdownParent: $("#paymentModal"),
     });
 }
 
-
-listenClick('.payment-delete-btn', function (event) {
-    let id = $(event.currentTarget).attr('data-id');
-    deleteItem(route('payments.destroy', id), 'Payments',
-        Lang.get('messages.invoice.payment'));
+listenClick(".payment-delete-btn", function (event) {
+    let id = $(event.currentTarget).attr("data-id");
+    deleteItem(
+        route("payments.destroy", id),
+        "Payments",
+        Lang.get("messages.invoice.payment")
+    );
 });
 
-listenClick('.addPayment', function () {
+listenClick(".addPayment", function () {
     let currentDtFormat = currentDateFormat;
     $.ajax({
-        url: route('get-current-date-format'),
-        type: 'get',
+        url: route("get-current-date-format"),
+        type: "get",
         success: function (data) {
             currentDtFormat = data;
-            $('#payment_date').flatpickr({
+            $("#payment_date").flatpickr({
                 defaultDate: new Date(),
                 dateFormat: data,
                 maxDate: new Date(),
-                "locale": getUserLanguages,
+                locale: getUserLanguages,
             });
-            $('#paymentModal').appendTo('body').modal('show');
+            $("#paymentModal").appendTo("body").modal("show");
         },
         error: function (result) {
             displayErrorMessage(result.responseJSON.message);
@@ -49,38 +51,38 @@ listenClick('.addPayment', function () {
     });
 
     setTimeout(function () {
-        $('#invoice_id').select2({
-            dropdownParent: $('#paymentModal')
+        $("#invoice_id").select2({
+            dropdownParent: $("#paymentModal"),
         });
     }, 200);
 });
 
-listenHiddenBsModal('#paymentModal', function () {
-    $('#adminPaymentInvoiceId').val(null).trigger('change');
-    resetModalForm('#paymentForm');
+listenHiddenBsModal("#paymentModal", function () {
+    $("#adminPaymentInvoiceId").val(null).trigger("change");
+    resetModalForm("#paymentForm");
 });
 
-listenSubmit('#paymentForm', function (e) {
+listenSubmit("#paymentForm", function (e) {
     e.preventDefault();
 
-
-    if ($('#payment_note').val().trim().length == 0) {
-        displayErrorMessage('Note field is Required')
-        return false
+    if ($("#payment_note").val().trim().length == 0) {
+        displayErrorMessage("Note field is Required");
+        return false;
     }
 
-    let btnSubmitEle = $(this).find('#btnPay');
+    let btnSubmitEle = $(this).find("#btnPay");
     setAdminBtnLoader(btnSubmitEle);
     $.ajax({
-        url: route('payments.store'),
-        type: 'POST',
+        url: route("payments.store"),
+        type: "POST",
         data: $(this).serialize(),
         success: function (result) {
             if (result.success) {
-                $('#paymentModal').modal('hide');
+                $("#paymentModal").modal("hide");
                 displaySuccessMessage(result.message);
-                livewire.emit('refreshDatatable');
-                livewire.emit('resetPageTable');
+                return location.reload();
+                livewire.emit("refreshDatatable");
+                livewire.emit("resetPageTable");
             }
         },
         error: function (result) {
@@ -90,62 +92,72 @@ listenSubmit('#paymentForm', function (e) {
             setAdminBtnLoader(btnSubmitEle);
         },
     });
-
 });
 
-listenChange('.invoice', function () {
+listenChange(".invoice", function () {
     let invoiceId = $(this).val();
     if (isEmpty(invoiceId)) {
-        $('#due_amount').val(0);
-        $('#paid_amount').val(0);
+        $("#due_amount").val(0);
+        $("#paid_amount").val(0);
         return false;
     }
     $.ajax({
-        url: route('payments.get-invoiceAmount', invoiceId),
-        type: 'get',
-        dataType: 'json',
+        url: route("payments.get-invoiceAmount", invoiceId),
+        type: "get",
+        dataType: "json",
         success: function (result) {
             if (result.success) {
-                $('.invoice-currency-code').text(result.data.currencyCode);
-                $('#due_amount').val(number_format(result.data.totalDueAmount));
-                $('#paid_amount').val(number_format(result.data.totalPaidAmount));
+                $(".invoice-currency-code").text(result.data.currencyCode);
+                $("#due_amount").val(number_format(result.data.totalDueAmount));
+                $("#paid_amount").val(
+                    number_format(result.data.totalPaidAmount)
+                );
             }
-        }, error: function (result) {
+        },
+        error: function (result) {
             displayErrorMessage(result.responseJSON.message);
         },
     });
 });
 
-listenClick('.payment-edit-btn', function (event) {
-    let paymentId = $(event.currentTarget).attr('data-id');
+listenClick(".payment-edit-btn", function (event) {
+    let paymentId = $(event.currentTarget).attr("data-id");
     paymentRenderData(paymentId);
 });
 
 function paymentRenderData(paymentId) {
     $.ajax({
-        url:route('payments.edit',paymentId),
-        type: 'GET',
+        url: route("payments.edit", paymentId),
+        type: "GET",
         beforeSend: function () {
             startLoader();
         },
         success: function (result) {
             if (result.success) {
-                $('#edit_invoice_id').val(result.data.invoice.invoice_id);
-                $('#edit_amount').val(result.data.amount);
-                $('#edit_payment_date').flatpickr({
+                $("#edit_invoice_id").val(result.data.invoice.invoice_id);
+                $("#edit_amount").val(result.data.amount);
+                $("#edit_payment_date").flatpickr({
                     defaultDate: result.data.payment_date,
                     dateFormat: currentDateFormat,
                     maxDate: new Date(),
-                    "locale": getUserLanguages,
+                    locale: getUserLanguages,
                 });
-                $('.edit-invoice-currency-code').text(result.data.currencyCode);
-                $('#edit_payment_note').val(result.data.notes);
-                $('#paymentId').val(result.data.id);
-                $('#transactionId').val(result.data.payment_id);
-                $('#invoice').val(result.data.invoice_id);
-                $('#totalDue_amount').val(number_format(result.data.DueAmount.original.data.totalDueAmount));
-                $('#totalPaid_amount').val(number_format(result.data.DueAmount.original.data.totalPaidAmount));
-                $('#editPaymentModal').appendTo('body').modal('show');
+                $(".edit-invoice-currency-code").text(result.data.currencyCode);
+                $("#edit_payment_note").val(result.data.notes);
+                $("#paymentId").val(result.data.id);
+                $("#transactionId").val(result.data.payment_id);
+                $("#invoice").val(result.data.invoice_id);
+                $("#totalDue_amount").val(
+                    number_format(
+                        result.data.DueAmount.original.data.totalDueAmount
+                    )
+                );
+                $("#totalPaid_amount").val(
+                    number_format(
+                        result.data.DueAmount.original.data.totalPaidAmount
+                    )
+                );
+                $("#editPaymentModal").appendTo("body").modal("show");
             }
         },
         error: function (result) {
@@ -155,20 +167,20 @@ function paymentRenderData(paymentId) {
             stopLoader();
         },
     });
-};
+}
 
-listenSubmit('#editPaymentForm', function (event) {
+listenSubmit("#editPaymentForm", function (event) {
     event.preventDefault();
 
-    if ($('#edit_payment_note').val().trim().length == 0) {
-        displayErrorMessage('Note field is Required')
-        return false
+    if ($("#edit_payment_note").val().trim().length == 0) {
+        displayErrorMessage("Note field is Required");
+        return false;
     }
 
-    const paymentId = $('#paymentId').val();
+    const paymentId = $("#paymentId").val();
     $.ajax({
-        url: route('payments.update', { payment: paymentId }),
-        type: 'put',
+        url: route("payments.update", { payment: paymentId }),
+        type: "put",
         data: $(this).serialize(),
         beforeSend: function () {
             startLoader();
@@ -176,9 +188,9 @@ listenSubmit('#editPaymentForm', function (event) {
         success: function (result) {
             if (result.success) {
                 displaySuccessMessage(result.message);
-                livewire.emit('refreshDatatable');
-                livewire.emit('resetPageTable');
-                $('#editPaymentModal').modal('hide');
+                livewire.emit("refreshDatatable");
+                livewire.emit("resetPageTable");
+                $("#editPaymentModal").modal("hide");
             }
         },
         error: function (result) {
@@ -190,19 +202,18 @@ listenSubmit('#editPaymentForm', function (event) {
     });
 });
 
-
-listenChange('.transaction-approve', function () {
-    let id = $(this).attr('data-id');
+listenChange(".transaction-approve", function () {
+    let id = $(this).attr("data-id");
     let status = $(this).val();
 
     $.ajax({
-        url: route('change-transaction-status', id),
-        type: 'GET',
-        data: {id: id, status: status},
+        url: route("change-transaction-status", id),
+        type: "GET",
+        data: { id: id, status: status },
         success: function (result) {
             displaySuccessMessage(result.message);
             setTimeout(function () {
-                Turbo.visit(route('transactions.index'));
+                Turbo.visit(route("transactions.index"));
             }, 1500);
         },
         error: function (result) {
