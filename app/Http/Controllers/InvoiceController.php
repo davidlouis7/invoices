@@ -80,7 +80,7 @@ class InvoiceController extends AppBaseController
                 $this->invoiceRepository->saveNotification($request->all(), $invoice);
                 DB::commit();
 
-                return $this->sendResponse($invoice, 'Invoice saved & sent successfully.');
+                return $this->sendResponse($invoice, __('Invoice saved & sent successfully.'));
             }
             DB::commit();
         } catch (Exception $e) {
@@ -89,7 +89,7 @@ class InvoiceController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($invoice, 'Invoice saved successfully.');
+        return $this->sendResponse($invoice, __('Invoice saved successfully.'));
     }
 
     /**
@@ -112,7 +112,7 @@ class InvoiceController extends AppBaseController
     public function edit(Invoice $invoice)
     {
         if ($invoice->status == Invoice::PAID || $invoice->status == Invoice::PARTIALLY) {
-            Flash::error('Paid invoices can not editable.');
+            Flash::error(__('Paid invoices are not editable.'));
 
             return redirect()->route('invoices.index');
         }
@@ -144,7 +144,7 @@ class InvoiceController extends AppBaseController
                 }
                 DB::commit();
 
-                return $this->sendResponse($invoice, 'Invoice updated & sent successfully.');
+                return $this->sendResponse($invoice, __('Invoice updated & sent successfully.'));
             }
             DB::commit();
         } catch (Exception $e) {
@@ -153,7 +153,7 @@ class InvoiceController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($invoice, 'Invoice updated successfully.');
+        return $this->sendResponse($invoice, __('Invoice updated successfully.'));
     }
 
     /**
@@ -164,7 +164,7 @@ class InvoiceController extends AppBaseController
     {
         $invoice->delete();
 
-        return $this->sendSuccess('Invoice Deleted successfully.');
+        return $this->sendSuccess(__('Invoice Deleted successfully.'));
     }
 
     public function getProduct($productId): JsonResponse
@@ -192,7 +192,7 @@ class InvoiceController extends AppBaseController
     public function convertToPdf(Invoice $invoice): Response
     {
         ini_set('max_execution_time', 36000000);
-        $invoice->load(['client.user', 'invoiceTemplate', 'invoiceItems.product', 'invoiceItems.invoiceItemTax','invoiceTaxes']);
+        $invoice->load(['client.user', 'invoiceTemplate', 'invoiceItems.product', 'invoiceItems.invoiceItemTax', 'invoiceTaxes']);
         $invoiceData = $this->invoiceRepository->getPdfData($invoice);
         $invoiceTemplate = $this->invoiceRepository->getDefaultTemplate($invoice);
         $pdf = PDF::loadView("invoices.invoice_template_pdf.$invoiceTemplate", $invoiceData);
@@ -209,7 +209,7 @@ class InvoiceController extends AppBaseController
     {
         $this->invoiceRepository->draftStatusUpdate($invoice);
 
-        return $this->sendSuccess('Invoice Send successfully.');
+        return $this->sendSuccess(__('Invoice Send successfully.'));
     }
 
     public function updateInvoiceOverDueStatus()
@@ -234,7 +234,7 @@ class InvoiceController extends AppBaseController
         $invoice = Invoice::with(['client.user', 'payments'])->whereId($invoiceId)->firstOrFail();
         $paymentReminder = Mail::to($invoice->client->user->email)->send(new InvoicePaymentReminderMail($invoice));
 
-        return $this->sendResponse($paymentReminder, 'Payment reminder mail send successfully.');
+        return $this->sendResponse($paymentReminder, __('Payment reminder mail send successfully.'));
     }
 
     /**
@@ -262,7 +262,7 @@ class InvoiceController extends AppBaseController
 
         return view('invoices.public-invoice.public_view')->with($invoiceData);
     }
-    
+
     public function getPublicInvoicePdf($invoiceId)
     {
         $invoice = Invoice::whereInvoiceId($invoiceId)->firstOrFail();
@@ -289,15 +289,17 @@ class InvoiceController extends AppBaseController
             $stripeKey = config('services.stripe.key');
         }
 
-        return view('invoices.public-invoice.payment',
-            compact('paymentType', 'paymentMode', 'totalPayable', 'stripeKey', 'invoice'));
+        return view(
+            'invoices.public-invoice.payment',
+            compact('paymentType', 'paymentMode', 'totalPayable', 'stripeKey', 'invoice')
+        );
     }
 
     public function updateRecurring(Invoice $invoice)
     {
         $recurringCycle = empty($invoice->recurring_cycle) ? 1 : $invoice->recurring_cycle;
         $invoice->update([
-            'recurring_status' => ! $invoice->recurring_status,
+            'recurring_status' => !$invoice->recurring_status,
             'recurring_cycle' => $recurringCycle,
         ]);
 
@@ -309,7 +311,7 @@ class InvoiceController extends AppBaseController
      */
     public function exportInvoicesPdf(): Response
     {
-        $data['invoices'] = Invoice::with('client.user', 'payments')->orderBy('created_at','desc')->get();
+        $data['invoices'] = Invoice::with('client.user', 'payments')->orderBy('created_at', 'desc')->get();
         $pdf = PDF::loadView("invoices.export_invoices_pdf", $data);
 
         return $pdf->download('Invoices.pdf');

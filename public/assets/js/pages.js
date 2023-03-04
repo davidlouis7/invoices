@@ -13920,14 +13920,14 @@ function prepareDatePickers() {
       var minDate = moment($("#editInvoiceDate").val(), momentFormat).add(1, "days").format(momentFormat);
 
       if (typeof editDueDateFlatPicker != "undefined") {
-        editDueDateFlatPicker.set("minDate", minDate);
+        editDueDateFlatPicker.set("minDate", "today");
       }
     },
     onReady: function onReady() {
       var minDate = moment($("#editInvoiceDate").val(), momentFormat).add(1, "days").format(momentFormat);
 
       if (typeof editDueDateFlatPicker != "undefined") {
-        editDueDateFlatPicker.set("minDate", minDate);
+        editDueDateFlatPicker.set("minDate", "today");
       }
     }
   });
@@ -14161,8 +14161,10 @@ var calculateFinalAmount = function calculateFinalAmount() {
   $("#total_amount").val(totalAmount.toFixed(2)); // total amount with products taxes
 
   var finalTotalAmt = parseFloat(totalAmount) + parseFloat(itemWiseTaxes);
-  $("#totalTax").empty();
-  $("#totalTax").text(number_format(itemWiseTaxes)); // add invoice taxes
+  setTimeout(function () {
+    $("#totalTax").empty();
+    $("#totalTax").text(number_format(itemWiseTaxes));
+  }, 0); // add invoice taxes
 
   var totalInvoiceTax = 0;
   $("option:selected", ".invoice-taxes").each(function (index, val) {

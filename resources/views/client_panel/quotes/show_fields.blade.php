@@ -139,9 +139,9 @@
                                 <div class="bg-gray-100 rounded-15 p-md-7 p-5 h-100 mt-xxl-0 mt-5 col-xxl-9 ms-xxl-auto w-100">
                                     <div class="mb-8">
                                         @if($quote->status == \App\Models\Quote::DRAFT)
-                                            <span class="badge bg-light-warning me-5">Draft</span>
+                                            <span class="badge bg-light-warning {{ app()->getLocale() == 'ar' ? 'ms-5' : 'me-5' }}">Draft</span>
                                         @elseif($quote->status == \App\Models\Quote::CONVERTED)
-                                            <span class="badge bg-light-success me-5">Converted</span>
+                                            <span class="badge bg-light-success {{ app()->getLocale() == 'ar' ? 'ms-5' : 'me-5' }}">Converted</span>
                                         @endif
                                     </div>
 

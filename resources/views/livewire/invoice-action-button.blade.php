@@ -42,7 +42,7 @@
                 </a>
             </li>
             @endif
-            @if(empty($row->parent_id))
+            @if(empty($row->parent_id) && false)
             <li>
                 <a href="javascript:void(0)" data-id="{{ $row->id }}"
                    class="dropdown-item text-hover-primary me-1 update-recurring" data-bs-toggle="tooltip"

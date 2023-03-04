@@ -141,11 +141,11 @@ class InvoiceTable extends LivewireTableComponent
                     $builder->where('invoices.status', '=', $value);
                 }),
 
-            SelectFilter::make(__('messages.invoice.recurring') . ' ' . __('messages.common.status') . ':')
-                ->options(Invoice::RECURRING_STATUS_ARR)
-                ->filter(function (Builder $builder, string $value) {
-                    $builder->where('invoices.recurring_status', $value);
-                }),
+            // SelectFilter::make(__('messages.invoice.recurring') . ' ' . __('messages.common.status') . ':')
+            //     ->options(Invoice::RECURRING_STATUS_ARR)
+            //     ->filter(function (Builder $builder, string $value) {
+            //         $builder->where('invoices.recurring_status', $value);
+            //     }),
         ];
     }
 }

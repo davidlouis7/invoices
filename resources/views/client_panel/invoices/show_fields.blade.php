@@ -182,7 +182,7 @@
                                         @elseif($invoice->status == \App\Models\Invoice::PARTIALLY)
                                             <span class="badge bg-light-primary">Partially Paid</span>
                                         @elseif($invoice->status == \App\Models\Invoice::DRAFT)
-                                            <span class="badge bg-light-warning me-5">Draft</span>
+                                            <span class="badge bg-light-warning {{ app()->getLocale() == 'ar' ? 'ms-5' : 'me-5' }}">Draft</span>
                                         @elseif($invoice->status == \App\Models\Invoice::OVERDUE)
                                             <span class="badge bg-light-danger">Overdue</span>
                                         @elseif($invoice->status == \App\Models\Invoice::PROCESSING)

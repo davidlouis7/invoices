@@ -128,7 +128,7 @@ function prepareDatePickers() {
                 .add(1, "days")
                 .format(momentFormat);
             if (typeof editDueDateFlatPicker != "undefined") {
-                editDueDateFlatPicker.set("minDate", minDate);
+                editDueDateFlatPicker.set("minDate", "today");
             }
         },
         onReady: function () {
@@ -136,7 +136,7 @@ function prepareDatePickers() {
                 .add(1, "days")
                 .format(momentFormat);
             if (typeof editDueDateFlatPicker != "undefined") {
-                editDueDateFlatPicker.set("minDate", minDate);
+                editDueDateFlatPicker.set("minDate", "today");
             }
         },
     });
@@ -392,8 +392,10 @@ const calculateFinalAmount = () => {
     // total amount with products taxes
     let finalTotalAmt = parseFloat(totalAmount) + parseFloat(itemWiseTaxes);
 
-    $("#totalTax").empty();
-    $("#totalTax").text(number_format(itemWiseTaxes));
+    setTimeout(() => {
+        $("#totalTax").empty();
+        $("#totalTax").text(number_format(itemWiseTaxes));
+    }, 0);
 
     // add invoice taxes
     let totalInvoiceTax = 0;

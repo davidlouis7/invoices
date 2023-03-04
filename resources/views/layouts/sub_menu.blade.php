@@ -59,10 +59,12 @@
            href="{{ route('client.invoices.index') }}">{{ __('messages.invoices') }}</a>
         @endrole
     </li>
-    <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/template-setting*') ? 'd-none' : '' }}">
-        <a class="nav-link p-0 {{ Request::is('admin/template-setting*') ? 'active' : '' }}"
-           href="{{ route('invoiceTemplate') }}">{{ __('messages.invoice_templates') }}</a>
-    </li>
+    @if (false)
+        <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/template-setting*') ? 'd-none' : '' }}">
+            <a class="nav-link p-0 {{ Request::is('admin/template-setting*') ? 'active' : '' }}"
+            href="{{ route('invoiceTemplate') }}">{{ __('messages.invoice_templates') }}</a>
+        </li>
+    @endif
     @role('admin')
     <li class="nav-item position-relative mx-xl-3 mb-3 mb-xl-0 {{ !Request::is('admin/payments*') ? 'd-none' : '' }}">
         <a class="nav-link p-0 {{ Request::is('admin/payments*') ? 'active' : '' }}"

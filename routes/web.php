@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::middleware(['xss'])->group(function () {
     Route::get('/', function () {
@@ -51,21 +51,31 @@ Route::middleware(['xss'])->group(function () {
 
     Route::post('update-language', [UserController::class, 'updateLanguage'])->name('change-language');
     //Notification routes
-    Route::get('/notification/{notification}/read',
-        [NotificationController::class, 'readNotification'])->name('read.notification');
-    Route::post('/read-all-notification',
-        [NotificationController::class, 'readAllNotification'])->name('read.all.notification');
+    Route::get(
+        '/notification/{notification}/read',
+        [NotificationController::class, 'readNotification']
+    )->name('read.notification');
+    Route::post(
+        '/read-all-notification',
+        [NotificationController::class, 'readAllNotification']
+    )->name('read.all.notification');
     //update darkMode Field
     Route::get('update-dark-mode', [UserController::class, 'updateDarkMode'])->name('update-dark-mode');
 
     Route::get('invoice/{invoiceId}', [InvoiceController::class, 'showPublicInvoice'])->name('invoice-show-url');
     Route::get('quote/{quoteId}', [QuoteController::class, 'showPublicQuote'])->name('quote-show-url');
-    Route::get('invoice/{invoiceId}/payment',
-        [InvoiceController::class, 'showPublicPayment'])->name('invoices.public-payment');
-    Route::get('invoice-pdf/{invoice}',
-        [InvoiceController::class, 'getPublicInvoicePdf'])->name('public-view-invoice.pdf');
-    Route::get('quote-pdf/{quote}',
-        [QuoteController::class, 'getPublicQuotePdf'])->name('public-view-quote.pdf');
+    Route::get(
+        'invoice/{invoiceId}/payment',
+        [InvoiceController::class, 'showPublicPayment']
+    )->name('invoices.public-payment');
+    Route::get(
+        'invoice-pdf/{invoice}',
+        [InvoiceController::class, 'getPublicInvoicePdf']
+    )->name('public-view-invoice.pdf');
+    Route::get(
+        'quote-pdf/{quote}',
+        [QuoteController::class, 'getPublicQuotePdf']
+    )->name('public-view-quote.pdf');
 });
 
 Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(function () {
@@ -80,8 +90,10 @@ Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(functio
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('payment-overview', [DashboardController::class, 'paymentOverview'])->name('payment-overview');
     Route::get('invoices-overview', [DashboardController::class, 'invoiceOverview'])->name('invoices-overview');
-    Route::get('yearly-income-chart',
-        [DashboardController::class, 'getYearlyIncomeChartData'])->name('yearly-income-chart');
+    Route::get(
+        'yearly-income-chart',
+        [DashboardController::class, 'getYearlyIncomeChartData']
+    )->name('yearly-income-chart');
 
     // Role route
     Route::middleware('permission:manage_roles')->group(function () {
@@ -116,13 +128,19 @@ Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(functio
         Route::get('/{invoice}/pdf', [InvoiceController::class, 'convertToPdf'])->name('pdf');
         Route::get('/{productId}/product', [InvoiceController::class, 'getProduct'])->name('get-product');
         Route::get('/{currencyId}/currency', [InvoiceController::class, 'getInvoiceCurrency'])->name('get-currency');
-        Route::post('/turn-off-recurring/{invoice}',
-            [InvoiceController::class, 'updateRecurring'])->name('update-recurring');
+        Route::post(
+            '/turn-off-recurring/{invoice}',
+            [InvoiceController::class, 'updateRecurring']
+        )->name('update-recurring');
     });
-    Route::post('change-invoice-status/{invoice}/{status}',
-        [InvoiceController::class, 'updateInvoiceStatus'])->name('send-invoice');
-    Route::post('invoice-payment-reminder/{invoiceId}',
-        [InvoiceController::class, 'invoicePaymentReminder'])->name('invoice.payment-reminder');
+    Route::post(
+        'change-invoice-status/{invoice}/{status}',
+        [InvoiceController::class, 'updateInvoiceStatus']
+    )->name('send-invoice');
+    Route::post(
+        'invoice-payment-reminder/{invoiceId}',
+        [InvoiceController::class, 'invoicePaymentReminder']
+    )->name('invoice.payment-reminder');
 
     //Quote
     Route::resource('quotes', QuoteController::class);
@@ -137,25 +155,27 @@ Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(functio
     Route::get('transactions', [PaymentController::class, 'index'])->name('transactions.index');
 
     Route::resource('payments', AdminPaymentController::class);
-    Route::get('get-current-date-format',
-        [AdminPaymentController::class, 'getCurrentDateFormat'])->name('get-current-date-format');
+    Route::get(
+        'get-current-date-format',
+        [AdminPaymentController::class, 'getCurrentDateFormat']
+    )->name('get-current-date-format');
 
     // payment approved
-    Route::get('change-transaction-status/{id}',
-        [PaymentController::class, 'changeTransactionStatus'])->name('change-transaction-status');
+    Route::get(
+        'change-transaction-status/{id}',
+        [PaymentController::class, 'changeTransactionStatus']
+    )->name('change-transaction-status');
 
     //Setting Route
     Route::get('settings', [SettingController::class, 'edit'])->name('settings.edit');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
     Route::post('invoice-settings', [SettingController::class, 'invoiceUpdate'])->name('invoice-settings.settings');
-    Route::get('invoice-template/{key}',
-        [SettingController::class, 'editInvoiceTemplate'])->name('invoice-template.edit');
+    Route::get('invoice-template/{key}', [SettingController::class, 'editInvoiceTemplate'])->name('invoice-template.edit');
     Route::post('payment-gateway/store', [PaymentGatewayController::class, 'store'])->name('payment-gateway.store');
     Route::get('payment-gateway', [PaymentGatewayController::class, 'show'])->name('payment-gateway.show');
     //invoice template
     Route::get('template-setting', [InvoiceTemplateController::class, 'invoiceTemplateView'])->name('invoiceTemplate');
-    Route::post('change-invoice-template',
-        [InvoiceTemplateController::class, 'invoiceTemplateUpdate'])->name('invoiceTemplate.update');
+    Route::post('change-invoice-template', [InvoiceTemplateController::class, 'invoiceTemplateUpdate'])->name('invoiceTemplate.update');
 
     // Currency
     Route::resource('currencies', CurrencyController::class);
@@ -163,8 +183,10 @@ Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(functio
     Route::post('user/{user}/change-status', [UserController::class, 'changeUserStatus'])->name('users.change-status');
 
     //getInvoiceDueAmount
-    Route::get('payments.get-invoiceAmount/{id}',
-        [AdminPaymentController::class, 'getInvoiceDueAmount'])->name('payments.get-invoiceAmount');
+    Route::get(
+        'payments.get-invoiceAmount/{id}',
+        [AdminPaymentController::class, 'getInvoiceDueAmount']
+    )->name('payments.get-invoiceAmount');
 
     //Export Invoices Excel admin route
     Route::get('/invoices-excel', [InvoiceController::class, 'exportInvoicesExcel'])->name('admin.invoicesExcel');
@@ -175,9 +197,11 @@ Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(functio
     Route::get('transactions-excel', [paymentController::class, 'exportTransactionsExcel'])->name('admin.transactionsExcel');
     // export transactions pdf admin route
     Route::get('transactions-pdf', [paymentController::class, 'exportTransactionsPdf'])->name('admin.export.transactions.pdf');
-    Route::get('/admin-payments-excel',
-        [AdminPaymentController::class, 'exportAdminPaymentsExcel'])->name('admin.paymentsExcel');
-    
+    Route::get(
+        '/admin-payments-excel',
+        [AdminPaymentController::class, 'exportAdminPaymentsExcel']
+    )->name('admin.paymentsExcel');
+
     Route::get('invoices-pdf', [InvoiceController::class, 'exportInvoicesPdf'])->name('admin.invoices.pdf');
 
     //Clear cache
@@ -187,28 +211,38 @@ Route::prefix('admin')->middleware(['auth', 'xss', 'role:admin'])->group(functio
 });
 
 Route::prefix('client')->middleware(['auth', 'xss', 'role:client'])->group(function () {
-    Route::get('dashboard',
-        [Client\DashboardController::class, 'index'])->name('client.dashboard');
+    Route::get(
+        'dashboard',
+        [Client\DashboardController::class, 'index']
+    )->name('client.dashboard');
 
     Route::get('transactions', [Client\PaymentController::class, 'index'])->name('client.transactions.index');
 
     //Invoice
-    Route::get('invoices',
-        [Client\InvoiceController::class, 'index'])->name('client.invoices.index');
-    Route::get('invoices/{invoice}',
-        [Client\InvoiceController::class, 'show'])->name('client.invoices.show');
-    Route::get('invoices/{invoice}/pdf',
-        [Client\InvoiceController::class, 'convertToPdf'])->name('clients.invoices.pdf');
+    Route::get(
+        'invoices',
+        [Client\InvoiceController::class, 'index']
+    )->name('client.invoices.index');
+    Route::get(
+        'invoices/{invoice}',
+        [Client\InvoiceController::class, 'show']
+    )->name('client.invoices.show');
+    Route::get(
+        'invoices/{invoice}/pdf',
+        [Client\InvoiceController::class, 'convertToPdf']
+    )->name('clients.invoices.pdf');
 
     //Quote
     Route::name('client.')->group(function () {
         Route::resource('quotes', Client\QuoteController::class);
     });
-    Route::get('quotes/{quote}/pdf',
-        [Client\QuoteController::class, 'convertToPdf'])->name('client.quotes.pdf');
+    Route::get(
+        'quotes/{quote}/pdf',
+        [Client\QuoteController::class, 'convertToPdf']
+    )->name('client.quotes.pdf');
 
     //export quotes Excel file in client route
-    Route::get('/quotes-excel',[Client\QuoteController::class, 'exportQuotesExcel'])->name('client.quotesExcel');
+    Route::get('/quotes-excel', [Client\QuoteController::class, 'exportQuotesExcel'])->name('client.quotesExcel');
     // export quotes Pdf in client route
     Route::get('quotes-pdf', [Client\QuoteController::class, 'exportQuotesPdf'])->name('client.export.quotes.pdf');
     // export invoices Pdf in client route
@@ -249,19 +283,19 @@ Route::middleware(['auth', 'xss'])->group(function () {
     Route::put('/change-user-password', [UserController::class, 'changePassword'])->name('user.changePassword');
     Route::get('get-all-language', [UserController::class, 'getLanguages'])->name('get-all-language');
     Route::get('quotes/{productId}/product', [QuoteController::class, 'getProduct'])->name('quotes.get-product');
-    
+
     // Download Attachment
     Route::get('transactions-attachment/{id}', [PaymentController::class, 'downloadAttachment'])->name('transaction.attachment');
 
     Route::get('payment-notes/{paymentId}', [PaymentController::class, 'showPaymentNotes'])->name('payment-notes.show');
 });
 
-require __DIR__.'/upgrade.php';
+require __DIR__ . '/upgrade.php';
 
 Route::get('test', function () {
     $payments = \App\Models\Payment::with('invoice.client.user')->whereHas('invoice.client', function (Builder $q) {
         $q->where('user_id', getLogInUser()->client->user_id);
-    })->orderBy('created_at','desc')->get();
-    
+    })->orderBy('created_at', 'desc')->get();
+
     return view('transactions.export_transactions_pdf', compact('payments'));
 });

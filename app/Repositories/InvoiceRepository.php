@@ -32,9 +32,7 @@ class InvoiceRepository extends BaseRepository
     /**
      * @var string[]
      */
-    public $fieldSearchable = [
-
-    ];
+    public $fieldSearchable = [];
 
     /**
      * @return array|string[]
@@ -60,7 +58,7 @@ class InvoiceRepository extends BaseRepository
         /** @var Product $product */
         static $product;
 
-        if (! isset($product) && empty($product)) {
+        if (!isset($product) && empty($product)) {
             $product = Product::orderBy('name', 'asc')->pluck('name', 'id')->toArray();
         }
 
@@ -75,7 +73,7 @@ class InvoiceRepository extends BaseRepository
         /** @var Tax $tax */
         static $tax;
 
-        if (! isset($tax) && empty($tax)) {
+        if (!isset($tax) && empty($tax)) {
             $tax = Tax::all();
         }
 
@@ -91,7 +89,7 @@ class InvoiceRepository extends BaseRepository
         /** @var InvoiceItem $invoiceItems */
         static $invoiceItems;
 
-        if (! isset($invoiceItems) && empty($invoiceItems)) {
+        if (!isset($invoiceItems) && empty($invoiceItems)) {
             $invoiceItems = InvoiceItem::when($invoice, function ($q) use ($invoice) {
                 $q->whereInvoiceId($invoice[0]->id);
             })->whereNotNull('product_name')->pluck('product_name', 'product_name')->toArray();
@@ -106,7 +104,7 @@ class InvoiceRepository extends BaseRepository
     public function getSyncList($invoice = [])
     {
         $data['products'] = $this->getProductNameList();
-        if (! empty($invoice)) {
+        if (!empty($invoice)) {
             $data['productItem'] = $this->getInvoiceItemList();
             $data['products'] = $data['products'] + $data['productItem'];
         }
@@ -129,7 +127,7 @@ class InvoiceRepository extends BaseRepository
     public function getAssociateProductList($invoice = []): array
     {
         $result = $this->getProductNameList();
-        if (! empty($invoice)) {
+        if (!empty($invoice)) {
             $invoiceItem = $this->getInvoiceItemList();
             $result = $result + $invoiceItem;
         }
@@ -174,18 +172,18 @@ class InvoiceRepository extends BaseRepository
             $input['tax_id'] = json_decode($input['tax_id']);
             $input['tax'] = json_decode($input['tax']);
             $input['recurring_status'] = isset($input['recurring_status']);
-            if (! empty(getInvoiceNoPrefix())) {
-                $input['invoice_id'] = getInvoiceNoPrefix().'-'.$input['invoice_id'];
+            if (!empty(getInvoiceNoPrefix())) {
+                $input['invoice_id'] = getInvoiceNoPrefix() . '-' . $input['invoice_id'];
             }
-            if (! empty(getInvoiceNoSuffix())) {
-                $input['invoice_id'] .= '-'.getInvoiceNoSuffix();
+            if (!empty(getInvoiceNoSuffix())) {
+                $input['invoice_id'] .= '-' . getInvoiceNoSuffix();
             }
-            
+
             if (empty($input['final_amount'])) {
                 $input['final_amount'] = 0;
             }
 
-            if (! empty($input['recurring_status']) && empty($input['recurring_cycle'])) {
+            if (!empty($input['recurring_status']) && empty($input['recurring_cycle'])) {
                 throw new UnprocessableEntityHttpException('Please enter the value in Recurring Cycle.');
             }
 
@@ -197,7 +195,7 @@ class InvoiceRepository extends BaseRepository
             foreach ($invoiceItemInput as $key => $value) {
                 $total[] = $value['price'] * $value['quantity'];
             }
-            if (! empty($input['discount'])) {
+            if (!empty($input['discount'])) {
                 if (array_sum($total) <= $input['discount']) {
                     throw new UnprocessableEntityHttpException('Discount amount should not be greater than sub total.');
                 }
@@ -205,7 +203,7 @@ class InvoiceRepository extends BaseRepository
             if ($invoiceExist) {
                 throw new UnprocessableEntityHttpException('Invoice id already exist');
             }
-            
+
             /** @var Invoice $invoice */
             $input['client_id'] = Client::whereUserId($input['client_id'])->first()->id;
             $input = Arr::only($input, [
@@ -213,11 +211,11 @@ class InvoiceRepository extends BaseRepository
                 'note', 'term', 'template_id', 'status', 'tax_id', 'tax', 'currency_id', 'recurring_status', 'recurring_cycle',
             ]);
             $invoice = Invoice::create($input);
-            
-            if(count($inputInvoiceTaxes) > 0) {
+
+            if (count($inputInvoiceTaxes) > 0) {
                 $invoice->invoiceTaxes()->sync($inputInvoiceTaxes);
             }
-            
+
             $totalAmount = 0;
             foreach ($invoiceItemInput as $key => $data) {
                 $validator = Validator::make($data, InvoiceItem::$rules);
@@ -225,7 +223,7 @@ class InvoiceRepository extends BaseRepository
                 if ($validator->fails()) {
                     throw new UnprocessableEntityHttpException($validator->errors()->first());
                 }
-                
+
                 $data['product_name'] = is_numeric($data['product_id']);
                 if ($data['product_name'] == true) {
                     $data['product_name'] = null;
@@ -234,10 +232,10 @@ class InvoiceRepository extends BaseRepository
                     $data['product_id'] = null;
                 }
                 $data['amount'] = $data['price'] * $data['quantity'];
-               
+
                 $data['total'] = $data['amount'];
                 $totalAmount += $data['amount'];
-                
+
                 /** @var InvoiceItem Items $invoiceItem */
                 $invoiceItem = new InvoiceItem($data);
 
@@ -281,7 +279,7 @@ class InvoiceRepository extends BaseRepository
         foreach ($input as $key => $data) {
             foreach ($data as $index => $value) {
                 $items[$index][$key] = $value;
-                if (! (isset($items[$index]['price']) && $key == 'price')) {
+                if (!(isset($items[$index]['price']) && $key == 'price')) {
                     continue;
                 }
                 $items[$index]['price'] = removeCommaFromNumbers($items[$index]['price']);
@@ -302,10 +300,10 @@ class InvoiceRepository extends BaseRepository
             DB::beginTransaction();
             $input['tax_id'] = json_decode($input['tax_id']);
             $input['tax'] = json_decode($input['tax']);
-            if ($input['discount_type'] == 0) {
+            if (isset($input['discount_type']) && $input['discount_type'] == 0) {
                 $input['discount'] = 0;
             }
-            
+
             $input['recurring_status'] = isset($input['recurring_status']);
 
             $inputInvoiceTaxes = isset($input['taxes']) ? $input['taxes'] : [];
@@ -316,11 +314,11 @@ class InvoiceRepository extends BaseRepository
                 $total[] = $value['price'] * $value['quantity'];
             }
 
-            if (! empty($input['recurring_status']) && empty($input['recurring_cycle'])) {
+            if (!empty($input['recurring_status']) && empty($input['recurring_cycle'])) {
                 throw new UnprocessableEntityHttpException('Please enter the value in Recurring Cycle.');
             }
 
-            if (! empty($input['discount'])) {
+            if (!empty($input['discount'])) {
                 if (array_sum($total) <= $input['discount']) {
                     throw new UnprocessableEntityHttpException('Discount amount should not be greater than sub total.');
                 }
@@ -328,16 +326,19 @@ class InvoiceRepository extends BaseRepository
 
             /** @var Invoice $invoice */
             $input['client_id'] = Client::whereUserId($input['client_id'])->first()->id;
-            $invoice = $this->update(Arr::only($input,
-                ['client_id', 'invoice_date', 'due_date', 'discount_type', 'discount','amount', 'final_amount', 'note',
+            $invoice = $this->update(Arr::only(
+                $input,
+                [
+                    'client_id', 'invoice_date', 'due_date', 'discount_type', 'discount', 'amount', 'final_amount', 'note',
                     'term', 'template_id', 'status', 'tax_id', 'tax', 'currency_id', 'recurring_status', 'recurring_cycle',
-                ]), $invoiceId);
+                ]
+            ), $invoiceId);
 
             $invoice->invoiceTaxes()->detach();
-            if(count($inputInvoiceTaxes) > 0) {
+            if (count($inputInvoiceTaxes) > 0) {
                 $invoice->invoiceTaxes()->attach($inputInvoiceTaxes);
             }
-            
+
             $totalAmount = 0;
 
             foreach ($invoiceItemInput as $key => $data) {
@@ -354,18 +355,18 @@ class InvoiceRepository extends BaseRepository
                     $data['product_name'] = $data['product_id'];
                     $data['product_id'] = null;
                 }
-                
+
                 $data['amount'] = $data['price'] * $data['quantity'];
                 $data['total'] = $data['amount'];
                 $totalAmount += $data['amount'];
-                
+
                 $invoiceItemInput[$key] = $data;
             }
-            
+
             /** @var InvoiceItemRepository $invoiceItemRepo */
             $invoiceItemRepo = app(InvoiceItemRepository::class);
             $invoiceItemRepo->updateInvoiceItem($invoiceItemInput, $invoice->id);
-           
+
             DB::commit();
 
             return $invoice;
@@ -479,7 +480,7 @@ class InvoiceRepository extends BaseRepository
     {
         $userId = $input['client_id'];
         $input['invoice_id'] = $invoice->invoice_id;
-        $title = 'New invoice created #'.$input['invoice_id'].'.';
+        $title = 'New invoice created #' . $input['invoice_id'] . '.';
         if ($input['status'] != Invoice::DRAFT) {
             addNotification([
                 Notification::NOTIFICATION_TYPE['Invoice Created'],
@@ -498,10 +499,10 @@ class InvoiceRepository extends BaseRepository
     {
         $invoice->load('client.user');
         $userId = $invoice->client->user_id;
-        $title = 'Your invoice #'.$invoice->invoice_id.' was updated.';
+        $title = 'Your invoice #' . $invoice->invoice_id . ' was updated.';
         if ($input['status'] != Invoice::DRAFT) {
             if (isset($changes['status'])) {
-                $title = 'Status of your invoice #'.$invoice->invoice_id.' was updated.';
+                $title = 'Status of your invoice #' . $invoice->invoice_id . ' was updated.';
             }
             addNotification([
                 Notification::NOTIFICATION_TYPE['Invoice Updated'],
@@ -518,7 +519,7 @@ class InvoiceRepository extends BaseRepository
         ]);
         $invoice->load('client.user');
         $userId = $invoice->client->user_id;
-        $title = 'Status of your invoice #'.$invoice->invoice_id.' was updated.';
+        $title = 'Status of your invoice #' . $invoice->invoice_id . ' was updated.';
         addNotification([
             Notification::NOTIFICATION_TYPE['Invoice Updated'],
             $userId,
@@ -545,7 +546,7 @@ class InvoiceRepository extends BaseRepository
             Payment::STRIPE => 'stripe_enabled',
         ];
         foreach ($availableMode as $key => $mode) {
-            if (! getSettingValue($mode)) {
+            if (!getSettingValue($mode)) {
                 unset($paymentMode[$key]);
             }
         }

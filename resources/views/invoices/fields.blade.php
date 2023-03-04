@@ -150,7 +150,7 @@
             </table>
         </div>
         <div class="row">
-            <div class="col-lg-7 col-sm-12 mt-2 mt-lg-0 align-right-for-full-screen">
+            <div class="col-lg-7 col-sm-12 mt-2 mt-lg-0 {{app()->getLocale() == 'ar' ? 'align-left-for-full-screen' : 'align-right-for-full-screen'}}">
                 <div class="mb-2 col-xl-5 col-lg-8 col-sm-12 float-right">
                     {{ Form::label('discount', __('messages.invoice.discount').(':'), ['class' => 'form-label mb-1']) }}
                     <div class="input-group">

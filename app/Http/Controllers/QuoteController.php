@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\AdminQuotesExport;
-use App\Http\Requests\CreateQuoteRequest;
-use App\Http\Requests\UpdateQuoteRequest;
-use App\Models\Invoice;
-use App\Models\InvoiceItem;
-use App\Models\Product;
-use App\Models\Quote;
-use App\Repositories\QuoteRepository;
-use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
+use App\Models\Quote;
+use App\Models\Invoice;
+use App\Models\Product;
+use Laracasts\Flash\Flash;
+use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\InvoiceItemTax;
+use Illuminate\Http\JsonResponse;
+use App\Exports\AdminQuotesExport;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
-use Laracasts\Flash\Flash;
+use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\QuoteRepository;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Requests\CreateQuoteRequest;
+use App\Http\Requests\UpdateQuoteRequest;
+use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class QuoteController extends AppBaseController
@@ -205,6 +206,7 @@ class QuoteController extends AppBaseController
 
         $invoice = Invoice::create($invoice);
 
+        // Sync quote items
         foreach ($quoteItems as $quoteItem) {
             $invoiceItem = InvoiceItem::create([
                 'invoice_id' => $invoice->id,
@@ -214,7 +216,17 @@ class QuoteController extends AppBaseController
                 'price' => $quoteItem['price'],
                 'total' => $quoteItem['total'],
             ]);
+            // Sync quote item taxes
+            foreach ($quoteItem->quoteItemTax as $quoteItemTax) {
+                InvoiceItemTax::create([
+                    'invoice_item_id' => $invoiceItem->id,
+                    'tax_id' => $quoteItemTax->tax_id,
+                    'tax' => $quoteItemTax->tax,
+                ]);
+            }
         }
+
+
 
         Quote::whereId($quoteId)->update(['status' => Quote::CONVERTED]);
 

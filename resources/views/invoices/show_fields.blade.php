@@ -36,7 +36,7 @@
                         {{ __('messages.invoice.payment_history') }}
                     </button>
                 </li>
-                @if($invoice->child_invoices_count > 0)
+                @if($invoice->child_invoices_count > 0 && false)
                     <li class="nav-item position-relative me-7 mb-3" role="presentation">
                         <button class="nav-link p-0" id="recurringInvoices-tab" data-bs-toggle="tab"
                                 data-bs-target="#recurringInvoices"
@@ -167,21 +167,23 @@
                                                     <td class="ps-0">{{ __('messages.invoice.sub_total').(':') }}</td>
                                                     <td class="text-gray-900 text-end pe-0">{{ isset($invoice->amount) ? getInvoiceCurrencyAmount($invoice->amount,$invoice->currency_id,true) : 'N/A' }}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="ps-0">{{ __('messages.invoice.discount').(':') }}</td>
-                                                    @php $percentageDiscount = ($itemTaxesAmount + $invoiceTaxesAmount); @endphp
-                                                    <td class="text-gray-900 text-end pe-0">
-                                                        @if($invoice->discount == 0 || !isset($invoice))
-                                                            <span>N/A</span>
-                                                        @else
-                                                            @if( $invoice->discount_type == \App\Models\Invoice::FIXED)
-                                                                {{ getInvoiceCurrencyAmount($invoice->discount,$invoice->currency_id,true) }}
+                                                @if (false)
+                                                    <tr>
+                                                        <td class="ps-0">{{ __('messages.invoice.discount').(':') }}</td>
+                                                        @php $percentageDiscount = ($itemTaxesAmount + $invoiceTaxesAmount); @endphp
+                                                        <td class="text-gray-900 text-end pe-0">
+                                                            @if($invoice->discount == 0 || !isset($invoice))
+                                                                <span>N/A</span>
                                                             @else
-                                                                {{ getInvoiceCurrencyAmount($percentageDiscount * $invoice->discount / 100,$invoice->currency_id,true)}}
+                                                                @if( $invoice->discount_type == \App\Models\Invoice::FIXED)
+                                                                    {{ getInvoiceCurrencyAmount($invoice->discount,$invoice->currency_id,true) }}
+                                                                @else
+                                                                    {{ getInvoiceCurrencyAmount($percentageDiscount * $invoice->discount / 100,$invoice->currency_id,true)}}
+                                                                @endif
                                                             @endif
-                                                        @endif
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <td class="ps-0">{{ __('messages.invoice.tax').(':') }}</td>
                                                     @php $totalTaxes = (array_sum($totalTax) + $invoiceTaxesAmount)  @endphp
@@ -212,7 +214,7 @@
                                         @elseif($invoice->status == \App\Models\Invoice::PARTIALLY)
                                             <span class="badge bg-light-primary">Partially Paid</span>
                                         @elseif($invoice->status == \App\Models\Invoice::DRAFT)
-                                            <span class="badge bg-light-warning me-5">Draft</span>
+                                            <span class="badge bg-light-warning  {{ app()->getLocale() == 'ar' ? 'ms-5' : 'me-5' }}">Draft</span>
                                         @elseif($invoice->status == \App\Models\Invoice::OVERDUE)
                                             <span class="badge bg-light-danger">Overdue</span>
                                         @elseif($invoice->status == \App\Models\Invoice::PROCESSING)
@@ -255,7 +257,7 @@
                                             <span class="fs-4 text-gray-900">{{ getInvoiceCurrencyAmount(getInvoiceDueAmount($invoice->id),$invoice->currency_id,true) }}
                                                 </span>
                                         </div>
-                                        @if($invoice->recurring_status == 1)
+                                        @if($invoice->recurring_status == 1 && false)
                                             <div class="col-xxl-12 col-lg-4 col-sm-6 d-flex flex-column mb-xxl-7">
                                                 <label for="name"
                                                        class="pb-2 fs-4 text-gray-600">{{ __('messages.invoice.last_recurring_on') }}</label>
@@ -350,12 +352,14 @@
                 </div>
             </div>
         @endif
-        <div class="tab-pane fade show" id="recurringInvoices" role="tabpanel">
-            <div class="row">
-                <div class="col-lg-12 ">
-                    <livewire:recurring-invoices-table invoiceId="{{ $invoice->id }}"/>
+        @if (false)
+            <div class="tab-pane fade show" id="recurringInvoices" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <livewire:recurring-invoices-table invoiceId="{{ $invoice->id }}"/>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif 
     </div>
 </div>

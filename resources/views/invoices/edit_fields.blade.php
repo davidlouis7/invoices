@@ -1,5 +1,12 @@
+
 <div class="row">
-    <div class="col-lg-3 col-sm-12">
+    <div class="col-12 mt-3 mt-lg-1 mb-lg-0 mb-3">
+        <h3 class="align-items-center fw-bolder mb-7">{{__('messages.invoice.invoice')}} # <span
+                    class="text-gray-500">{{ $invoice->invoice_id }}</span></h3>
+        <input type="hidden" id="invoiceId" value="{{ $invoice->invoice_id }}" name="invoice_id"/>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
         @if($invoice->status == \App\Models\Invoice::DRAFT)
             {{ Form::label('client_id', __('messages.invoice.client').(':'),['class' => 'form-label required fs-6 fw-bolder text-gray-700 mb-3']) }}
             {{ Form::select('client_id', $clients, $client_id ?? null, ['class' => 'form-select io-select2', 'id' => 'client_id', 'placeholder' => __('messages.invoice.client'),'required', 'data-control' =>'select2']) }}
@@ -10,11 +17,6 @@
             <input type="hidden" value="{{$invoice->client->user_id}}" name="client_id">
         @endif
     </div>
-    <div class="col-lg-3 col-sm-12 mt-3 mt-lg-1 mb-lg-0 mb-3">
-        <h4 class="align-items-center">{{__('messages.invoice.invoice')}} # <span
-                    class="text-gray-500">{{ $invoice->invoice_id }}</span></h4>
-        <input type="hidden" id="invoiceId" value="{{ $invoice->invoice_id }}" name="invoice_id"/>
-    </div>
     <div class="col-lg-6 col-sm-12">
         <div class="mb-5">
             {{ Form::label('status', __('messages.common.status').(':'), ['class' => 'form-label required mb-3']) }}
@@ -23,42 +25,45 @@
     </div>
 </div>
 <div class="row mb-2">
-        <div class="mb-5 col-lg-3 col-sm-12">
+        <div class="mb-5 col-lg-6 col-sm-12">
             {{ Form::label('invoice_date', __('messages.invoice.invoice_date').(':'),['class' => 'form-label required mb-3']) }}
             {{ Form::text('invoice_date',null ,['class' => 'form-select', 'id' => 'editInvoiceDate', 'autocomplete' => 'off','required']) }}
         </div> 
-        <div class="mb-5 col-lg-3 col-sm-12">
+        <div class="mb-5 col-lg-6 col-sm-12">
             {{ Form::label('due_date', __('messages.invoice.due_date').(':'),['class' => 'form-label required mb-3']) }}
             {{ Form::text('due_date', null, ['class' => 'form-select', 'id' => 'editDueDate', 'autocomplete' => 'off','required']) }}
         </div>
-        <div class="mb-5 col-lg-3 col-sm-12">
-            {{ Form::label('templateId', __('messages.setting.invoice_template').(':'),['class' => 'form-label mb-3']) }}
-            {{ Form::select('template_id', $template,isset($invoice) ? $invoice->template_id:null, ['class' => 'form-select', 'id' => 'templateId','required', 'data-control' =>'select2']) }}
-        </div>
-        <div class="mb-5 col-lg-3 col-sm-12">
-            {{ Form::label('currencyType', __('messages.setting.currencies').':', ['class' => 'form-label mb-3']) }}
-            <select id="currencyType" class="form-select invoice-currency-type" name="currency_id">
-                <option value="">Select Currency</option>
-                @foreach($currencies as $key => $currency)
-                    <option value="{{ $currency['id'] }}" {{ $invoice->currency_id == $currency['id'] ? 'selected' : ''}}>{{$currency['icon']}}
-                        &nbsp;&nbsp;&nbsp; {{$currency['name']}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-5 col-lg-3 col-sm-12">
-            <label class="form-check form-switch form-check-custom mt-3">
-                <input class="form-check-input recurring-status" type="checkbox"
-                       name="recurring_status"
-                       id="recurringStatusToggle" {{ $invoice->recurring_status ? "checked" : "" }}>
-                <span class="form-check-label text-gray-600"
-                      for="recurringStatusToggle">{{__('messages.invoice.recurring')}}</span>&nbsp;&nbsp;
-            </label>
-        </div>
-        <div class="mb-5 col-lg-3 col-sm-12 recurring-cycle-content">
-            {{ Form::label('recurringCycle', __('messages.invoice.recurring_cycle').':', ['class' => 'form-label mb-3']) }}
-            {{ Form::number('recurring_cycle', $invoice->recurring_cycle, ['class' => 'form-control', 'id' => 'recurringCycle', 'autocomplete' => 'off', 'placeholder'=>'Number of Days for Recurring Cycle']) }}
-        </div>
+
+        @if (false)
+            <div class="mb-5 col-lg-3 col-sm-12">
+                {{ Form::label('templateId', __('messages.setting.invoice_template').(':'),['class' => 'form-label mb-3']) }}
+                {{ Form::select('template_id', $template,isset($invoice) ? $invoice->template_id:null, ['class' => 'form-select', 'id' => 'templateId','required', 'data-control' =>'select2']) }}
+            </div>
+            <div class="mb-5 col-lg-3 col-sm-12">
+                {{ Form::label('currencyType', __('messages.setting.currencies').':', ['class' => 'form-label mb-3']) }}
+                <select id="currencyType" class="form-select invoice-currency-type" name="currency_id">
+                    <option value="">Select Currency</option>
+                    @foreach($currencies as $key => $currency)
+                        <option value="{{ $currency['id'] }}" {{ $invoice->currency_id == $currency['id'] ? 'selected' : ''}}>{{$currency['icon']}}
+                            &nbsp;&nbsp;&nbsp; {{$currency['name']}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mb-5 col-lg-3 col-sm-12">
+                <label class="form-check form-switch form-check-custom mt-3">
+                    <input class="form-check-input recurring-status" type="checkbox"
+                        name="recurring_status"
+                        id="recurringStatusToggle" {{ $invoice->recurring_status ? "checked" : "" }}>
+                    <span class="form-check-label text-gray-600"
+                        for="recurringStatusToggle">{{__('messages.invoice.recurring')}}</span>&nbsp;&nbsp;
+                </label>
+            </div>
+            <div class="mb-5 col-lg-3 col-sm-12 recurring-cycle-content">
+                {{ Form::label('recurringCycle', __('messages.invoice.recurring_cycle').':', ['class' => 'form-label mb-3']) }}
+                {{ Form::number('recurring_cycle', $invoice->recurring_cycle, ['class' => 'form-control', 'id' => 'recurringCycle', 'autocomplete' => 'off', 'placeholder'=>'Number of Days for Recurring Cycle']) }}
+            </div>
+        @endif
     </div>
 <div class="mb-0">
     <div class="col-12 text-end mb-lg-10 mb-6">
@@ -134,26 +139,29 @@
         </table>
     </div>
     <div class="row">
-        <div class="col-lg-7 col-sm-12 mt-2 mt-lg-0 align-right-for-full-screen">
-            <div class="mb-2 col-xl-5 col-lg-8 col-sm-12">
-                {{ Form::label('discount', __('messages.invoice.discount').(':'), ['class' => 'form-label mb-1']) }}
-                <div class="input-group">
-                    {{ Form::number('discount',  isset($invoice) ? $invoice->discount : 0, ['id'=>'discount','class' => 'form-control ','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$"]) }}
-                    <div class="input-group-append" style="width: 210px !important;">
-                        {{ Form::select('discount_type', $discount_type, isset($invoice) ? $invoice->discount_type : 0, ['class' =>'form-select', 'id' => 'discountType', 'data-control' =>'select2']) }}
+        @if (false)
+            <div class="col-lg-7 col-sm-12 mt-2 mt-lg-0 {{app()->getLocale() == 'ar' ? 'align-left-for-full-screen' : 'align-right-for-full-screen'}}">
+                <div class="mb-2 col-xl-5 col-lg-8 col-sm-12">
+                    {{ Form::label('discount', __('messages.invoice.discount').(':'), ['class' => 'form-label mb-1']) }}
+                    <div class="input-group">
+                        {{ Form::number('discount',  isset($invoice) ? $invoice->discount : 0, ['id'=>'discount','class' => 'form-control ','oninput'=>"validity.valid||(value=value.replace(/[e\+\-]/gi,''))",'min'=>'0','value'=>'0','step'=>'.01','pattern'=>"^\d*(\.\d{0,2})?$"]) }}
+                        <div class="input-group-append" style="width: 210px !important;">
+                            {{ Form::select('discount_type', $discount_type, isset($invoice) ? $invoice->discount_type : 0, ['class' =>'form-select', 'id' => 'discountType', 'data-control' =>'select2']) }}
+                        </div>
                     </div>
                 </div>
+                <div class="mb-2 col-xl-5 col-lg-8 col-sm-12">
+                    {{ Form::label('taxes', __('messages.invoice.tax').(':'),['class' => 'form-label mb-1']) }}
+                    <select name="taxes[]" class='form-select io-select2 fw-bold invoice-taxes'
+                            data-control='select2' multiple="multiple">
+                        @foreach($taxes as $tax)
+                            <option value="{{ $tax->id }}" data-tax="{{ $tax->value }}" {{ in_array($tax->id, $selectedInvoiceTaxes) ? 'selected' : '' }}>{{ $tax->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="mb-2 col-xl-5 col-lg-8 col-sm-12">
-                {{ Form::label('taxes', __('messages.invoice.tax').(':'),['class' => 'form-label mb-1']) }}
-                <select name="taxes[]" class='form-select io-select2 fw-bold invoice-taxes'
-                        data-control='select2' multiple="multiple">
-                    @foreach($taxes as $tax)
-                        <option value="{{ $tax->id }}" data-tax="{{ $tax->value }}" {{ in_array($tax->id, $selectedInvoiceTaxes) ? 'selected' : '' }}>{{ $tax->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+        @endif
+
         <div class="col-xxl-3 col-lg-5 col-md-6 ms-md-auto mt-4 mb-lg-10 mb-6">
             <div class="border-top">
                 <table class="table table-borderless box-shadow-none mb-0 mt-5">

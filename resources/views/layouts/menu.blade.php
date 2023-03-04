@@ -89,14 +89,16 @@
     </a>
 </li>
 
-<li class="nav-item {{ Request::is('admin/template-setting*') ? 'active' : '' }}">
-    <a class="nav-link d-flex align-items-center py-3" aria-current="page" href="{{ route('invoiceTemplate') }}">
-        <span class="menu-icon">
-            <i class="fa-solid far fa-copy {{ app()->getLocale() == 'ar' ? 'ps-3' : 'pe-3' }}"></i>
-        </span>
-        <span class="aside-menu-title">{{ __('messages.invoice_templates') }}</span>
-    </a>
-</li>
+@if (false)
+    <li class="nav-item {{ Request::is('admin/template-setting*') ? 'active' : '' }}">
+        <a class="nav-link d-flex align-items-center py-3" aria-current="page" href="{{ route('invoiceTemplate') }}">
+            <span class="menu-icon">
+                <i class="fa-solid far fa-copy {{ app()->getLocale() == 'ar' ? 'ps-3' : 'pe-3' }}"></i>
+            </span>
+            <span class="aside-menu-title">{{ __('messages.invoice_templates') }}</span>
+        </a>
+    </li>
+@endif
 
 <li class="nav-item {{ Request::is('admin/settings*', 'admin/currencies*', 'admin/payment-gateway*', 'admin/invoice-settings*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center py-3" aria-current="page" href="{{ route('settings.edit') }}">
