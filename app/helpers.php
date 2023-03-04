@@ -553,7 +553,7 @@ if (!function_exists('getInvoiceCurrencyIcon')) {
 if (!function_exists('getCurrentVersion')) {
     function getCurrentVersion()
     {
-        $composerFile = file_get_contents('../composer.json');
+        $composerFile = file_get_contents(base_path('composer.json'));
         $composerData = json_decode($composerFile, true);
         $currentVersion = $composerData['version'];
 
