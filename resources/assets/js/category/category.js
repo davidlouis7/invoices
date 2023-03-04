@@ -1,28 +1,29 @@
-listenClick('.addCategory', function (event) {
+listenClick(".addCategory", function (event) {
     event.preventDefault();
-    $('#addCategoryModal').appendTo('body').modal('show');
-})
+    $("#addCategoryModal").appendTo("body").modal("show");
+});
 
-listenClick('.category-edit-btn', function (event) {
-    let categoryId = $(event.currentTarget).attr('data-id');
+listenClick(".category-edit-btn", function (event) {
+    let categoryId = $(event.currentTarget).attr("data-id");
     renderData(categoryId);
-})
+});
 
-listenSubmit('#addNewCategoryForm', function (event) {
-    event.preventDefault()
+listenSubmit("#addNewCategoryForm", function (event) {
+    event.preventDefault();
     $.ajax({
-        url:route('category.store'),
-        type: 'POST',
+        url: route("category.store"),
+        type: "POST",
         data: $(this).serialize(),
         beforeSend: function () {
             startLoader();
         },
         success: function (result) {
             if (result.success) {
-                $('#addCategoryModal').modal('hide');
+                $("#addCategoryModal").modal("hide");
                 displaySuccessMessage(result.message);
-                livewire.emit('refreshDatatable');
-                livewire.emit('resetPageTable');
+                return location.reload();
+                livewire.emit("refreshDatatable");
+                livewire.emit("resetPageTable");
             }
         },
         error: function (result) {
@@ -34,17 +35,16 @@ listenSubmit('#addNewCategoryForm', function (event) {
     });
 });
 
-listenHiddenBsModal('#addCategoryModal', function () {
-    resetModalForm('#addNewCategoryForm', '#validationErrorsBox');
+listenHiddenBsModal("#addCategoryModal", function () {
+    resetModalForm("#addNewCategoryForm", "#validationErrorsBox");
 });
 
-
-listenSubmit('#editCategoryForm', function (event) {
-    event.preventDefault()
-    const id = $('#editModalCategoryId').val();
+listenSubmit("#editCategoryForm", function (event) {
+    event.preventDefault();
+    const id = $("#editModalCategoryId").val();
     $.ajax({
-        url: route('category.update', {category: id}),
-        type: 'put',
+        url: route("category.update", { category: id }),
+        type: "put",
         data: $(this).serialize(),
         beforeSend: function () {
             startLoader();
@@ -52,9 +52,10 @@ listenSubmit('#editCategoryForm', function (event) {
         success: function (result) {
             if (result.success) {
                 displaySuccessMessage(result.message);
-                $('#editCategoryModal').modal('hide');
-                livewire.emit('refreshDatatable');
-                livewire.emit('resetPageTable');
+                $("#editCategoryModal").modal("hide");
+                return location.reload();
+                livewire.emit("refreshDatatable");
+                livewire.emit("resetPageTable");
             }
         },
         error: function (result) {
@@ -66,24 +67,27 @@ listenSubmit('#editCategoryForm', function (event) {
     });
 });
 
-listenClick('.category-delete-btn', function (event) {
-    let categoryId = $(event.currentTarget).attr('data-id');
-    deleteItem(route('category.destroy', categoryId), '#categoryTbl',
-        Lang.get('messages.category.category'));
-})
+listenClick(".category-delete-btn", function (event) {
+    let categoryId = $(event.currentTarget).attr("data-id");
+    deleteItem(
+        route("category.destroy", categoryId),
+        "#categoryTbl",
+        Lang.get("messages.category.category")
+    );
+});
 
 function renderData(id) {
     $.ajax({
-        url:route('category.edit',id),
-        type: 'GET',
+        url: route("category.edit", id),
+        type: "GET",
         beforeSend: function () {
             startLoader();
         },
         success: function (result) {
             if (result.success) {
-                $('#editCategoryName').val(result.data.name);
-                $('#editModalCategoryId').val(result.data.id);
-                $('#editCategoryModal').appendTo('body').modal('show');
+                $("#editCategoryName").val(result.data.name);
+                $("#editModalCategoryId").val(result.data.id);
+                $("#editCategoryModal").appendTo("body").modal("show");
             }
         },
         error: function (result) {
@@ -94,4 +98,3 @@ function renderData(id) {
         },
     });
 }
-

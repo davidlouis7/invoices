@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class CategoryTable extends LivewireTableComponent
