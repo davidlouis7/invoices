@@ -16,11 +16,11 @@
     <!-- General CSS Files -->
 
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/third-party.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/page.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/page.css') }}">
     @if(!Auth::user()->dark_mode)
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/plugins.css') }}">
-    <link href="{{ mix('assets/css/full-screen.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/full-screen.css') }}" rel="stylesheet" type="text/css" />
     @else
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.dark.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/plugins.dark.css') }}">
@@ -50,7 +50,7 @@
         Lang.setLocale(getUserLanguages);
     </script>
     @routes
-    <script src="{{ mix('assets/js/pages.js') }}"></script>
+    <script src="{{ asset('assets/js/pages.js') }}"></script>
 </head>
 
 <body class="overflow-x-hidden">
