@@ -37,7 +37,7 @@ class PaymentGatewayController extends Controller
 
         try {
             $this->paymentGatewayRepository->store($input);
-            Flash::success('Setting updated successfully.');
+            Flash::success(__('Setting updated successfully.'));
         } catch (\Exception $exception) {
             Flash::error($exception->getMessage());
         }

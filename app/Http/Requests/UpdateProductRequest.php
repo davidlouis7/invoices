@@ -25,13 +25,13 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         $rules = Product::$rules;
-        $rules['code'] = 'required|min:3|max:6|unique:products,code,'.$this->route('product')->id;
+        $rules['code'] = 'required|min:3|max:6|unique:products,code,' . $this->route('product')->id;
 
         return $rules;
     }
 
     public function messages()
     {
-        return Product::$messages;
+        return Product::messages();
     }
 }

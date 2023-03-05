@@ -8,15 +8,14 @@
 
     {{-- Body --}}
     <div>
-        <h2>Dear {{ $clientFullName }}, <b></b></h2><br>
-        <p>I hope you are well.</p>
-        <p>I just wanted to drop you a quick note to remind you that <b>{{ numberFormat($totalDueAmount) }}</b> in respect of our
-            invoice <b>{{ $invoiceNumber }}</b> is due for payment on <b>{{ $dueDate }}</b>.</p>
+        <h2>{{__('Dear')}} {{ $clientFullName }}, <b></b></h2><br>
+        <p>{{__('I hope you are well.')}}</p>
+        <p>{{__('I just wanted to drop you a quick note to remind you that')}} <b>{{ numberFormat($totalDueAmount) }}</b> {{__('in respect of our invoice')}}')}} <b>{{ $invoiceNumber }}</b> {{__('is due for payment on')}} <b>{{ $dueDate }}</b>.</p>
         <br>
         <div style="display: flex;justify-content: center">
             <a href="{{route('invoice-show-url',$invoiceNumber)}}"
                style="padding: 7px 15px;text-decoration: none;font-size: 14px;background-color: green ;font-weight: 500;border: none;border-radius: 8px;color: white">
-                View Invoice
+                {{__('View Invoice')}}
             </a>
         </div>
     </div>

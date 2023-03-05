@@ -57,7 +57,7 @@ class AdminPaymentController extends AppBaseController
             return $this->sendError($exception->getMessage());
         }
 
-        return $this->sendResponse($payment, 'Payment saved successfully.');
+        return $this->sendResponse($payment, __('Payment saved successfully.'));
     }
 
     /**
@@ -71,7 +71,7 @@ class AdminPaymentController extends AppBaseController
         $payment['invoice'] = $payment->invoice->invoice_id;
         $payment['DueAmount'] = $this->getInvoiceDueAmount($invoiceId);
 
-        return $this->sendResponse($payment, 'payment retrieved successfully.');
+        return $this->sendResponse($payment, __('payment retrieved successfully.'));
     }
 
     /**
@@ -83,7 +83,7 @@ class AdminPaymentController extends AppBaseController
         $input = $request->all();
         $this->adminPaymentRepository->updatePayment($input);
 
-        return $this->sendSuccess('Payment updated successfully.');
+        return $this->sendSuccess(__('Payment updated successfully.'));
     }
 
     /**
@@ -94,7 +94,7 @@ class AdminPaymentController extends AppBaseController
     {
         $this->adminPaymentRepository->adminDeletePayment($payment);
 
-        return $this->sendSuccess('Payment deleted successfully.');
+        return $this->sendSuccess(__('Payment deleted successfully.'));
     }
 
     /**
@@ -114,7 +114,7 @@ class AdminPaymentController extends AppBaseController
         $data['totalDueAmount'] = $dueAmount;
         $data['totalPaidAmount'] = $paidAmount;
 
-        return $this->sendResponse($data, 'Invoice Due Amount Retrieve successfully');
+        return $this->sendResponse($data, __('Invoice Due Amount Retrieve successfully'));
     }
 
     /**

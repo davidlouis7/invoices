@@ -44,7 +44,7 @@ class DashboardController extends AppBaseController
     {
         $data = $this->dashboardRepository->getPaymentOverviewData();
 
-        return $this->sendResponse($data, 'PaymentOverview Status retrieved successfully.');
+        return $this->sendResponse($data, __('PaymentOverview Status retrieved successfully.'));
     }
 
     /**
@@ -54,7 +54,7 @@ class DashboardController extends AppBaseController
     {
         $data = $this->dashboardRepository->getInvoiceOverviewData();
 
-        return $this->sendResponse($data, 'PaymentOverview Status retrieved successfully.');
+        return $this->sendResponse($data, __('PaymentOverview Status retrieved successfully.'));
     }
 
     /**
@@ -67,13 +67,13 @@ class DashboardController extends AppBaseController
 
         $data = $this->dashboardRepository->prepareYearlyIncomeChartData($input);
 
-        return $this->sendResponse($data, 'Yearly Income Overview chart data retrieved successfully.');
+        return $this->sendResponse($data, __('Yearly Income Overview chart data retrieved successfully.'));
     }
 
     public function clearCache(): RedirectResponse
     {
         Artisan::call('cache:clear');
-        Flash::success('Application cache cleared!');
+        Flash::success(__('Application cache cleared!'));
 
         return redirect()->back();
     }

@@ -35,10 +35,12 @@ class InvoicePaymentReminderMail extends Mailable
         $dueDate = Carbon::parse($this->data->due_date)->translatedFormat(currentDateFormat());
         $clientFullName = $this->data['client']['user']->full_name;
         $totalDueAmount = $this->data->final_amount - $this->data['payments']->sum('amount');
-        $subject = "Payment Reminder of #$invoiceNumber Invoice ";
+        $subject = __('Payment Reminder of #:invoice Invoice', ['invoice' => $invoiceNumber]); //"Payment Reminder of #$invoiceNumber Invoice";
 
-        return $this->view('emails.invoice_payment_reminder_mail',
-            compact('invoiceNumber', 'invoiceId', 'clientFullName', 'totalDueAmount', 'dueDate'))
+        return $this->view(
+            'emails.invoice_payment_reminder_mail',
+            compact('invoiceNumber', 'invoiceId', 'clientFullName', 'totalDueAmount', 'dueDate')
+        )
             ->markdown('emails.invoice_payment_reminder_mail')
             ->subject($subject);
     }

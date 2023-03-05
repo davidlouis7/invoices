@@ -102,7 +102,7 @@ class QuoteController extends AppBaseController
     public function edit(Quote $quote)
     {
         if ($quote->status == Quote::CONVERTED) {
-            Flash::error('Converted quote can not editable.');
+            Flash::error(__('Converted quote can not editable.'));
 
             return redirect()->route('quotes.index');
         }
@@ -152,7 +152,7 @@ class QuoteController extends AppBaseController
     {
         $product = Product::pluck('unit_price', 'id')->toArray();
 
-        return $this->sendResponse($product, 'Product Price retrieved successfully.');
+        return $this->sendResponse($product, __('Product Price retrieved successfully.'));
     }
 
     /**
@@ -231,7 +231,7 @@ class QuoteController extends AppBaseController
 
         Quote::whereId($quoteId)->update(['status' => Quote::CONVERTED]);
 
-        return $this->sendSuccess('Converted to Invoice successfully!.');
+        return $this->sendSuccess(__('Converted to Invoice successfully!'));
     }
 
     /**

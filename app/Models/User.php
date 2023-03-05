@@ -87,15 +87,15 @@ class User extends Authenticatable implements HasMedia
     const CLIENT = 2;
 
     const LANGUAGES = [
+        'ar' => 'العربية',
         'en' => 'English',
-        'es' => 'Spanish',
-        'fr' => 'French',
-        'de' => 'German',
-        'ru' => 'Russian',
-        'pt' => 'Portuguese',
-        'ar' => 'Arabic',
-        'zh' => 'Chinese',
-        'tr' => 'Turkish',
+        // 'es' => 'Spanish',
+        // 'fr' => 'French',
+        // 'de' => 'German',
+        // 'ru' => 'Russian',
+        // 'pt' => 'Portuguese',
+        // 'zh' => 'Chinese',
+        // 'tr' => 'Turkish',
     ];
 
     const LANGUAGES_IMAGE = [
@@ -174,7 +174,7 @@ class User extends Authenticatable implements HasMedia
     {
         /** @var Media $media */
         $media = $this->getMedia(self::PROFILE)->first();
-        if (! empty($media)) {
+        if (!empty($media)) {
             return $media->getFullUrl();
         }
 
@@ -185,7 +185,7 @@ class User extends Authenticatable implements HasMedia
     {
         $role = $this->roles()->first();
 
-        if (! empty($role)) {
+        if (!empty($role)) {
             return $role->display_name;
         }
     }
@@ -195,7 +195,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function getFullNameAttribute()
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**

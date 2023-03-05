@@ -105,10 +105,10 @@ class RoleController extends AppBaseController
     public function destroy(Role $role): JsonResponse
     {
         if ($role->is_default == 1) {
-            return $this->sendError('Default role do not deleted.');
+            return $this->sendError(__('Default role do not deleted.'));
         }
         $role->delete();
 
-        return $this->sendSuccess('Role deleted successfully.');
+        return $this->sendSuccess(__('Role deleted successfully.'));
     }
 }

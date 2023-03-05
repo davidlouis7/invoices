@@ -32,6 +32,6 @@ class CreateProductRequest extends FormRequest
      */
     public function messages()
     {
-        return Product::$messages;
+        return Product::messages();
     }
 }

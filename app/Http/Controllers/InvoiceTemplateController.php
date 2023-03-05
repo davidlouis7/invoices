@@ -42,7 +42,7 @@ class InvoiceTemplateController extends AppBaseController
     public function invoiceTemplateUpdate(Request $request): RedirectResponse
     {
         $this->settingRepository->updateInvoiceSetting($request->all());
-        Flash::success('Invoice template updated successfully');
+        Flash::success(__('Invoice template updated successfully'));
 
         return redirect()->route('invoiceTemplate');
     }

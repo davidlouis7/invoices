@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <link rel="icon" href="{{ asset('web/media/logos/favicon.ico') }}" type="image/png">
-    <title>{{ getLogInUser()->hasRole('client') ? 'Client' : '' }} Transactions PDF</title>
+    <title>{{ getLogInUser()->hasRole('client') ? 'Client' : '' }} {{__('Transactions PDF')}}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('assets/css/invoice-pdf.css') }}" rel="stylesheet" type="text/css"/>

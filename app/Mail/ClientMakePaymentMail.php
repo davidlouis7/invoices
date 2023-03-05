@@ -30,15 +30,18 @@ class ClientMakePaymentMail extends Mailable
      */
     public function build()
     {
-        $adminName = getAdminUser()->first_name.' '.getAdminUser()->last_name;
+        $adminName = getAdminUser()->first_name . ' ' . getAdminUser()->last_name;
         $invoiceNo = $this->data['invoice']['invoice_id'];
         $receivedAmount = $this->data['amount'];
         $receivedDate = Carbon::parse($this->data['payment_date'])->translatedFormat(currentDateFormat());
         $invoiceId = $this->data['invoice_id'];
-        $subject = "#$invoiceNo Invoice Payment Received.";
+        $subject =  __('#:invoice Invoice Payment Received.', ['invoice' => $invoiceNo]);
+        //"# Invoice Payment Received.";
 
-        return $this->view('emails.client_make_payment_mail',
-            compact('adminName', 'invoiceNo', 'receivedAmount', 'receivedDate', 'invoiceId'))
+        return $this->view(
+            'emails.client_make_payment_mail',
+            compact('adminName', 'invoiceNo', 'receivedAmount', 'receivedDate', 'invoiceId')
+        )
             ->markdown('emails.client_make_payment_mail')
             ->subject($subject);
     }

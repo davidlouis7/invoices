@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Invoice | {{ getAppName() }}</title>
+    <title>{{__('Invoice')}} | {{ getAppName() }}</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ asset(getSettingValue('favicon_icon')) }}" type="image/png">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
     @yield('page_css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/third-party.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/page.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/page.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/plugins.css') }}">
-    <link href="{{ mix('assets/css/full-screen.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/css/full-screen.css') }}" rel="stylesheet" type="text/css"/>
     @yield('css')
     @livewireStyles
     @routes
@@ -57,7 +57,7 @@
             'modal': {
                 'ondismiss': function () {
                     $('#publicPaymentForm').modal('hide')
-                    displayErrorMessage('Payment not completed.')
+                    displayErrorMessage({{__('Payment not completed.')}})
                     setTimeout(function () {
                         location.reload()
                     }, 1000)
@@ -66,7 +66,7 @@
         }
     </script>
     <script src="{{ asset('assets/js/third-party.js')}}"></script>
-    <script src="{{ mix('assets/js/pages.js') }}"></script>
+    <script src="{{ asset('assets/js/pages.js') }}"></script>
 </head>
 @php $styleCss = 'style'; @endphp
 <body>

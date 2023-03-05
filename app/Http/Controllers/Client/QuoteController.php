@@ -68,7 +68,7 @@ class QuoteController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($quote, 'Quote saved successfully.');
+        return $this->sendResponse($quote, __('Quote saved successfully.'));
     }
 
     public function show($id)
@@ -90,7 +90,7 @@ class QuoteController extends AppBaseController
     {
         $quote = Quote::findOrFail($id);
         if ($quote->status == Quote::CONVERTED) {
-            Flash::error('Converted quote can not editable.');
+            Flash::error(__('Converted quote can not editable.'));
 
             return redirect()->route('quotes.index');
         }
@@ -120,7 +120,7 @@ class QuoteController extends AppBaseController
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendResponse($quote, 'Quote updated successfully.');
+        return $this->sendResponse($quote, __('Quote updated successfully.'));
     }
 
     /**
@@ -131,11 +131,11 @@ class QuoteController extends AppBaseController
     {
         $quote = Quote::findOrFail($id);
         if ($quote->client->user_id != Auth::id()) {
-            return $this->sendError('Seems, you are not allowed to access this record.');
+            return $this->sendError(__('Seems, you are not allowed to access this record.'));
         }
         $quote->delete();
 
-        return $this->sendSuccess('Quote Deleted successfully.');
+        return $this->sendSuccess(__('Quote Deleted successfully.'));
     }
 
     /**
@@ -145,7 +145,7 @@ class QuoteController extends AppBaseController
     {
         $product = Product::pluck('unit_price', 'id')->toArray();
 
-        return $this->sendResponse($product, 'Product Price retrieved successfully.');
+        return $this->sendResponse($product, __('Product Price retrieved successfully.'));
     }
 
     /**

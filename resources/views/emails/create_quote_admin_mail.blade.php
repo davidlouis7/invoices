@@ -8,14 +8,14 @@
 
     {{-- Body --}}
     <div>
-        <h2>Dear {{ $clientName }}, <b></b></h2><br>
-        <p>I hope you are well.</p>
-        <p>Please see attached the quote #{{ $quoteNumber }}. The quote is due by {{ $dueDate }}.</p>
-        <p>Please don't hesitate to get in touch if you have any questions or need clarifications.</p><br>
+        <h2>{{__('Dear')}} {{ $clientName }}, <b></b></h2><br>
+        <p>{{__('I hope you are well.')}}</p>
+        <p>{{__('Please see attached the quote #:quote. The quote is due by :duedate.', ['quote' => $quoteNumber, 'duedate' => $dueDate])}}</p>
+        <p>{{__('Please don\'t hesitate to get in touch if you have any questions or need clarifications.')}}</p><br>
         <div style="display: flex;justify-content: center">
             <a href="{{route('client.quotes.show', $quoteId)}}"
                style="padding: 7px 15px;text-decoration: none;font-size: 14px;background-color: #df4645;font-weight: 500;border: none;border-radius: 8px;color: white">
-                View Quote
+                {{__('View Quote')}}
             </a>
         </div>
     </div>

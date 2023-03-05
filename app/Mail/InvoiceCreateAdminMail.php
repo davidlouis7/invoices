@@ -31,14 +31,17 @@ class InvoiceCreateAdminMail extends Mailable
     public function build()
     {
         $invoiceId = $this->data['invoiceData']['id'];
-        $adminName = getAdminUser()->first_name.' '.getAdminUser()->last_name;
+        $adminName = getAdminUser()->first_name . ' ' . getAdminUser()->last_name;
         $invoiceNumber = $this->data['invoiceData']['invoice_id'];
         $invoiceDate = Carbon::parse($this->data['invoiceData']['invoice_date'])->translatedFormat(currentDateFormat());
         $dueDate = Carbon::parse($this->data['invoiceData']['due_date'])->translatedFormat(currentDateFormat());
-        $subject = "Invoice #$invoiceNumber Created";
+        $subject = __('Invoice #:invoice created', ['invoice' => $invoiceNumber]);
+        // "Invoice #$invoiceNumber Created";
 
-        return $this->view('emails.create_invoice_admin_mail',
-            compact('adminName', 'invoiceNumber', 'invoiceDate', 'dueDate', 'invoiceId'))
+        return $this->view(
+            'emails.create_invoice_admin_mail',
+            compact('adminName', 'invoiceNumber', 'invoiceDate', 'dueDate', 'invoiceId')
+        )
             ->markdown('emails.create_invoice_admin_mail')
             ->subject($subject);
     }

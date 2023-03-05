@@ -37,8 +37,10 @@ class RazorpayController extends AppBaseController
         $invoiceId = $invoice->invoice_id;
         $razorpayKey = getSettingValue('razorpay_key');
         $razorpaySecret = getSettingValue('razorpay_secret');
-        $api = new Api(isset($razorpayKey) ? $razorpayKey : config('payments.razorpay.key'),
-            isset($razorpaySecret) ? $razorpaySecret : config('payments.razorpay.secret'));
+        $api = new Api(
+            isset($razorpayKey) ? $razorpayKey : config('payments.razorpay.key'),
+            isset($razorpaySecret) ? $razorpaySecret : config('payments.razorpay.secret')
+        );
         $orderData = [
             'receipt' => 1,
             'amount' => $request->amount * 100, // 100 = 1 rupees
@@ -59,7 +61,7 @@ class RazorpayController extends AppBaseController
         $data['invoice_id'] = $invoiceId;
         $data['description'] = $request->get('notes');
 
-        return $this->sendResponse($data, 'Payment create successfully');
+        return $this->sendResponse($data, __('Payment created successfully'));
     }
 
     /**
@@ -73,13 +75,18 @@ class RazorpayController extends AppBaseController
         Log::info($input);
         $razorpayKey = getSettingValue('razorpay_key');
         $razorpaySecret = getSettingValue('razorpay_secret');
-        $api = new Api($razorpayKey ?? config('payments.razorpay.key'),
-            $razorpaySecret ?? config('payments.razorpay.secret'));
-        if (count($input) && ! empty($input['razorpay_payment_id'])) {
+        $api = new Api(
+            $razorpayKey ?? config('payments.razorpay.key'),
+            $razorpaySecret ?? config('payments.razorpay.secret')
+        );
+        if (count($input) && !empty($input['razorpay_payment_id'])) {
             try {
                 $payment = $api->payment->fetch($input['razorpay_payment_id']);
-                $generatedSignature = hash_hmac('sha256', $payment['order_id'].'|'.$input['razorpay_payment_id'],
-                    $razorpaySecret ?? config('payments.razorpay.secret'));
+                $generatedSignature = hash_hmac(
+                    'sha256',
+                    $payment['order_id'] . '|' . $input['razorpay_payment_id'],
+                    $razorpaySecret ?? config('payments.razorpay.secret')
+                );
 
                 if ($generatedSignature != $input['razorpay_signature']) {
                     return redirect()->back();
@@ -126,7 +133,7 @@ class RazorpayController extends AppBaseController
                 $payment = Payment::create($PaymentData);
 
                 //notification
-                $title = "Payment ".getInvoiceCurrencyIcon($invoice->currency_id).$paymentAmount." received successfully for #".$invoice->invoice_id.".";
+                $title = "Payment " . getInvoiceCurrencyIcon($invoice->currency_id) . $paymentAmount . " received successfully for #" . $invoice->invoice_id . ".";
 
                 addNotification([
                     Notification::NOTIFICATION_TYPE['Invoice Payment'],
@@ -143,10 +150,10 @@ class RazorpayController extends AppBaseController
                 if (getSettingValue('mail_notification')) {
                     Mail::to(getAdminUser()->email)->send(new ClientMakePaymentMail($invoiceData));
                 }
-                Flash::success('Payment successfully done.');
+                Flash::success(__('Payment successfully done.'));
 
                 DB::commit();
-                if (! Auth()->check()) {
+                if (!Auth()->check()) {
                     return redirect(route('invoice-show-url', $invoice->invoice_id));
                 }
 
@@ -170,7 +177,7 @@ class RazorpayController extends AppBaseController
         Log::info('payment failed');
         Log::info($data);
 
-        Flash::error('Your Payment is Cancelled.');
+        Flash::error(__('Your Payment is Cancelled.'));
 
         return redirect(route('client.invoices.index'));
     }

@@ -35,8 +35,8 @@ class UpdateRoleRequest extends FormRequest
     public function messages()
     {
         return [
-            'display_name.required' => 'Name field is required',
-            'permission_id.required' => 'Please select any one permission',
+            'display_name.required' => __('Name field is required'),
+            'permission_id.required' => __('Please select any one permission'),
         ];
     }
 }

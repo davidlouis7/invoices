@@ -74,6 +74,15 @@ class Product extends Model implements HasMedia
         'code.unique' => 'The product code has already been taken.',
     ];
 
+    public static function messages()
+    {
+        return [
+            'code.required' => __('The product code field is required.'),
+            'code.size' => __('The product code must be 6 characters.'),
+            'code.unique' => __('The product code has already been taken.'),
+        ];
+    }
+
     /**
      * @return string
      */
@@ -81,7 +90,7 @@ class Product extends Model implements HasMedia
     {
         /** @var Media $media */
         $media = $this->getMedia(self::Image)->first();
-        if (! empty($media)) {
+        if (!empty($media)) {
             return $media->getFullUrl();
         }
 

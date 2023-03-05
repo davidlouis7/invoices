@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <link rel="icon" href="{{ asset('web/media/logos/favicon.ico') }}" type="image/png">
-    <title>{{ getLogInUser()->hasRole('client') ? 'Client' : '' }} Invoices PDF</title>
+    <title>{{ getLogInUser()->hasRole('client') ? 'Client' : '' }} {{__('Invoices PDF')}}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts -->
     <!-- General CSS Files -->
@@ -21,19 +21,19 @@
 </head>
 <body>
 <div class="d-flex align-items-center justify-content-center mb-4">
-    <h4 class="text-center">{{ getLogInUser()->hasRole('client') ? 'Client' : '' }} Invoices Export Data</h4>
+    <h4 class="text-center">{{ getLogInUser()->hasRole('client') ? 'Client' : '' }} {{__('Invoices Export Data')}}</h4>
 </div>
 <table class="table table-bordered border-primary">
     <thead>
     <tr>
-        <th style="width: 3%"><b>Invoice ID</b></th>
-        <th style="word-break: break-all;width: 10%"><b>Client Name</b></th>
-        <th style="width: 12%"><b>Invoice Date</b></th>
-        <th style="width: 15%"><b>Invoice Amount</b></th>
-        <th style="width: 17%"><b>Paid Amount</b></th>
-        <th style="width: 18%"><b>Due Amount</b></th>
-        <th style="white-space: nowrap;width: 20%"><b>Due Date</b></th>
-        <th style="width: 6%"><b>Status</b></th>
+        <th style="width: 3%"><b>{{__('Invoice ID')}}</b></th>
+        <th style="word-break: break-all;width: 10%"><b>{{__('Client Name')}}</b></th>
+        <th style="width: 12%"><b>{{__('Invoice Date')}}</b></th>
+        <th style="width: 15%"><b>{{__('Invoice Amount')}}</b></th>
+        <th style="width: 17%"><b>{{__('Paid Amount')}}</b></th>
+        <th style="width: 18%"><b>{{__('Due Amount')}}</b></th>
+        <th style="white-space: nowrap;width: 20%"><b>{{__('Due Date')}}</b></th>
+        <th style="width: 6%"><b>{{__('Status')}}</b></th>
     </tr>
     </thead>
     <tbody>
@@ -48,17 +48,17 @@
                 <td>{{ (getInvoiceDueAmount($invoice->id) != 0 ) ? getInvoiceCurrencyAmount(getInvoiceDueAmount($invoice->id), $invoice->currency_id, true) : '0.00' }}</td>
                 <td>{{ \Carbon\Carbon::parse($invoice->due_date)->translatedFormat(currentDateFormat()) }}</td>
                 @if($invoice->status == \App\Models\Invoice::DRAFT)
-                    <td> Draft</td>
+                    <td> {{__('Draft')}}</td>
                 @elseif($invoice->status == \App\Models\Invoice::UNPAID)
-                    <td> Unpaid</td>
+                    <td> {{__('Unpaid')}}</td>
                 @elseif($invoice->status == \App\Models\Invoice::PAID)
-                    <td> Paid</td>
+                    <td> {{__('Paid')}}</td>
                 @elseif($invoice->status == \App\Models\Invoice::PARTIALLY)
-                    <td> Partially Paid</td>
+                    <td> {{__('Partially Paid')}}</td>
                 @elseif($invoice->status == \App\Models\Invoice::OVERDUE)
-                    <td> Overdue</td>
+                    <td> {{__('Overdue')}}</td>
                 @elseif($invoice->status == \App\Models\Invoice::PROCESSING)
-                    <td> Processing</td>
+                    <td> {{__('Processing')}}</td>
                 @endif
             </tr>
         @endforeach

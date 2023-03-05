@@ -40,7 +40,8 @@ class InvoiceCreateClientMail extends Mailable
         $invoiceNumber = $this->data['invoiceData']['invoice_id'];
         $invoiceDate =  Carbon::parse($this->data['invoiceData']['invoice_date'])->translatedFormat(currentDateFormat());
         $dueDate = Carbon::parse($this->data['invoiceData']['due_date'])->translatedFormat(currentDateFormat());
-        $subject = "Invoice #$invoiceNumber Created";
+        $subject = __('Invoice #:invoice created', ['invoice' => $invoiceNumber]);
+        // $subject = "Invoice #$invoiceNumber Created";
         $invoice = Invoice::find($invoiceId);
         $invoice->load(['client.user', 'invoiceTemplate', 'invoiceItems.product', 'invoiceItems.invoiceItemTax', 'invoiceTaxes']);
         $invoiceRepo = App::make(InvoiceRepository::class);

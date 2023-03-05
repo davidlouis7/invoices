@@ -176,17 +176,17 @@
                                 <div class="bg-gray-100 rounded-15 p-md-7 p-5 h-100 mt-xxl-0 mt-5 col-xxl-9 ms-xxl-auto w-100">
                                     <div class="mb-8">
                                         @if($invoice->status == \App\Models\Invoice::UNPAID)
-                                            <span class="badge bg-light-danger">Pending Payment</span>
+                                            <span class="badge bg-light-danger">{{__('Pending Payment')}}</span>
                                         @elseif($invoice->status == \App\Models\Invoice::PAID)
-                                            <span class="badge bg-light-success me-2">Paid</span>
+                                            <span class="badge bg-light-success me-2">{{__('Paid')}}</span>
                                         @elseif($invoice->status == \App\Models\Invoice::PARTIALLY)
-                                            <span class="badge bg-light-primary">Partially Paid</span>
+                                            <span class="badge bg-light-primary">{{__('Partially Paid')}}</span>
                                         @elseif($invoice->status == \App\Models\Invoice::DRAFT)
-                                            <span class="badge bg-light-warning {{ app()->getLocale() == 'ar' ? 'ms-5' : 'me-5' }}">Draft</span>
+                                            <span class="badge bg-light-warning {{ app()->getLocale() == 'ar' ? 'ms-5' : 'me-5' }}">{{__('Draft')}}</span>
                                         @elseif($invoice->status == \App\Models\Invoice::OVERDUE)
-                                            <span class="badge bg-light-danger">Overdue</span>
+                                            <span class="badge bg-light-danger">{{__('Overdue')}}</span>
                                         @elseif($invoice->status == \App\Models\Invoice::PROCESSING)
-                                            <span class="badge bg-light-primary">Processing</span>
+                                            <span class="badge bg-light-primary">{{__('Processing')}}</span>
                                         @endif
                                     </div>
                                     <h3 class="mb-5">{{ __('messages.invoice.client_overview') }}</h3>

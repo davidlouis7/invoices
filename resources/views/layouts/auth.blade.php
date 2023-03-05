@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/third-party.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/plugins.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ mix('assets/css/page.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/page.css') }}">
     <!-- CSS Libraries -->
     @stack('css')
     @yield('css')
@@ -28,7 +28,7 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-6">
                 <div class="copyright text-center text-muted">
-                    All rights reserved &copy; {{ date('Y') }} <a href="{{ url('/') }}"
+                    {{__('All rights reserved')}} &copy; {{ date('Y') }} <a href="{{ url('/') }}"
                                                                   class="font-weight-bold ml-1"
                                                                   target="_blank">{{ getAppName() }}</a>
                 </div>
@@ -38,7 +38,7 @@
 </footer>
 <!-- Scripts -->
 <script src="{{ asset('messages.js') }}"></script>
-<script src="{{ mix('assets/js/auth-third-party.js') }}"></script>
+<script src="{{ asset('assets/js/auth-third-party.js') }}"></script>
 @stack('scripts')
 <script>
     $(document).ready(function () {

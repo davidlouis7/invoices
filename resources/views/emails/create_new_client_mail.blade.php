@@ -8,16 +8,16 @@
 
     {{-- Body --}}
     <div>
-        <h2>Welcome to {{ $clientName }}, <b></b></h2><br>
-        <p>Your account has been successfully created on {{ getAppName() }}</p>
-        <p>Your email address is <strong>{{ $userName }}</strong></p>
-        <p>Your account password is <strong>{{ $password  }}</strong></p>
-        <p>In {{ getAppName() }}, you can manage all of your invoices.</p>
-        <p>Thank for joining and have a great day!</p><br>
+        <h2>{{__('Welcome')}} {{ $clientName }}, <b></b></h2><br>
+        <p>{{__('Your account has been successfully created on')}} {{ getAppName() }}</p>
+        <p>{{__('Your email address is')}} <strong>{{ $userName }}</strong></p>
+        <p>{{__('Your account password is')}} <strong>{{ $password  }}</strong></p>
+        <p>{{__('In')}} {{ getAppName() }}, {{__('you can manage all of your invoices.')}}</p>
+        <p>{{__('Thank for joining and have a great day!')}}</p><br>
         <div style="display: flex;justify-content: center">
             <a href="{{ route('login') }}"
                style="padding: 7px 15px;text-decoration: none;font-size: 14px;background-color: #df4645;font-weight: 500;border: none;border-radius: 8px;color: white">
-                login to {{ getAppName() }}
+                {{__('login to')}} {{ getAppName() }}
             </a>
         </div>
     </div>

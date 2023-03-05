@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->string('region_code')->nullable();
             $table->boolean('status')->default(1);
-            $table->string('language')->default('en')->nullable();
+            $table->string('language')->default('ar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

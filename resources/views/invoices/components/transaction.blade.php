@@ -14,11 +14,11 @@
     <span class="text-center">{{ __('messages.common.n/a') }}</span>
 @else
     @if ($row->final_amount == $paid)
-        <span class="badge bg-light-success fs-7">Paid:{{getInvoiceCurrencyAmount($paid,$row->currency_id,true)}}</span><br>
+        <span class="badge bg-light-success fs-7">{{__('Paid')}}:{{getInvoiceCurrencyAmount($paid,$row->currency_id,true)}}</span><br>
     @elseif($row->status == 3)
-        <span class="badge bg-light-success fs-7">Paid:{{getInvoiceCurrencyAmount($paid,$row->currency_id,true)}}</span><br>
-        <span class="badge bg-light-danger fs-7 mt-1">Due:{{getInvoiceCurrencyAmount($dueAmount,$row->currency_id,true)}}</span>
+        <span class="badge bg-light-success fs-7">{{__('Paid')}}:{{getInvoiceCurrencyAmount($paid,$row->currency_id,true)}}</span><br>
+        <span class="badge bg-light-danger fs-7 mt-1">{{__('Due')}}:{{getInvoiceCurrencyAmount($dueAmount,$row->currency_id,true)}}</span>
     @else
-        <span class="badge bg-light-danger fs-7">Due:{{getInvoiceCurrencyAmount($dueAmount,$row->currency_id,true)}}</span>
+        <span class="badge bg-light-danger fs-7">{{__('Due')}}:{{getInvoiceCurrencyAmount($dueAmount,$row->currency_id,true)}}</span>
     @endif
 @endif

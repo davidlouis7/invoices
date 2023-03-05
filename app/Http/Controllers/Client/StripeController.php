@@ -45,8 +45,8 @@ class StripeController extends AppBaseController
                     [
                         'price_data' => [
                             'product_data' => [
-                                'name' => 'BILL OF PRODUCT #'.$invoiceId,
-                                'description' => 'BILL OF PRODUCT #'.$invoiceId,
+                                'name' => 'BILL OF PRODUCT #' . $invoiceId,
+                                'description' => 'BILL OF PRODUCT #' . $invoiceId,
                             ],
                             'unit_amount' => (getInvoiceCurrencyCode($invoice->currency_id) != 'JPY') ? $amount * 100 : $amount,
                             'currency' => getInvoiceCurrencyCode($invoice->currency_id),
@@ -60,7 +60,7 @@ class StripeController extends AppBaseController
                 'billing_address_collection' => 'auto',
                 'client_reference_id' => $request->get('invoiceId'),
                 'mode' => 'payment',
-                'success_url' => url('client/payment-success').'?session_id={CHECKOUT_SESSION_ID}',
+                'success_url' => url('client/payment-success') . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => url('client/failed-payment?error=payment_cancelled'),
             ]);
             $result = [
@@ -95,8 +95,8 @@ class StripeController extends AppBaseController
         /** @var Invoice $invoice */
         $invoice = Invoice::with(['payments', 'client'])->findOrFail($invoiceId);
 
-        Flash::success('Payment successfully done.');
-        if (! Auth()->check()) {
+        Flash::success(__('Payment successfully done.'));
+        if (!Auth()->check()) {
             return redirect(route('invoice-show-url', $invoice->invoice_id));
         }
 
@@ -108,7 +108,7 @@ class StripeController extends AppBaseController
      */
     public function handleFailedPayment(): RedirectResponse
     {
-        Flash::error('Your Payment is Cancelled');
+        Flash::error(__('Your Payment is Cancelled.'));
 
         return redirect()->route('client.invoices.index');
     }

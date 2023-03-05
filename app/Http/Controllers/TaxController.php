@@ -67,7 +67,7 @@ class TaxController extends AppBaseController
      */
     public function edit(Tax $tax)
     {
-        return $this->sendResponse($tax, 'Tax retrieved successfully.');
+        return $this->sendResponse($tax, __('Tax retrieved successfully.'));
     }
 
     /**

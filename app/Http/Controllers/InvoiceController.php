@@ -175,7 +175,7 @@ class InvoiceController extends AppBaseController
     {
         $product = Product::pluck('unit_price', 'id')->toArray();
 
-        return $this->sendResponse($product, 'Product Price retrieved successfully.');
+        return $this->sendResponse($product, __('Product Price retrieved successfully.'));
     }
 
     /**
@@ -186,7 +186,7 @@ class InvoiceController extends AppBaseController
     {
         $currency = Currency::whereId($currencyId)->first()->icon;
 
-        return $this->sendResponse($currency, 'Invoice Currency retrieved successfully.');
+        return $this->sendResponse($currency, __('Invoice Currency retrieved successfully.'));
     }
 
     /**
@@ -316,7 +316,7 @@ class InvoiceController extends AppBaseController
             'recurring_cycle' => $recurringCycle,
         ]);
 
-        return $this->sendSuccess('Recurring status updated successfully.');
+        return $this->sendSuccess(__('Recurring status updated successfully.'));
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 @section('title')
-    Reset Password
+    {{__('Reset Password')}}
 @endsection
 @section('content')
     <!--begin::Main-->
@@ -24,7 +24,7 @@
 
                 <!-- Email Address -->
                 <div class="fv-row mb-10">
-                    <label class="form-label fs-6 fw-bolder text-dark" for="email">Email</label>
+                    <label class="form-label fs-6 fw-bolder text-dark" for="email">{{__('Email')}}</label>
                     <input id="email" class="form-control form-control-lg "
                            value="{{ old('email', $request->email) }}"
                            type="email" name="email" required autocomplete="off" autofocus/>
@@ -36,7 +36,7 @@
 
                 <!-- Password -->
                 <div class="fv-row mb-10">
-                    <label class="form-label fw-bolder text-dark fs-6 mb-0" for="password">Password </label>
+                    <label class="form-label fw-bolder text-dark fs-6 mb-0" for="password">{{__('Password')}} </label>
                     <input id="password" class="form-control form-control-lg "
                            type="password"
                            name="password"
@@ -48,8 +48,7 @@
 
                 <!-- Confirm Password -->
                 <div class="fv-row mb-5">
-                    <label class="form-label fw-bolder text-dark fs-6" for="password_confirmation">Confirm
-                        Password</label>
+                    <label class="form-label fw-bolder text-dark fs-6" for="password_confirmation">{{__('Confirm Password')}}</label>
                     <input class="form-control form-control-lg " type="password"
                            id="password_confirmation" name="password_confirmation" autocomplete="off"/>
                     <div class="invalid-feedback">

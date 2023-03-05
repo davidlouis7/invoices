@@ -31,14 +31,16 @@ class QuoteCreateClientMail extends Mailable
     public function build()
     {
         $quoteId = $this->data['quoteData']['id'];
-        $clientName = $this->data['clientData']['first_name'].' '.$this->data['clientData']['last_name'];
+        $clientName = $this->data['clientData']['first_name'] . ' ' . $this->data['clientData']['last_name'];
         $quoteNumber = $this->data['quoteData']['quote_id'];
         $quoteDate = Carbon::parse($this->data['quoteData']['quote_date'])->translatedFormat(currentDateFormat());
         $dueDate = Carbon::parse($this->data['quoteData']['due_date'])->translatedFormat(currentDateFormat());
-        $subject = "Quote #$quoteNumber Created";
+        $subject = __('Quote #:quote Created', ['quote' => $quoteNumber]); //"Quote #$quoteNumber Created";
 
-        return $this->view('emails.create_quote_admin_mail',
-            compact('clientName', 'quoteNumber', 'quoteDate', 'dueDate', 'quoteId'))
+        return $this->view(
+            'emails.create_quote_admin_mail',
+            compact('clientName', 'quoteNumber', 'quoteDate', 'dueDate', 'quoteId')
+        )
             ->markdown('emails.create_quote_admin_mail')
             ->subject($subject);
     }

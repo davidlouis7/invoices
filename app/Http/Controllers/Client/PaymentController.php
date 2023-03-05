@@ -61,11 +61,11 @@ class PaymentController extends AppBaseController
         $input['transaction_id'] = is_null($input['transaction_id']) ? substr(md5(microtime()), 0, 6) : $input['transaction_id'];
 
         if ($input['payment_type'] != Payment::FULLPAYMENT && $input['payable_amount'] < $input['amount']) {
-            return $this->sendError('Partially Paid Amount is Always Less For Full Amount');
+            return $this->sendError(__('Partially Paid Amount is Always Less For Full Amount'));
         }
 
         if ($input['payment_type'] == Payment::FULLPAYMENT && $input['payable_amount'] != $input['amount']) {
-            return $this->sendError('Enter only Payable Amount');
+            return $this->sendError(__('Enter only Payable Amount'));
         }
 
         /** @var Invoice $invoice */
@@ -82,9 +82,9 @@ class PaymentController extends AppBaseController
             $data['redirectUrl'] = route('invoice-show-url', ['invoiceId' => $invoice->invoice_id]);
         }
 
-        Flash::success('Payment successfully done.');
+        Flash::success(__('Payment successfully done.'));
 
-        return $this->sendResponse($data, 'Payment successfully done.');
+        return $this->sendResponse($data, __('Payment successfully done.'));
     }
 
     /**
@@ -95,7 +95,7 @@ class PaymentController extends AppBaseController
     public function show(Request $request, Invoice $invoice)
     {
         if (getLogInUserId() != $invoice->client->user_id) {
-            Flash::error('Seems, you are not allowed to access this record.');
+            Flash::error(__('Seems, you are not allowed to access this record.'));
 
             return redirect()->back();
         }
@@ -108,7 +108,7 @@ class PaymentController extends AppBaseController
         }
 
         if ($request->ajax()) {
-            return $this->sendResponse($totalPayable, 'Invoice retrieved successfully.');
+            return $this->sendResponse($totalPayable, __('Invoice retrieved successfully.'));
         }
 
         return view(

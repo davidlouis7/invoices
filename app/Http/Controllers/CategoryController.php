@@ -47,7 +47,7 @@ class CategoryController extends AppBaseController
         $input = $request->all();
         $category = $this->categoryRepository->store($input);
 
-        return $this->sendResponse($category, 'Category saved successfully.');
+        return $this->sendResponse($category, __('Category saved successfully.'));
     }
 
     /**
@@ -56,7 +56,7 @@ class CategoryController extends AppBaseController
      */
     public function edit(Category $category)
     {
-        return $this->sendResponse($category, 'Category retrieved successfully.');
+        return $this->sendResponse($category, __('Category retrieved successfully.'));
     }
 
     /**

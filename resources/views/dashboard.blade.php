@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Dashboard
+    {{__('Dashboard')}}
 @endsection
 @section('content')
     @php $styleCss = 'style'; @endphp
@@ -17,7 +17,7 @@
                          data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
                          class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                         <!--begin::Title-->
-                        <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">Dashboard
+                        <h1 class="d-flex align-items-center text-dark fw-bolder my-1 fs-3">{{__('Dashboard')}}
                             <!--begin::Separator-->
                             <span class="h-20px border-gray-200 border-start ms-3 mx-2"></span>
                             <!--end::Separator-->
@@ -46,12 +46,12 @@
                                     </g>
                                 </svg>
                             </span>
-                                <!--end::Svg Icon-->Filter</a>
+                                <!--end::Svg Icon-->{{__('Filter')}}</a>
                             <!--begin::Menu 1-->
                             <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true">
                                 <!--begin::Header-->
                                 <div class="px-7 py-5">
-                                    <div class="fs-5 text-dark fw-bolder">Filter Options</div>
+                                    <div class="fs-5 text-dark fw-bolder">{{__('Filter Options')}}</div>
                                 </div>
                                 <!--end::Header-->
                                 <!--begin::Menu separator-->
@@ -62,17 +62,17 @@
                                     <!--begin::Input group-->
                                     <div class="mb-10">
                                         <!--begin::Label-->
-                                        <label class="form-label fw-bold">Status:</label>
+                                        <label class="form-label fw-bold">{{__('Status')}}:</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
                                         <div>
                                             <select class="form-select" data-kt-select2="true"
                                                     data-placeholder="Select option" data-allow-clear="true">
                                                 <option></option>
-                                                <option value="1">Approved</option>
-                                                <option value="2">Pending</option>
-                                                <option value="2">In Process</option>
-                                                <option value="2">Rejected</option>
+                                                <option value="1">{{__('Approved')}}</option>
+                                                <option value="2">{{__('Pending')}}</option>
+                                                <option value="2">{{__('In Process')}}</option>
+                                                <option value="2">{{__('Rejected')}}</option>
                                             </select>
                                         </div>
                                         <!--end::Input-->
@@ -81,21 +81,21 @@
                                     <!--begin::Input group-->
                                     <div class="mb-10">
                                         <!--begin::Label-->
-                                        <label class="form-label fw-bold">Member Type:</label>
+                                        <label class="form-label fw-bold">{{__('Member Type')}}:</label>
                                         <!--end::Label-->
                                         <!--begin::Options-->
                                         <div class="d-flex">
                                             <!--begin::Options-->
                                             <label class="form-check form-check-sm form-check-custom  me-5">
                                                 <input class="form-check-input" type="checkbox" value="1"/>
-                                                <span class="form-check-label">Author</span>
+                                                <span class="form-check-label">{{__('Author')}}</span>
                                             </label>
                                             <!--end::Options-->
                                             <!--begin::Options-->
                                             <label class="form-check form-check-sm form-check-custom ">
                                                 <input class="form-check-input" type="checkbox" value="2"
                                                        checked="checked"/>
-                                                <span class="form-check-label">Customer</span>
+                                                <span class="form-check-label">{{__('Customer')}}</span>
                                             </label>
                                             <!--end::Options-->
                                         </div>
@@ -105,13 +105,13 @@
                                     <!--begin::Input group-->
                                     <div class="mb-10">
                                         <!--begin::Label-->
-                                        <label class="form-label fw-bold">Notifications:</label>
+                                        <label class="form-label fw-bold">{{__('Notifications')}}:</label>
                                         <!--end::Label-->
                                         <!--begin::Switch-->
                                         <div class="form-check form-switch form-switch-sm form-check-custom ">
                                             <input class="form-check-input" type="checkbox" value=""
                                                    name="notifications" checked="checked"/>
-                                            <label class="form-check-label">Enabled</label>
+                                            <label class="form-check-label">{{__('Enabled')}}</label>
                                         </div>
                                         <!--end::Switch-->
                                     </div>
@@ -119,10 +119,10 @@
                                     <!--begin::Actions-->
                                     <div class="d-flex justify-content-end">
                                         <button type="reset" class="btn btn-sm btn-white btn-active-light-primary {{app()->getLocale() == 'ar' ? 'ms-2' : 'me-2'}}"
-                                                data-kt-menu-dismiss="true">Reset
+                                                data-kt-menu-dismiss="true">{{__('Reset')}}
                                         </button>
                                         <button type="submit" class="btn btn-sm btn-primary"
-                                                data-kt-menu-dismiss="true">Apply
+                                                data-kt-menu-dismiss="true">{{__('Apply')}}
                                         </button>
                                     </div>
                                     <!--end::Actions-->
@@ -135,7 +135,7 @@
                         <!--end::Wrapper-->
                         <!--begin::Button-->
                         <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                           data-bs-target="#kt_modal_create_app" id="kt_toolbar_primary_button">Create</a>
+                           data-bs-target="#kt_modal_create_app" id="kt_toolbar_primary_button">{{__('Create')}}</a>
                         <!--end::Button-->
                     </div>
                     <!--end::Actions-->
@@ -155,7 +155,7 @@
                             <div class="card card-xxl-stretch">
                                 <!--begin::Header-->
                                 <div class="card-header border-0 bg-danger py-5">
-                                    <h3 class="card-title fw-bolder text-white">Sales Statistics</h3>
+                                    <h3 class="card-title fw-bolder text-white">{{__('Sales Statistics')}}</h3>
                                     <div class="card-toolbar">
                                         <!--begin::Menu-->
                                         <button type="button"
@@ -186,18 +186,18 @@
                                             <!--begin::Heading-->
                                             <div class="menu-item px-3">
                                                 <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
-                                                    Payments
+                                                    {{__('Payments')}}
                                                 </div>
                                             </div>
                                             <!--end::Heading-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3">Create Invoice</a>
+                                                <a href="#" class="menu-link px-3">{{__('Create Invoice')}}</a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link flex-stack px-3">Create Payment
+                                                <a href="#" class="menu-link flex-stack px-3">{{__('Create Payment')}}
                                                     <i class="fas fa-exclamation-circle ms-2 fs-7"
                                                        data-bs-toggle="tooltip"
                                                        title="Specify a target name for future usage and reference"></i></a>
@@ -205,31 +205,31 @@
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3">Generate Bill</a>
+                                                <a href="#" class="menu-link px-3">{{__('Generate Bill')}}</a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3" data-kt-menu-trigger="hover"
                                                  data-kt-menu-placement="left-start" data-kt-menu-flip="center, top">
                                                 <a href="#" class="menu-link px-3">
-                                                    <span class="menu-title">Subscription</span>
+                                                    <span class="menu-title">{{__('Subscription')}}</span>
                                                     <span class="menu-arrow"></span>
                                                 </a>
                                                 <!--begin::Menu sub-->
                                                 <div class="menu-sub menu-sub-dropdown w-175px py-4">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3">Plans</a>
+                                                        <a href="#" class="menu-link px-3">{{__('Plans')}}</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3">Billing</a>
+                                                        <a href="#" class="menu-link px-3">{{__('Billing')}}</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3">Statements</a>
+                                                        <a href="#" class="menu-link px-3">{{__('Statements')}}</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu separator-->
@@ -246,7 +246,7 @@
                                                                        name="notifications"/>
                                                                 <!--end::Input-->
                                                                 <!--end::Label-->
-                                                                <span class="form-check-label text-muted fs-6">Recuring</span>
+                                                                <span class="form-check-label text-muted fs-6">{{__('Recuring')}}</span>
                                                                 <!--end::Label-->
                                                             </label>
                                                             <!--end::Switch-->
@@ -259,7 +259,7 @@
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3 my-1">
-                                                <a href="#" class="menu-link px-3">Settings</a>
+                                                <a href="#" class="menu-link px-3">{{__('Settings')}}</a>
                                             </div>
                                             <!--end::Menu item-->
                                         </div>
@@ -300,7 +300,7 @@
                                                     </svg>
                                                 </span>
                                             <!--end::Svg Icon-->
-                                            <a href="#" class="text-warning fw-bold fs-6">Weekly Sales</a>
+                                            <a href="#" class="text-warning fw-bold fs-6">{{__('Weekly Sales')}}</a>
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
@@ -316,7 +316,7 @@
                                                     </svg>
                                                 </span>
                                             <!--end::Svg Icon-->
-                                            <a href="#" class="text-primary fw-bold fs-6">New Users</a>
+                                            <a href="#" class="text-primary fw-bold fs-6">{{__('New Users')}}</a>
                                         </div>
                                         <!--end::Col-->
                                     </div>
@@ -336,7 +336,7 @@
                                                     </svg>
                                                 </span>
                                             <!--end::Svg Icon-->
-                                            <a href="#" class="text-danger fw-bold fs-6 mt-2">Item Orders</a>
+                                            <a href="#" class="text-danger fw-bold fs-6 mt-2">{{__('Item Orders')}}</a>
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
@@ -352,7 +352,7 @@
                                                     </svg>
                                                 </span>
                                             <!--end::Svg Icon-->
-                                            <a href="#" class="text-success fw-bold fs-6 mt-2">Bug Reports</a>
+                                            <a href="#" class="text-success fw-bold fs-6 mt-2">{{__('Bug Reports')}}</a>
                                         </div>
                                         <!--end::Col-->
                                     </div>
@@ -372,8 +372,8 @@
                                 <!--begin::Header-->
                                 <div class="card-header align-items-center border-0 mt-4">
                                     <h3 class="card-title align-items-start flex-column">
-                                        <span class="fw-bolder mb-2 text-dark">Activities</span>
-                                        <span class="text-muted fw-bold fs-7">890,344 Sales</span>
+                                        <span class="fw-bolder mb-2 text-dark">{{__('Activities')}}</span>
+                                        <span class="text-muted fw-bold fs-7">890,344 {{__('Sales')}}</span>
                                     </h3>
                                     <div class="card-toolbar">
                                         <!--begin::Menu-->
@@ -404,7 +404,7 @@
                                              data-kt-menu="true">
                                             <!--begin::Header-->
                                             <div class="px-7 py-5">
-                                                <div class="fs-5 text-dark fw-bolder">Filter Options</div>
+                                                <div class="fs-5 text-dark fw-bolder">{{__('Filter Options')}}</div>
                                             </div>
                                             <!--end::Header-->
                                             <!--begin::Menu separator-->
@@ -415,7 +415,7 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-10">
                                                     <!--begin::Label-->
-                                                    <label class="form-label fw-bold">Status:</label>
+                                                    <label class="form-label fw-bold">{{__('Status')}}:</label>
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
                                                     <div>
@@ -423,10 +423,10 @@
                                                                 data-kt-select2="true" data-placeholder="Select option"
                                                                 data-allow-clear="true">
                                                             <option></option>
-                                                            <option value="1">Approved</option>
-                                                            <option value="2">Pending</option>
-                                                            <option value="2">In Process</option>
-                                                            <option value="2">Rejected</option>
+                                                            <option value="1">{{__('Approved')}}</option>
+                                                            <option value="2">{{__('Pending')}}</option>
+                                                            <option value="2">{{__('In Process')}}</option>
+                                                            <option value="2">{{__('Rejected')}}</option>
                                                         </select>
                                                     </div>
                                                     <!--end::Input-->
@@ -435,21 +435,21 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-10">
                                                     <!--begin::Label-->
-                                                    <label class="form-label fw-bold">Member Type:</label>
+                                                    <label class="form-label fw-bold">{{__('Member Type')}}}}:</label>
                                                     <!--end::Label-->
                                                     <!--begin::Options-->
                                                     <div class="d-flex">
                                                         <!--begin::Options-->
                                                         <label class="form-check form-check-sm form-check-custom  me-5">
                                                             <input class="form-check-input" type="checkbox" value="1"/>
-                                                            <span class="form-check-label">Author</span>
+                                                            <span class="form-check-label">{{__('Author')}}</span>
                                                         </label>
                                                         <!--end::Options-->
                                                         <!--begin::Options-->
                                                         <label class="form-check form-check-sm form-check-custom ">
                                                             <input class="form-check-input" type="checkbox" value="2"
                                                                    checked="checked"/>
-                                                            <span class="form-check-label">Customer</span>
+                                                            <span class="form-check-label">{{__('Customer')}}</span>
                                                         </label>
                                                         <!--end::Options-->
                                                     </div>
@@ -459,13 +459,13 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-10">
                                                     <!--begin::Label-->
-                                                    <label class="form-label fw-bold">Notifications:</label>
+                                                    <label class="form-label fw-bold">{{__('Notifications')}}:</label>
                                                     <!--end::Label-->
                                                     <!--begin::Switch-->
                                                     <div class="form-check form-switch form-switch-sm form-check-custom ">
                                                         <input class="form-check-input" type="checkbox" value=""
                                                                name="notifications" checked="checked"/>
-                                                        <label class="form-check-label">Enabled</label>
+                                                        <label class="form-check-label">{{__('Enabled')}}</label>
                                                     </div>
                                                     <!--end::Switch-->
                                                 </div>
@@ -474,10 +474,10 @@
                                                 <div class="d-flex justify-content-end">
                                                     <button type="reset"
                                                             class="btn btn-sm btn-white btn-active-light-primary {{app()->getLocale() == 'ar' ? 'ms-2' : 'me-2'}}"
-                                                            data-kt-menu-dismiss="true">Reset
+                                                            data-kt-menu-dismiss="true">{{__('Reset')}}
                                                     </button>
                                                     <button type="submit" class="btn btn-sm btn-primary"
-                                                            data-kt-menu-dismiss="true">Apply
+                                                            data-kt-menu-dismiss="true">{{__('Apply')}}
                                                     </button>
                                                 </div>
                                                 <!--end::Actions-->
@@ -504,8 +504,7 @@
                                             </div>
                                             <!--end::Badge-->
                                             <!--begin::Text-->
-                                            <div class="fw-mormal timeline-content text-muted ps-3">Outlines keep you
-                                                honest. And keep structure
+                                            <div class="fw-mormal timeline-content text-muted ps-3">{{__('Outlines keep you honest. And keep structure')}}
                                             </div>
                                             <!--end::Text-->
                                         </div>
@@ -522,7 +521,7 @@
                                             <!--end::Badge-->
                                             <!--begin::Content-->
                                             <div class="timeline-content d-flex">
-                                                <span class="fw-bolder text-gray-800 ps-3">AEOL meeting</span>
+                                                <span class="fw-bolder text-gray-800 ps-3">{{__('AEOL meeting')}}</span>
                                             </div>
                                             <!--end::Content-->
                                         </div>
@@ -538,8 +537,8 @@
                                             </div>
                                             <!--end::Badge-->
                                             <!--begin::Desc-->
-                                            <div class="timeline-content fw-bolder text-gray-800 ps-3">Make deposit
-                                                <a href="#" class="text-primary">USD 700</a>. to ESL
+                                            <div class="timeline-content fw-bolder text-gray-800 ps-3">{{__('Make deposit')}}
+                                                <a href="#" class="text-primary">USD 700</a>. {{__('to ESL')}}
                                             </div>
                                             <!--end::Desc-->
                                         </div>
@@ -555,8 +554,7 @@
                                             </div>
                                             <!--end::Badge-->
                                             <!--begin::Text-->
-                                            <div class="timeline-content fw-mormal text-muted ps-3">Indulging in poorly
-                                                driving and keep structure keep great
+                                            <div class="timeline-content fw-mormal text-muted ps-3">{{__('Indulging in poorly driving and keep structure keep great')}}
                                             </div>
                                             <!--end::Text-->
                                         </div>
@@ -572,7 +570,7 @@
                                             </div>
                                             <!--end::Badge-->
                                             <!--begin::Desc-->
-                                            <div class="timeline-content fw-bold text-gray-800 ps-3">New order placed
+                                            <div class="timeline-content fw-bold text-gray-800 ps-3">{{__('New order placed')}}
                                                 <a href="#" class="text-primary">#XF-2356</a>.
                                             </div>
                                             <!--end::Desc-->
@@ -2496,7 +2494,7 @@
                                                         </td>
                                                         <td class="text-end text-muted fw-bold">React, HTML</td>
                                                         <td class="text-end">
-                                                            <span class="badge badge-light-success">Approved</span>
+                                                            <span class="badge badge-light-success">{{__('Approved')}}</span>
                                                         </td>
                                                         <td class="text-end">
                                                             <a href="#"
@@ -2742,7 +2740,7 @@
                                                         </td>
                                                         <td class="text-end text-muted fw-bold">React, HTML</td>
                                                         <td class="text-end">
-                                                            <span class="badge badge-light-success">Approved</span>
+                                                            <span class="badge badge-light-success">{{__('Approved')}}</span>
                                                         </td>
                                                         <td class="text-end">
                                                             <a href="#"

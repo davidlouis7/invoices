@@ -1,6 +1,6 @@
 @extends('client_panel.layouts.app')
 @section('title')
-    Transactions
+    {{__('Transactions')}}
 @endsection
 @section('content')
     <div class="container-fluid">

@@ -39,11 +39,11 @@ class PaypalController extends AppBaseController
         /** @var Invoice $invoice */
         $invoice = Invoice::whereId($invoiceId)->first();
         $invoiceCurrencyId = $invoice->currency_id;
-        
-        if (! in_array(strtoupper(getInvoiceCurrencyCode($invoiceCurrencyId)), getPayPalSupportedCurrencies())) {
-            return $this->sendError(getInvoiceCurrencyCode($invoiceCurrencyId).' is not currently supported.');
+
+        if (!in_array(strtoupper(getInvoiceCurrencyCode($invoiceCurrencyId)), getPayPalSupportedCurrencies())) {
+            return $this->sendError(__(':currency is not currently supported', ['currency' => getInvoiceCurrencyCode($invoiceCurrencyId)]));
         }
-        
+
         try {
             $paypalClientID = getSettingValue('paypal_client_id');
             $paypalSecret = getSettingValue('paypal_secret');
@@ -51,7 +51,7 @@ class PaypalController extends AppBaseController
             $clientId = $paypalClientID ?? config('payments.paypal.client_id');
             $clientSecret = $paypalSecret ?? config('payments.paypal.client_secret');
             $mode = config('payments.paypal.mode');
-            
+
             config([
                 'paypal.mode' => $mode,
                 'paypal.sandbox.client_id' => $clientId,
@@ -59,10 +59,10 @@ class PaypalController extends AppBaseController
                 'paypal.live.client_id' => $clientId,
                 'paypal.live.client_secret' => $clientSecret,
             ]);
-            
+
             $provider = new PayPalClient();
             $provider->getAccessToken();
-            
+
             $data = [
                 'intent' => 'CAPTURE',
                 'purchase_units' => [
@@ -93,7 +93,7 @@ class PaypalController extends AppBaseController
      */
     public function failed(): RedirectResponse
     {
-        Flash::error('Your Payment is Cancelled');
+        Flash::error(__('Your Payment is Cancelled'));
 
         return redirect()->route('client.invoices.index');
     }
@@ -121,7 +121,7 @@ class PaypalController extends AppBaseController
         $provider->getAccessToken();
         $token = $request->get('token');
         $orderInfo = $provider->showOrderDetails($token);
-        
+
         try {
             // Call API with your client and get a response for your call
             $response = $provider->capturePaymentOrder($token);
@@ -139,7 +139,7 @@ class PaypalController extends AppBaseController
                 'status' => 'paid',
                 'meta' => json_encode($response),
             ];
-            
+
             $transaction = Transaction::create($transactionDetails);
 
             $invoice = Invoice::with('payments')->findOrFail($invoiceId);
@@ -181,19 +181,20 @@ class PaypalController extends AppBaseController
                     $invoice->save();
                 }
             }
-            
-            Flash::success('Payment successfully done.');
+
+            Flash::success(__('Payment successfully done.'));
 
             $adminUserId = getAdminUser()->id;
             $invoice = Invoice::find($invoiceId);
-            $title = "Payment ".getInvoiceCurrencyIcon($invoice->currency_id).$amount." received successfully for #".$invoice->invoice_id.".";
+            $title = __('Payment :amount received successfully for #:invoice.', ['amount' => getInvoiceCurrencyIcon($invoice->currency_id) . $amount, 'invoice' => $invoice->invoice_id]);
+            // "Payment " . getInvoiceCurrencyIcon($invoice->currency_id) . $amount . " received successfully for #" . $invoice->invoice_id . "."
             addNotification([
                 Notification::NOTIFICATION_TYPE['Invoice Payment'],
                 $adminUserId,
                 $title,
             ]);
-            
-            if (! Auth()->check()) {
+
+            if (!Auth()->check()) {
                 return redirect(route('invoice-show-url', $invoice->invoice_id));
             }
 

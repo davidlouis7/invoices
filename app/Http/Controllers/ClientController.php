@@ -148,7 +148,7 @@ class ClientController extends AppBaseController
         $countryId = $request->get('countryId');
         $states = getStates($countryId);
 
-        return $this->sendResponse($states, 'States retrieved successfully');
+        return $this->sendResponse($states, __('States retrieved successfully'));
     }
 
     /**
@@ -160,6 +160,6 @@ class ClientController extends AppBaseController
         $stateId = $request->get('stateId');
         $cities = getCities($stateId);
 
-        return $this->sendResponse($cities, 'Cities retrieved successfully');
+        return $this->sendResponse($cities, __('Cities retrieved successfully'));
     }
 }

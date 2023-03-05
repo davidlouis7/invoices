@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 @section('title')
-    Register
+    {{__('Register')}}
 @endsection
 @section('content')
     <div class="container">
@@ -18,16 +18,16 @@
                 <form class="form w-100" method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="mb-10 text-center">
-                        <h1 class="text-dark mb-3">Create an Account</h1>
+                        <h1 class="text-dark mb-3">{{__('Create an Account')}}</h1>
 
-                        <div class="text-gray-400 fw-bold fs-4">Already have an account?
-                            <a href="{{ route('login') }}" class="link-primary fw-bolder">Sign in here</a>
+                        <div class="text-gray-400 fw-bold fs-4">{{__('Already have an account?')}}
+                            <a href="{{ route('login') }}" class="link-primary fw-bolder">{{__('Sign in here')}}</a>
                         </div>
                     </div>
 
                     <div class="d-flex align-items-center mb-10">
                         <div class="border-bottom border-gray-300 mw-50 w-100"></div>
-                        <span class="fw-bold text-gray-400 fs-7 mx-2">OR</span>
+                        <span class="fw-bold text-gray-400 fs-7 mx-2">{{__('OR')}}</span>
                         <div class="border-bottom border-gray-300 mw-50 w-100"></div>
                     </div>
 
@@ -35,7 +35,7 @@
 
                         <!-- Name -->
                         <div class="col-xl-6">
-                            <label class="form-label fw-bolder text-dark fs-6 required" for="name">First Name:</label>
+                            <label class="form-label fw-bolder text-dark fs-6 required" for="name">{{__('First Name:')}}</label>
                             <input class="form-control form-control-lg " id="first_name"
                                    value="{{ old('first_name') }}" type="text" name="first_name"
                                    placeholder="{{__('messages.client.first_name')}}" autocomplete="off" required
@@ -47,8 +47,7 @@
 
                         <!-- Last Name -->
                         <div class="col-xl-6">
-                            <label class="form-label fw-bolder text-dark fs-6 required" for="last_name">Last
-                                Name:</label>
+                            <label class="form-label fw-bolder text-dark fs-6 required" for="last_name">{{__('Last Name:')}}</label>
                             <input class="form-control form-control-lg " type="text"
                                    value="{{ old('last_name') }}" name="last_name"
                                    placeholder="{{__('messages.client.last_name')}}"
@@ -62,7 +61,7 @@
 
                     <!-- Email Address -->
                     <div class="fv-row mb-7">
-                        <label class="form-label fw-bolder text-dark fs-6 required" for="email">Email:</label>
+                        <label class="form-label fw-bolder text-dark fs-6 required" for="email">{{__('Email:')}}</label>
                         <input class="form-control form-control-lg " id="email"
                                value="{{ old('email') }}"
                                type="email" name="email" placeholder="{{__('messages.client.email')}}" required
@@ -77,7 +76,7 @@
 
                         <div class="mb-1">
 
-                            <label class="form-label fw-bolder text-dark fs-6 required" for="password">Password:</label>
+                            <label class="form-label fw-bolder text-dark fs-6 required" for="password">{{__('Password:')}}</label>
 
                             <div class="position-relative mb-3">
                                 <input class="form-control form-control-lg " id="password"
@@ -103,15 +102,14 @@
 
                         </div>
 
-                        <div class="text-muted">Use 8 or more characters with a mix of letters, numbers &amp; symbols.
+                        <div class="text-muted">{{__('Use 8 or more characters with a mix of letters, numbers &amp; symbols.')}}
                         </div>
 
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="fv-row mb-5">
-                        <label class="form-label fw-bolder text-dark fs-6 required" for="password_confirmation">Confirm
-                            Password:</label>
+                        <label class="form-label fw-bolder text-dark fs-6 required" for="password_confirmation">{{__('Confirm Password:')}}</label>
                         <input class="form-control form-control-lg " type="password"
                                id="password_confirmation" name="password_confirmation"
                                placeholder="{{ __('messages.client.confirm_password')}}"
@@ -124,15 +122,15 @@
                     <div class="fv-row mb-10">
                         <label class="form-check form-check-custom  form-check-inline">
                             <input class="form-check-input" type="checkbox" name="toc" value="1" required/>
-                            <span class="form-check-label fw-bold text-gray-700 fs-6">I Agree
-									<a href="#" class="ms-1 link-primary">Terms and conditions</a>.</span>
+                            <span class="form-check-label fw-bold text-gray-700 fs-6">{{__('I Agree')}}
+									<a href="#" class="ms-1 link-primary">{{__('Terms and conditions')}}</a>.</span>
                         </label>
                     </div>
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-lg btn-primary">
                             <span class="indicator-label"> {{ __('Register') }}</span>
-                            <span class="indicator-progress">Please wait...
+                            <span class="indicator-progress">{{__('Please wait...')}}
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                     </div>

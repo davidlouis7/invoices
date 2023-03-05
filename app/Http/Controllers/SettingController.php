@@ -44,16 +44,16 @@ class SettingController extends AppBaseController
     public function update(UpdateSettingRequest $request)
     {
         $this->settingRepository->updateSetting($request->all());
-        Flash::success('Setting updated successfully.');
+        Flash::success(__('Setting updated successfully.'));
 
         return redirect()->back();
-    }   
+    }
 
     //Invoice Update
     public function invoiceUpdate(Request $request)
     {
         $this->settingRepository->updateInvoiceSetting($request->all());
-        Flash::success('Invoice template updated successfully');
+        Flash::success(__('Invoice template updated successfully'));
 
         return redirect('admin/settings?section=setting-invoice');
     }
@@ -66,7 +66,7 @@ class SettingController extends AppBaseController
     {
         $invoiceTemplate = InvoiceSetting::where('key', $key)->get();
 
-        return $this->sendResponse($invoiceTemplate, 'InvoiceTemplate retrieved successfully.');
+        return $this->sendResponse($invoiceTemplate, __('InvoiceTemplate retrieved successfully.'));
     }
 
     /**

@@ -5,19 +5,19 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Transactions Excel</title>
+    <title>{{__('Transactions Excel')}}</title>
 </head>
 <body>
 <table>
     <thead>
     <tr>
-        <th style="width: 170%"><b>Transaction ID</b></th>
-        <th style="width: 170%"><b>Payment Date</b></th>
-        <th style="width: 170%"><b>Invoice ID</b></th>
-        <th style="width: 180%"><b>Client Name</b></th>
-        <th style="width: 180%"><b>Payment Amount</b></th>
-        <th style="width: 160%"><b>Payment Mode</b></th>
-        <th style="width: 160%"><b>Payment Status</b></th>
+        <th style="width: 170%"><b>{{__('Transaction ID')}}</b></th>
+        <th style="width: 170%"><b>{{__('Payment Date')}}</b></th>
+        <th style="width: 170%"><b>{{__('Invoice ID')}}</b></th>
+        <th style="width: 180%"><b>{{__('Client Name')}}</b></th>
+        <th style="width: 180%"><b>{{__('Payment Amount')}}</b></th>
+        <th style="width: 160%"><b>{{__('Payment Mode')}}</b></th>
+        <th style="width: 160%"><b>{{__('Payment Status')}}</b></th>
     </tr>
     </thead>
     <tbody>
@@ -29,15 +29,15 @@
             <td>{{ $payment->invoice->client->user->full_name }}</td>
             <td>{{ $payment->amount }}</td>
             @if($payment->payment_mode == \App\Models\Payment::MANUAL)
-                <td> Manual</td>
+                <td> {{__('Manual')}}</td>
             @elseif($payment->payment_mode == \App\Models\Payment::STRIPE)
-                <td> Stripe</td>
+                <td> {{__('Stripe')}}</td>
             @elseif($payment->payment_mode == \App\Models\Payment::PAYPAL)
-                <td> Paypal</td>
+                <td> {{__('Paypal')}}</td>
             @elseif($payment->payment_mode == \App\Models\Payment::RAZORPAY)
-                <td> Razorpay</td>
+                <td> {{__('Razorpay')}}</td>
             @elseif($payment->payment_mode == \App\Models\Payment::CASH)
-                <td> Cash</td>
+                <td> {{__('Cash')}}</td>
             @endif
             @if($payment->is_approved == \App\Models\Payment::APPROVED && $payment->payment_mode == 1)
                 <td>{{\App\Models\Payment::PAID}}</td>

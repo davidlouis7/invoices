@@ -46,7 +46,7 @@ class PaymentController extends AppBaseController
     {
         $paymentNotes = Payment::where('id', $id)->first();
 
-        return $this->sendResponse($paymentNotes->notes, 'Note retrieved successfully.');
+        return $this->sendResponse($paymentNotes->notes, __('Note retrieved successfully.'));
     }
 
     /**
@@ -66,7 +66,7 @@ class PaymentController extends AppBaseController
             ]);
             $this->updatePayment($payment);
 
-            return $this->sendSuccess('Manual Payment Approved successfully.');
+            return $this->sendSuccess(__('Manual Payment Approved successfully.'));
         }
 
         $payment->update([
@@ -74,7 +74,7 @@ class PaymentController extends AppBaseController
         ]);
         $this->updatePayment($payment);
 
-        return $this->sendSuccess('Manual Payment Denied successfully.');
+        return $this->sendSuccess(__('Manual Payment Denied successfully.'));
     }
 
     /**
@@ -104,7 +104,7 @@ class PaymentController extends AppBaseController
 
         if (getLogInUser()->hasrole(Role::CLIENT)) {
             if ($transaction->invoice->client->user_id !== getLogInUserId()) {
-                Flash::error('Seems, you are not allowed to access this record.');
+                Flash::error(__('Seems, you are not allowed to access this record.'));
 
                 return redirect()->back();
             }

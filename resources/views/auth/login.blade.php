@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 @section('title')
-    Login
+    {{__('Login')}}
 @endsection
 @section('content')
     <div class="d-flex flex-column flex-column-fluid align-items-center justify-content-center p-4">
@@ -14,7 +14,7 @@
             @include('layouts.errors')
         </div>
         <div class="bg-white rounded-15 shadow-md width-540 px-5 px-sm-7 py-10 mx-auto">
-            <h1 class="text-center mb-7">Sign In</h1>
+            <h1 class="text-center mb-7">{{__('Sign In')}}</h1>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="mb-sm-7 mb-4">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="mb-sm-7 mb-4">
                     <div class="d-flex justify-content-between">
-                        <label for="password" class="form-label">Password:<span
+                        <label for="password" class="form-label">{{__('Password:')}}<span
                                     class="required"></span></label>
                         @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}" class="link-info fs-6 text-decoration-none">

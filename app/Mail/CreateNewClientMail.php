@@ -29,13 +29,16 @@ class CreateNewClientMail extends Mailable
      */
     public function build()
     {
-        $clientName = $this->data['first_name'].' '.$this->data['last_name'];
+        $clientName = $this->data['first_name'] . ' ' . $this->data['last_name'];
         $userName = $this->data['email'];
         $password = $this->data['client_password'];
-        $subject = 'Welcome '.$clientName.' to '.getAppName();
+        $subject = __('Welcome :user to :app', ['user' => $clientName, 'app' => getAppName()]);
+        // 'Welcome '.$clientName.' to '.getAppName();
 
-        return $this->view('emails.create_new_client_mail',
-            compact('clientName', 'userName', 'password'))
+        return $this->view(
+            'emails.create_new_client_mail',
+            compact('clientName', 'userName', 'password')
+        )
             ->markdown('emails.create_new_client_mail')
             ->subject($subject);
     }

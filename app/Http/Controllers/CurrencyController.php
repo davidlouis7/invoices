@@ -53,7 +53,7 @@ class CurrencyController extends AppBaseController
         $input = $request->all();
         $currency = $this->currencyRepository->create($input);
 
-        return $this->sendResponse($currency, 'Currency saved successfully.');
+        return $this->sendResponse($currency, __('Currency saved successfully.'));
     }
 
     /**
@@ -62,7 +62,7 @@ class CurrencyController extends AppBaseController
      */
     public function edit(Currency $currency)
     {
-        return $this->sendResponse($currency, 'Currency retrieved successfully.');
+        return $this->sendResponse($currency, __('Currency retrieved successfully.'));
     }
 
     /**
@@ -75,7 +75,7 @@ class CurrencyController extends AppBaseController
         $input = $request->all();
         $this->currencyRepository->update($input, $currencyId);
 
-        return $this->sendSuccess('Currency updated successfully.');
+        return $this->sendSuccess(__('Currency updated successfully.'));
     }
 
     /**
@@ -93,6 +93,6 @@ class CurrencyController extends AppBaseController
         }
         $currency->delete();
 
-        return $this->sendSuccess('Currency deleted successfully.');
+        return $this->sendSuccess(__('Currency deleted successfully.'));
     }
 }

@@ -99,7 +99,7 @@ class UserController extends AppBaseController
         $user->load('media');
 
         if ($user->is_default_admin) {
-            Flash::error('Default admin can not editable.');
+            Flash::error(__('Default admin can not editable.'));
 
             return redirect(route('users.index'));
         }
@@ -137,12 +137,12 @@ class UserController extends AppBaseController
     public function destroy(User $user)
     {
         if ($user->is_default_admin) {
-            return $this->sendError('Admin can\'t be deleted.');
+            return $this->sendError(__('Admin can\'t be deleted.'));
         }
 
         $user->delete();
 
-        return $this->sendSuccess('Admin deleted successfully.');
+        return $this->sendSuccess(__('Admin deleted successfully.'));
     }
 
     /**
@@ -162,7 +162,7 @@ class UserController extends AppBaseController
     public function updateProfile(UpdateUserProfileRequest $request)
     {
         $this->userRepository->updateProfile($request->all());
-        Flash::success('Admin profile updated successfully.');
+        Flash::success(__('Admin profile updated successfully.'));
 
         return redirect(route('profile.setting'));
     }
@@ -179,12 +179,12 @@ class UserController extends AppBaseController
             /** @var User $user */
             $user = Auth::user();
             if (!Hash::check($input['current_password'], $user->password)) {
-                return $this->sendError('Current password is invalid.');
+                return $this->sendError(__('Current password is invalid.'));
             }
             $input['password'] = Hash::make($input['new_password']);
             $user->update($input);
 
-            return $this->sendSuccess('Password updated successfully.');
+            return $this->sendSuccess(__('Password updated successfully.'));
         } catch (Exception $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }
@@ -199,7 +199,7 @@ class UserController extends AppBaseController
         $status = !$user->status;
         $user->update(['status' => $status]);
 
-        return $this->sendSuccess('Status updated successfully.');
+        return $this->sendSuccess(__('Status updated successfully.'));
     }
 
     /**
@@ -213,7 +213,7 @@ class UserController extends AppBaseController
         $user = getLogInUser();
         $user->update(['language' => $language]);
 
-        return $this->sendSuccess('Language updated successfully.');
+        return $this->sendSuccess(__('Language updated successfully.'));
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('layouts.web.app')
 @section('title')
-    Landing
+    {{__('Landing')}}
 @endsection
 @section('content')
     @php $styleCss = 'style'; @endphp
@@ -54,42 +54,42 @@
                                     <!--begin::Menu item-->
                                     <div class="menu-item">
                                         <!--begin::Menu link-->
-                                        <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Home</a>
+                                        <a class="menu-link nav-link active py-3 px-4 px-xxl-6" href="#kt_body" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">{{__('Home')}}</a>
                                         <!--end::Menu link-->
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item">
                                         <!--begin::Menu link-->
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#how-it-works" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">How it Works</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#how-it-works" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">{{__('How it Works')}}</a>
                                         <!--end::Menu link-->
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item">
                                         <!--begin::Menu link-->
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Achievements</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#achievements" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">{{__('Achievements')}}</a>
                                         <!--end::Menu link-->
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item">
                                         <!--begin::Menu link-->
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#team" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Team</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#team" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">{{__('Team')}}</a>
                                         <!--end::Menu link-->
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item">
                                         <!--begin::Menu link-->
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#portfolio" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Portfolio</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#portfolio" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">{{__('Portfolio')}}</a>
                                         <!--end::Menu link-->
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item">
                                         <!--begin::Menu link-->
-                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">Pricing</a>
+                                        <a class="menu-link nav-link py-3 px-4 px-xxl-6" href="#pricing" data-kt-scroll-toggle="true" data-kt-drawer-dismiss="true">{{__('Pricing')}}</a>
                                         <!--end::Menu link-->
                                     </div>
                                     <!--end::Menu item-->
@@ -100,7 +100,7 @@
                         <!--end::Menu wrapper-->
                         <!--begin::Toolbar-->
                         <div class="flex-equal text-end ms-1">
-                            <a href="{{ route('login') }}" class="btn btn-success">Sign In</a>
+                            <a href="{{ route('login') }}" class="btn btn-success">{{__('Sign In')}}</a>
                         </div>
                         <!--end::Toolbar-->
                     </div>
@@ -114,7 +114,7 @@
                 <!--begin::Heading-->
                 <div class="text-center mb-5 mb-lg-10 py-10 py-lg-20">
                     <!--begin::Title-->
-                    <h1 class="text-white lh-base fw-bolder fs-2x fs-lg-3x mb-15">Build An Outstanding Solutions
+                    <h1 class="text-white lh-base fw-bolder fs-2x fs-lg-3x mb-15">{{__('Build An Outstanding Solutions')}}
                         <br />with
                         <span {{ $styleCss }}="background: linear-gradient(to right, #12CE5D 0%, #FFD80C 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
 								<span id="kt_landing_hero_text">The Best Theme Ever</span>
