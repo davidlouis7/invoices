@@ -396,7 +396,7 @@ const calculateFinalAmount = () => {
         // final amount calculation
         $("#quoteFinalAmount").text(number_format(finalTotalAmt));
         $("#quoteTotalAmount").val(finalTotalAmt.toFixed(2));
-    }, 0);
+    }, 1);
 };
 
 const calculateDiscount = () => {

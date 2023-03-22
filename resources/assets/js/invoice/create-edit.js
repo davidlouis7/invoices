@@ -401,7 +401,7 @@ const calculateFinalAmount = () => {
     setTimeout(() => {
         $("#totalTax").empty();
         $("#totalTax").text(number_format(itemWiseTaxes));
-    }, 0);
+    }, 2);
 
     // add invoice taxes
     let totalInvoiceTax = 0;

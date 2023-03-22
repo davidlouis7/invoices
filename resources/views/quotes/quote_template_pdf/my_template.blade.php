@@ -197,14 +197,27 @@
         <div class="index" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{ ($i+1) }}
         </div>
         <div class="desc" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->product->name)?$quoteItem->product->name:$quoteItem->product_name??'N/A'}}</div>
-        <div class="price" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->price) ? priceWithTaxes($quoteItem) : 'N/A'}}</div>
+        <div class="price" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->price) ? $quoteItem->price : 'N/A'}}</div>
         <div class="count" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{$quoteItem->quantity}}</div>
-        <div class="total" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{isset($quoteItem->total) ? priceWithTaxes($quoteItem, $quoteItem->quantity) : 'N/A'}}</div>
+        <div class="total" style="top: {{ strval(124.5 + (($i+1) * 7.5)) }}mm;">{{$quoteItem->price * $quoteItem->quantity}}</div>
         @if (($i+1) == count($quote->quoteItems))
             <div class="table-bottom" style="top: {{ strval(131 + (($i+1) * 7.5)) }}mm;"></div>
+
             <div class="table-total" style="top: {{ strval(138 + (($i+1) * 7.5)) }}mm;"></div>
-            <div class="total-num-written" style="top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">{{\Alkoumi\LaravelArabicNumbers\Numbers::TafqeetMoney($quote->final_amount)}}</div>
-            <div class="total-num" style="top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">{{$quote->final_amount}}</div>
+            <div class="total-num-written" style="font-weight: light; top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">ضريبة القيمة المضافة</div>
+            <div class="total-num" style="font-weight: light; top: {{ strval(140 + (($i+1) * 7.5)) }}mm;">
+            {{ $quote->quoteItems->reduce(function($carry, $item) {
+                $taxes = 0;
+                foreach ($item->quoteItemTax as $quoteItemTax) {
+                    $taxes += ($item->quantity * (($quoteItemTax->tax / 100) * $item->price));
+                }
+                return $carry + $taxes;
+            }, 0) }}
+            </div>
+
+            <div class="table-total" style="top: {{ strval(150 + (($i+1) * 7.5)) }}mm;"></div>
+            <div class="total-num-written" style="top: {{ strval(152 + (($i+1) * 7.5)) }}mm;">{{\Alkoumi\LaravelArabicNumbers\Numbers::TafqeetMoney($quote->final_amount)}}</div>
+            <div class="total-num" style="top: {{ strval(152 + (($i+1) * 7.5)) }}mm;">{{$quote->final_amount}}</div>
 
             @endif
             @endforeach

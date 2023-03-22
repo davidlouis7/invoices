@@ -125,6 +125,7 @@
                         </select>
                     </td>
                     <td class="text-end item-total pt-8 text-nowrap">
+                        {{ Form::hidden('total[]', $invoiceItem->total) }}
                         {{ number_format($invoiceItem->total, 2) }}
                     </td>
                     <td class="text-end">
